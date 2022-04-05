@@ -15,6 +15,8 @@ public class BusBookingDetails {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<BusBooking> busBooking = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Customer> customer = new ArrayList<>();
+    
+
+
+    
 }

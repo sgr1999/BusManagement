@@ -10,6 +10,8 @@ public class BusType {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	private String busType;
+
+	
 	public int getId() {
 		return id;
 	}
@@ -22,6 +24,7 @@ public class BusType {
 	public void setBusType(String busType) {
 		this.busType = busType;
 	}
+
 
 
 }

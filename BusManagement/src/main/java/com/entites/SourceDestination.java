@@ -7,8 +7,10 @@ public class SourceDestination {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
-	private String source;
-	private String destination;
-	private String distance;
+	private long id;
+	private String cityName;
+	private String cityCode;
+
+	
+	
 }

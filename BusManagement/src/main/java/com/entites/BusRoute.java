@@ -12,6 +12,8 @@ public class BusRoute {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int routeId;
 	private String routeName;
+
+	
 	public int getRouteId() {
 		return routeId;
 	}
