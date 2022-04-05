@@ -1,7 +1,12 @@
 package com.entites;
 
-public class customer {
+import javax.persistence.*;
+
+@Entity
+public class Customer {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	private String name;
 	private String email;
