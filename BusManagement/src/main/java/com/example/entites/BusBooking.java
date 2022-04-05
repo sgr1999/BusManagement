@@ -1,4 +1,4 @@
-package com.entites;
+package com.example.entites;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,21 +11,21 @@ public class BusBooking {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int bookingId;
+	private long bookingId;
 	private String seatNo;
-	private int amount;
+	private long amount;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<SourceDestination> sourceDestination = new ArrayList<>();
+	private SourceDestination sourceDestination;
    
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<Customer> customer = new ArrayList<>();
+	private Customer customer;
 	
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private BusType busType;
 	
 	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-	private List<PickupPoint> pickupPoint = new ArrayList<>();
+	private PickupPoint pickupPoint;
 
 
 
