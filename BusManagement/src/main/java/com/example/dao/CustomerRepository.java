@@ -1,4 +1,4 @@
-package com.dao;
+package com.example.dao;
 
 import com.example.entites.Customer;
 

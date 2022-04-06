@@ -11,7 +11,7 @@ public class BusScheduleDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int busScheDetailsId;
+	private long busScheDetailsId;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<BusSchedule> schedule = new ArrayList<>();

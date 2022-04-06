@@ -3,28 +3,44 @@ package com.example.entites;
 import javax.persistence.*;
 
 @Entity
-@Table(name="BUSTYPE")
 public class BusType {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private long id;
 	private String busType;
 
 	
-	public int getId() {
+
+	public long getId() {
 		return id;
 	}
-	public void setId(int id) {
+
+
+
+	public void setId(long id) {
 		this.id = id;
 	}
+
+
+
 	public String getBusType() {
 		return busType;
 	}
+
+
+
 	public void setBusType(String busType) {
 		this.busType = busType;
 	}
 
 
 
+	@Override
+	public String toString() {
+		return "BusType [busType=" + busType + ", id=" + id + "]";
+	}
+
+	
+	
 }
