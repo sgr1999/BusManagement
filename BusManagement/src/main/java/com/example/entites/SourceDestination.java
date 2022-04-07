@@ -7,34 +7,57 @@ public class SourceDestination {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
-	private String cityName;
-	private String cityCode;
+	private long sourceDestinationId;
+
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private State stateId;
+
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private District districtId;
+
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private City cityCode;
+
 	
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
-	public String getCityName() {
-		return cityName;
-	}
-	public void setCityName(String cityName) {
-		this.cityName = cityName;
-	}
-	public String getCityCode() {
-		return cityCode;
-	}
-	public void setCityCode(String cityCode) {
-		this.cityCode = cityCode;
-	}
-	
-	@Override
-	public String toString() {
-		return "SourceDestination [cityCode=" + cityCode + ", cityName=" + cityName + ", id=" + id + "]";
+
+	public long getSourceDestinationId() {
+		return sourceDestinationId;
 	}
 
+	public void setSourceDestinationId(long sourceDestinationId) {
+		this.sourceDestinationId = sourceDestinationId;
+	}
+
+	public State getStateId() {
+		return stateId;
+	}
+
+	public void setStateId(State stateId) {
+		this.stateId = stateId;
+	}
+
+	public District getDistrictId() {
+		return districtId;
+	}
+
+	public void setDistrictId(District districtId) {
+		this.districtId = districtId;
+	}
+
+	public City getCityCode() {
+		return cityCode;
+	}
+
+	public void setCityCode(City cityCode) {
+		this.cityCode = cityCode;
+	}
+
+	@Override
+	public String toString() {
+		return "SourceDestination [cityCode=" + cityCode + ", districtId=" + districtId + ", sourceDestinationId="
+				+ sourceDestinationId + ", stateId=" + stateId + "]";
+	}
+	
 	
 	
 }

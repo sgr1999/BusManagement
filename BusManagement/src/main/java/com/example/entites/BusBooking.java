@@ -11,107 +11,84 @@ public class BusBooking {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long bookingId;
-	private String seatNo;
-	private long amount;
+	private long busBookingId;
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private SourceDestination sourceDestination;
-   
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Customer customer;
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy ="busBooking")
+	private List<BusDepoRoute> busDepoRouteId = new ArrayList<>();
+
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy ="busBooking")
+	private List<BusRouteBusDetail> busRouteBusDetailId = new ArrayList<>();
+
+	private String bookingDate;
+	private String bookingNumber;
+	private long totalSeat;
+	private long bookingSeat;
+	private long avaliableSeat;
+	private String travelingDate;
+
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private BusType busType;
+	public long getBusBookingId() {
+		return busBookingId;
+	}
+	public void setBusBookingId(long busBookingId) {
+		this.busBookingId = busBookingId;
+	}
+	public List<BusDepoRoute> getBusDepoRouteId() {
+		return busDepoRouteId;
+	}
+	public void setBusDepoRouteId(List<BusDepoRoute> busDepoRouteId) {
+		this.busDepoRouteId = busDepoRouteId;
+	}
+	public List<BusRouteBusDetail> getBusRouteBusDetailId() {
+		return busRouteBusDetailId;
+	}
+	public void setBusRouteBusDetailId(List<BusRouteBusDetail> busRouteBusDetailId) {
+		this.busRouteBusDetailId = busRouteBusDetailId;
+	}
+	public String getBookingDate() {
+		return bookingDate;
+	}
+	public void setBookingDate(String bookingDate) {
+		this.bookingDate = bookingDate;
+	}
+	public String getBookingNumber() {
+		return bookingNumber;
+	}
+	public void setBookingNumber(String bookingNumber) {
+		this.bookingNumber = bookingNumber;
+	}
+	public long getTotalSeat() {
+		return totalSeat;
+	}
+	public void setTotalSeat(long totalSeat) {
+		this.totalSeat = totalSeat;
+	}
+	public long getBookingSeat() {
+		return bookingSeat;
+	}
+	public void setBookingSeat(long bookingSeat) {
+		this.bookingSeat = bookingSeat;
+	}
+	public long getAvaliableSeat() {
+		return avaliableSeat;
+	}
+	public void setAvaliableSeat(long avaliableSeat) {
+		this.avaliableSeat = avaliableSeat;
+	}
+	public String getTravelingDate() {
+		return travelingDate;
+	}
+	public void setTravelingDate(String travelingDate) {
+		this.travelingDate = travelingDate;
+	}
 	
-	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-	private PickupPoint pickupPoint;
-
-	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-	private DropPoint dropPoint;
-
-	public long getBookingId() {
-		return bookingId;
-	}
-
-	public void setBookingId(long bookingId) {
-		this.bookingId = bookingId;
-	}
-
-	public String getSeatNo() {
-		return seatNo;
-	}
-
-	public void setSeatNo(String seatNo) {
-		this.seatNo = seatNo;
-	}
-
-	public long getAmount() {
-		return amount;
-	}
-
-	public void setAmount(long amount) {
-		this.amount = amount;
-	}
-
-	public SourceDestination getSourceDestination() {
-		return sourceDestination;
-	}
-
-	public void setSourceDestination(SourceDestination sourceDestination) {
-		this.sourceDestination = sourceDestination;
-	}
-
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-
-	public BusType getBusType() {
-		return busType;
-	}
-
-	public void setBusType(BusType busType) {
-		this.busType = busType;
-	}
-
-	public PickupPoint getPickupPoint() {
-		return pickupPoint;
-	}
-
-	public void setPickupPoint(PickupPoint pickupPoint) {
-		this.pickupPoint = pickupPoint;
-	}
-
-	public DropPoint getDropPoint() {
-		return dropPoint;
-	}
-
-	public void setDropPoint(DropPoint dropPoint) {
-		this.dropPoint = dropPoint;
-	}
-
 	@Override
 	public String toString() {
-		return "BusBooking [amount = " + amount 
-		+ ",\n bookingId = " + bookingId 
-		+ ",\n busType = " + busType 
-		+ ",\n customer = "+ customer 
-		+ ",\n dropPoint = " + dropPoint 
-		+ ",\n pickupPoint = " + pickupPoint 
-		+ ",\n seatNo = " + seatNo
-		+ ",\n sourceDestination = " + sourceDestination + "]";
+		return "BusBooking [avaliableSeat=" + avaliableSeat + ", bookingDate=" + bookingDate + ", bookingNumber="
+				+ bookingNumber + ", bookingSeat=" + bookingSeat + ", busBookingId=" + busBookingId
+				+ ", busDepoRouteId=" + busDepoRouteId + ", busRouteBusDetailId=" + busRouteBusDetailId + ", totalSeat="
+				+ totalSeat + ", travelingDate=" + travelingDate + "]";
 	}
-
-	
-
-
-
-	
-
 
 	
 
