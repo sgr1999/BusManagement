@@ -9,7 +9,7 @@ public class UserService {
     
     public User addUser(User user){
         
-        System.out.println(user);
+      
         return user;
     }
 }
