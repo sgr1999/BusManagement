@@ -18,8 +18,7 @@ public class HomeController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private UserRepository userRepository;
+    
 
     @PostMapping("/addUser")
     public ResponseEntity<User> addUser(@RequestBody User user){
@@ -27,9 +26,8 @@ public class HomeController {
         try {
 
             User add = userService.addUser(user);
-            User save = userRepository.save(add);
-            System.out.println(save);
-            return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+            
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(add);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

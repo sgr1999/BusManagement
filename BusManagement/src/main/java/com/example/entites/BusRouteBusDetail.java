@@ -18,6 +18,8 @@ public class BusRouteBusDetail {
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "busRouteBusDetail")
     private List<BusDepoRoute> busDepoRouteId = new ArrayList<>();
 
+    
+
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private BusDetail busDetailId;
 

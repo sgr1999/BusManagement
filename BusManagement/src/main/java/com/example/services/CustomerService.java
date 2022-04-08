@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class CustomerService {
     
     
-    
+    // Add Customer service
     public Customer addCustomer(Customer customer){
 
         
