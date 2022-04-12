@@ -7,23 +7,38 @@ import javax.persistence.*;
 
 
 @Entity
+@Table(name = "bus_booking")
 public class BusBooking {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "bus_booking_id")
 	private long busBookingId;
 
-	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy ="busBooking")
+	@OneToMany(targetEntity = BusBooking.class,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@JoinColumn(name = "busdepo_route_id")
 	private List<BusDepoRoute> busDepoRouteId = new ArrayList<>();
 
-	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy ="busBooking")
+	@OneToMany(targetEntity = BusBooking.class,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@JoinColumn(name = "busroute_busdetail_id")
 	private List<BusRouteBusDetail> busRouteBusDetailId = new ArrayList<>();
 
+	@Column(name = "booking_date")
 	private String bookingDate;
+
+	@Column(name = "booking_number")
 	private String bookingNumber;
-	private long totalSeat;
-	private long bookingSeat;
-	private long avaliableSeat;
+
+	@Column(name = "total_seat")
+	private Long totalSeat;
+
+	@Column(name = "booking_seat")
+	private Long bookingSeat;
+
+	@Column(name = "avaliable_seat")
+	private Long avaliableSeat;
+
+	@Column(name = "traveling_date")
 	private String travelingDate;
 
 	
@@ -57,22 +72,22 @@ public class BusBooking {
 	public void setBookingNumber(String bookingNumber) {
 		this.bookingNumber = bookingNumber;
 	}
-	public long getTotalSeat() {
+	public Long getTotalSeat() {
 		return totalSeat;
 	}
-	public void setTotalSeat(long totalSeat) {
+	public void setTotalSeat(Long totalSeat) {
 		this.totalSeat = totalSeat;
 	}
-	public long getBookingSeat() {
+	public Long getBookingSeat() {
 		return bookingSeat;
 	}
-	public void setBookingSeat(long bookingSeat) {
+	public void setBookingSeat(Long bookingSeat) {
 		this.bookingSeat = bookingSeat;
 	}
-	public long getAvaliableSeat() {
+	public Long getAvaliableSeat() {
 		return avaliableSeat;
 	}
-	public void setAvaliableSeat(long avaliableSeat) {
+	public void setAvaliableSeat(Long avaliableSeat) {
 		this.avaliableSeat = avaliableSeat;
 	}
 	public String getTravelingDate() {
@@ -81,7 +96,6 @@ public class BusBooking {
 	public void setTravelingDate(String travelingDate) {
 		this.travelingDate = travelingDate;
 	}
-	
 	@Override
 	public String toString() {
 		return "BusBooking [avaliableSeat=" + avaliableSeat + ", bookingDate=" + bookingDate + ", bookingNumber="
@@ -89,6 +103,9 @@ public class BusBooking {
 				+ ", busDepoRouteId=" + busDepoRouteId + ", busRouteBusDetailId=" + busRouteBusDetailId + ", totalSeat="
 				+ totalSeat + ", travelingDate=" + travelingDate + "]";
 	}
+
+	
+	
 
 	
 

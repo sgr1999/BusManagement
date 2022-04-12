@@ -1,29 +1,44 @@
 package com.example.entites;
 
 import javax.persistence.CascadeType;
+
+import java.util.ArrayList;
+import java.util.*;
+
 import javax.persistence.*;
 import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
+
 
 @Entity
+@Table(name = "bus_detail")
 public class BusDetail {
     
     @Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-    private long busDetailId;
+    @Column(name = "bus_detailId")
+    private Long busDetailId;
+
+    @Column(name = "bus_number")
     private String busNumber;
+
+    @Column(name = "bus_type")
     private String busType;
-    private long noOfSeat;
+
+    @Column(name = "no_of_seat")
+    private Long noOfSeat;
+
+    @Column(name = "status")
     private String status; 
     
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = BusDetail.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "busdepo_id")
     private BusDepo busDepoId;
 
-    public long getBusDetailId() {
+    public Long getBusDetailId() {
         return busDetailId;
     }
 
-    public void setBusDetailId(long busDetailId) {
+    public void setBusDetailId(Long busDetailId) {
         this.busDetailId = busDetailId;
     }
 
@@ -43,11 +58,11 @@ public class BusDetail {
         this.busType = busType;
     }
 
-    public long getNoOfSeat() {
+    public Long getNoOfSeat() {
         return noOfSeat;
     }
 
-    public void setNoOfSeat(long noOfSeat) {
+    public void setNoOfSeat(Long noOfSeat) {
         this.noOfSeat = noOfSeat;
     }
 
@@ -73,4 +88,6 @@ public class BusDetail {
                 + ", busType=" + busType + ", noOfSeat=" + noOfSeat + ", status=" + status + "]";
     }
 
+    
+   
 }

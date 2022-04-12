@@ -3,27 +3,40 @@ package com.example.entites;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "customer")
 public class Customer {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long customerId;
+	@Column(name = "customer_id")
+	private Long customerId;
+
+	@Column(name = "first_name")
 	private String firstName;
+
+	@Column(name = "last_name")
 	private String lastName;
+
+	@Column(name = "user_name")
 	private String userName;
+
+	@Column(name = "password")
 	private String password;
+
+	@Column(name = "mobile_number")
 	private String mobileNumber;
+
+	@Column(name = "gender")
 	private String gender;
-	private long age;
 
-	@ManyToOne
-	private Customer customer;
+	@Column(name = "age")
+	private Long age;
 
-	public long getCustomerId() {
+	public Long getCustomerId() {
 		return customerId;
 	}
 
-	public void setCustomerId(long customerId) {
+	public void setCustomerId(Long customerId) {
 		this.customerId = customerId;
 	}
 
@@ -75,31 +88,21 @@ public class Customer {
 		this.gender = gender;
 	}
 
-	public long getAge() {
+	public Long getAge() {
 		return age;
 	}
 
-	public void setAge(long age) {
+	public void setAge(Long age) {
 		this.age = age;
-	}
-
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
 	}
 
 	@Override
 	public String toString() {
-		return "Customer [age=" + age + ", customer=" + customer + ", customerId=" + customerId + ", firstName="
-				+ firstName + ", gender=" + gender + ", lastName=" + lastName + ", mobileNumber=" + mobileNumber
-				+ ", password=" + password + ", userName=" + userName + "]";
+		return "Customer [age=" + age + ", customerId=" + customerId + ", firstName=" + firstName + ", gender=" + gender
+				+ ", lastName=" + lastName + ", mobileNumber=" + mobileNumber + ", password=" + password + ", userName="
+				+ userName + "]";
 	}
 
-	
-	
 	
 
 }

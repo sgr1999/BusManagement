@@ -1,30 +1,44 @@
 package com.example.entites;
 
+import java.util.*;
+
 import javax.persistence.*;
 
 @Entity
+@Table(name = "bus_depo")
 public class BusDepo {
     
     @Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-    private long busDepoId;
+    @Column(name = "busdepo_id")
+    private Long busDepoId;
+
+    @Column(name = "busdepo_name")
     private String busDepoName;
+
+    @Column(name = "busdepo_address")
     private String busDepoAddress;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(targetEntity=BusDepo.class,cascade = CascadeType.ALL, 
+              fetch = FetchType.LAZY)
+	@JoinColumn(name = "state_id")		  
     private State stateId;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(targetEntity=BusDepo.class,cascade = CascadeType.ALL, 
+    fetch = FetchType.LAZY)
+    @JoinColumn(name = "district_id")		  
     private District districtId;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(targetEntity=BusDepo.class,cascade = CascadeType.ALL, 
+              fetch = FetchType.LAZY)
+	@JoinColumn(name = "city_id")		  
     private City cityId;
 
-    public long getBusDepoId() {
+    public Long getBusDepoId() {
         return busDepoId;
     }
 
-    public void setBusDepoId(long busDepoId) {
+    public void setBusDepoId(Long busDepoId) {
         this.busDepoId = busDepoId;
     }
 
@@ -73,7 +87,6 @@ public class BusDepo {
         return "BusDepo [busDepoAddress=" + busDepoAddress + ", busDepoId=" + busDepoId + ", busDepoName=" + busDepoName
                 + ", cityId=" + cityId + ", districtId=" + districtId + ", stateId=" + stateId + "]";
     }
-
 
     
 }

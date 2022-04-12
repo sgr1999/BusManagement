@@ -3,21 +3,26 @@ package com.example.entites;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "bus_type")
 public class BusType {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long busTypeId;
+	@Column(name = "bustype_id")
+	private Long busTypeId;
+
+	@Column(name = "bus_type")
 	private String busType;
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(targetEntity = BusType.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "busdepo_id")
 	private BusDepo busDepoId;
 
-	public long getBusTypeId() {
+	public Long getBusTypeId() {
 		return busTypeId;
 	}
 
-	public void setBusTypeId(long busTypeId) {
+	public void setBusTypeId(Long busTypeId) {
 		this.busTypeId = busTypeId;
 	}
 
@@ -42,5 +47,6 @@ public class BusType {
 		return "BusType [busDepoId=" + busDepoId + ", busType=" + busType + ", busTypeId=" + busTypeId + "]";
 	}
 
-
+	
+	
 }

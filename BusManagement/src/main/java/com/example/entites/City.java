@@ -6,33 +6,34 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 public class City {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long cityId;
-    private long cityCode;
+    private Long cityId;
+    private Long cityCode;
     private String cityName;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private District districtId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "district_id")
+    private District district;
 
-    public long getCityId() {
+    public Long getCityId() {
         return cityId;
     }
 
-    public void setCityId(long cityId) {
+    public void setCityId(Long cityId) {
         this.cityId = cityId;
     }
 
-    public long getCityCode() {
+    public Long getCityCode() {
         return cityCode;
     }
 
-    public void setCityCode(long cityCode) {
+    public void setCityCode(Long cityCode) {
         this.cityCode = cityCode;
     }
 
@@ -44,20 +45,24 @@ public class City {
         this.cityName = cityName;
     }
 
-    public District getDistrictId() {
-        return districtId;
+    public District getDistrict() {
+        return district;
     }
 
-    public void setDistrictId(District districtId) {
-        this.districtId = districtId;
+    public void setDistrict(District district) {
+        this.district = district;
     }
 
     @Override
     public String toString() {
-        return "City [cityCode=" + cityCode + ", cityId=" + cityId + ", cityName=" + cityName + ", districtId="
-                + districtId + "]";
+        return "City [cityCode=" + cityCode + ", cityId=" + cityId + ", cityName=" + cityName + ", district=" + district
+                + "]";
     }
 
+
     
+   
+
+   
 
 }
