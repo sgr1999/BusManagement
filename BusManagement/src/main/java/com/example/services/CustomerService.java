@@ -9,11 +9,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomerService {
     
-    
+    @Autowired 
+    private CustomerRepository customerRepository;
+
+
     // Add Customer service
     public Customer addCustomer(Customer customer){
 
-        
-        return customer;
+        Customer save = customerRepository.save(customer);        
+        return save;
     }
 }

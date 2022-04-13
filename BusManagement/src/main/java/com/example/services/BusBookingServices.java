@@ -15,7 +15,8 @@ public class BusBookingServices {
 
     public BusBooking addBooking(BusBooking booking){
 
-        return booking;
+        BusBooking save = busBookingRepository.save(booking);
+        return save;
     }
     
 }
