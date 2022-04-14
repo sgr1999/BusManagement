@@ -14,31 +14,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/user")
 public class UserController {
 
-    private BusBookingRepository busBookingRepository;
+    
+    @RequestMapping("/index")
+	public String dashbord() {
+		
+		return "normal/base";
+	}
 
-  
+    @RequestMapping("/busDetails")
+	public String busDetails() {
+		
+		return "normal/busDetails";
+	}
 
-
-
-    // busBooking 
-    @PostMapping("/busBooking")
-    public ResponseEntity<BusBooking> addBooking(@RequestBody BusBooking busBooking) {
-
-        BusBooking b = null;
-
-        try {
-
-            BusBooking save = busBookingRepository.save(b);
-            System.out.println(save);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-
-    }
+    
 
     
 
