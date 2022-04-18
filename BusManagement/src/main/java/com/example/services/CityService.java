@@ -23,7 +23,8 @@ public class CityService {
              City save = cityRepository.save(city);
              System.out.println(save);
          } catch (Exception e) {
-             
+             e.printStackTrace();
+             System.out.println(e);
          }
          return city;
      }
@@ -59,7 +60,7 @@ public class CityService {
      }
  
       // Update City By Id
-      public City updateStateById(City city,Long id)
+      public City updateCityById(City city,Long id)
       {
         
         City list =null;

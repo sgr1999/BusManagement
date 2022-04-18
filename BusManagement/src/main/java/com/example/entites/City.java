@@ -1,5 +1,6 @@
 package com.example.entites;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class City extends Auditable<String>{
@@ -25,6 +28,7 @@ public class City extends Auditable<String>{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "district_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private District districtId;
 
     public Long getCityId() {
@@ -51,8 +55,6 @@ public class City extends Auditable<String>{
         this.cityName = cityName;
     }
 
-    
-
     public District getDistrictId() {
         return districtId;
     }
@@ -68,10 +70,6 @@ public class City extends Auditable<String>{
     }
 
    
-
-    
-   
-
    
 
 }

@@ -3,31 +3,32 @@ package com.example.entites;
 import java.util.*;
 
 import javax.persistence.*;
+import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "source_destination")
 public class SourceDestination extends Auditable<String>{
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "source_destination_id")
 	private Long sourceDestinationId;
 
 
-	@OneToMany(targetEntity=SourceDestination.class,cascade = CascadeType.ALL, 
-              fetch = FetchType.LAZY)
-	@JoinColumn(name = "state_id")		  
-    private List<State> stateId=new ArrayList<>();
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "state_id") 
+    private State stateId;
 
-	@OneToMany(targetEntity=SourceDestination.class,cascade = CascadeType.ALL, 
-              fetch = FetchType.LAZY)
-	@JoinColumn(name = "district_id")		  
-    private List<District> districtId = new ArrayList<>();
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "district_id")
+    private District districtId;
 
-	@OneToMany(targetEntity=SourceDestination.class,cascade = CascadeType.ALL, 
-              fetch = FetchType.LAZY)
-	@JoinColumn(name = "city_id")		  
-    private List<City> cityId= new ArrayList<>();
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "city_id") 
+    private City cityId;
 
 	public Long getSourceDestinationId() {
 		return sourceDestinationId;
@@ -37,27 +38,27 @@ public class SourceDestination extends Auditable<String>{
 		this.sourceDestinationId = sourceDestinationId;
 	}
 
-	public List<State> getStateId() {
+	public State getStateId() {
 		return stateId;
 	}
 
-	public void setStateId(List<State> stateId) {
+	public void setStateId(State stateId) {
 		this.stateId = stateId;
 	}
 
-	public List<District> getDistrictId() {
+	public District getDistrictId() {
 		return districtId;
 	}
 
-	public void setDistrictId(List<District> districtId) {
+	public void setDistrictId(District districtId) {
 		this.districtId = districtId;
 	}
 
-	public List<City> getCityId() {
+	public City getCityId() {
 		return cityId;
 	}
 
-	public void setCityId(List<City> cityId) {
+	public void setCityId(City cityId) {
 		this.cityId = cityId;
 	}
 
@@ -67,6 +68,5 @@ public class SourceDestination extends Auditable<String>{
 				+ sourceDestinationId + ", stateId=" + stateId + "]";
 	}
 
-	
 	
 }

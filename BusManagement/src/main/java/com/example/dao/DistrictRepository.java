@@ -12,7 +12,5 @@ public interface DistrictRepository extends JpaRepository<District,Long>{
     @Query("select d from District d")
     public List<District> getAll();
 
-    // @Query("select u from User u where u.email =  :email")
-	// public User getUserByUserName(@Param("email") String email);
     
 }

@@ -8,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
@@ -34,12 +37,55 @@ public class CityController {
         
     }
 
+    // Get City All
     @GetMapping("/city")
     public ResponseEntity<List<City>> getCity(){
 
         try {
 
             List<City> addCity = cityService.getCity();
+            return ResponseEntity.status(HttpStatus.OK).body(addCity); 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("/city/{id}")
+    public ResponseEntity<City> getCityById(@PathVariable("id") Long id){
+
+        try {
+
+            City addCity = cityService.getCityById(id);
+
+           
+            return ResponseEntity.status(HttpStatus.OK).body(addCity); 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
+    @PutMapping("/city/{id}")
+    public ResponseEntity<City> updateCityById(@RequestBody City city,@PathVariable("id") Long id){
+
+        try {
+
+            City addCity = cityService.updateCityById(city,id);
+            return ResponseEntity.status(HttpStatus.OK).body(addCity); 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @DeleteMapping("/city/{id}")
+    public ResponseEntity<City> deleteCityById(@PathVariable("id") Long id){
+
+        try {
+
+            City addCity = cityService.deleteCityById(id);
             return ResponseEntity.status(HttpStatus.OK).body(addCity); 
         } catch (Exception e) {
             e.printStackTrace();

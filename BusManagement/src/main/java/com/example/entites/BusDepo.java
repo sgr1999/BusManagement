@@ -26,19 +26,16 @@ public class BusDepo extends Auditable<String>{
     @Column(name = "busdepo_address")
     private String busDepoAddress;
 
-    @OneToOne(targetEntity=BusDepo.class,cascade = CascadeType.ALL, 
-              fetch = FetchType.LAZY)
-	@JoinColumn(name = "state_id")		  
+    @OneToOne
+	@JoinColumn(name = "state_id",nullable = false)		  
     private State stateId;
 
-    @OneToOne(targetEntity=BusDepo.class,cascade = CascadeType.ALL, 
-    fetch = FetchType.LAZY)
-    @JoinColumn(name = "district_id")		  
+    @OneToOne
+    @JoinColumn(name = "district_id",nullable = false)		  
     private District districtId;
 
-    @OneToOne(targetEntity=BusDepo.class,cascade = CascadeType.ALL, 
-              fetch = FetchType.LAZY)
-	@JoinColumn(name = "city_id")		  
+    @OneToOne
+	@JoinColumn(name = "city_id", nullable = false)		  
     private City cityId;
 
     public Long getBusDepoId() {
@@ -94,6 +91,7 @@ public class BusDepo extends Auditable<String>{
         return "BusDepo [busDepoAddress=" + busDepoAddress + ", busDepoId=" + busDepoId + ", busDepoName=" + busDepoName
                 + ", cityId=" + cityId + ", districtId=" + districtId + ", stateId=" + stateId + "]";
     }
+
 
     
 }

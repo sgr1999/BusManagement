@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class SourceDestinationController {
@@ -18,33 +19,91 @@ public class SourceDestinationController {
     private SourceDestinationService sourceDestinationService;
 
 
-    // @GetMapping("/addSource")
-    // public ResponseEntity<List<SourceDestination>> addSource(){
+    // Add SourceDestination
+    @PostMapping("/sourceDestination" )
+    public ResponseEntity<SourceDestination> addSource(@RequestBody SourceDestination sourceDestination){
 
-    //     try {
-    //        List<SourceDestination> source = sourceDestinationService.getSource();
-    //         System.out.println(source);
-    //         return ResponseEntity.status(HttpStatus.ACCEPTED).body(source);
+        try {
 
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //         System.out.println(e);
-    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-    //     }
-    // }
+           SourceDestination add = sourceDestinationService.addSource(sourceDestination);
+           System.out.println(add);
+            return ResponseEntity.status(HttpStatus.CREATED).body(add);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
-    // @GetMapping("/getSource")
-    // public ResponseEntity<List<SourceDestination>> getSource(){
+     // Get SourceDestination Details
+     @GetMapping("/sourceDestination" )
+     public ResponseEntity<List<SourceDestination>> getSource(){
+ 
+        List<SourceDestination> list =null;
+         try {
 
-    //     try {
-    //        List<SourceDestination> source = sourceDestinationService.getSource();
-    //         System.out.println(source);
-    //         return ResponseEntity.status(HttpStatus.ACCEPTED).body(source);
+             list= sourceDestinationService.getSource();
+            if(list.size()<=0){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
 
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //         System.out.println(e);
-    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-    //     }
-    // }
+             System.out.println(list);
+             return ResponseEntity.status(HttpStatus.OK).body(list);
+         } catch (Exception e) {
+             e.printStackTrace();
+             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+         }
+     }
+
+     //Get SourceDestination By Id
+     @GetMapping("/sourceDestination/{id}")
+   public ResponseEntity<SourceDestination> getSourceById(@PathVariable("id") Long id){
+    SourceDestination list =null;
+       try {
+
+            list= sourceDestinationService.getSourceById(id);
+
+           if(list==null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+           return ResponseEntity.status(HttpStatus.OK).body(list); 
+       } catch (Exception e) {
+           e.printStackTrace();
+           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+       }
+   }
+
+
+   //Update SourceDestination By Id
+   @PutMapping("/sourceDestination/{id}")
+   public ResponseEntity<SourceDestination> updateSourceById(@RequestBody SourceDestination sourceDestination,@PathVariable("id") Long id){
+
+       try {
+
+           SourceDestination add = sourceDestinationService.updateSourceById(sourceDestination,id);
+           if(add==null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+           return ResponseEntity.status(HttpStatus.OK).body(add); 
+       } catch (Exception e) {
+           e.printStackTrace();
+           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+       }
+   }
+
+   // Delete SourceDestination By Id
+   @DeleteMapping("/sourceDestination/{id}")
+   public ResponseEntity<SourceDestination> deleteSourceById(@PathVariable("id") Long id){
+
+       try {
+
+           SourceDestination add = sourceDestinationService.deleteSourceById(id);
+           if(add==null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+           return ResponseEntity.status(HttpStatus.OK).body(add); 
+       } catch (Exception e) {
+           e.printStackTrace();
+           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+       }
+   }
 }

@@ -19,7 +19,7 @@ public class DistrictController {
     private DistrictService districtService;
 
      // Add District
-     @PostMapping("/addDistrict" )
+     @PostMapping("/district" )
      public ResponseEntity<District> addDis(@RequestBody District district){
  
          try {
@@ -33,7 +33,7 @@ public class DistrictController {
      }
 
       // Get District Details
-      @GetMapping("/getDistrict" )
+      @GetMapping("/district" )
       public ResponseEntity<List<District>> getDis(){
   
           try {
@@ -51,4 +51,47 @@ public class DistrictController {
               return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
           }
       }
+
+      //Get District By Id
+      @GetMapping("/district/{id}")
+    public ResponseEntity<District> getDistrictById(@PathVariable("id") Long id){
+
+        try {
+
+            District addDistrict = districtService.getDistrictById(id);
+            return ResponseEntity.status(HttpStatus.OK).body(addDistrict); 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
+    //Update District By Id
+    @PutMapping("/district/{id}")
+    public ResponseEntity<District> updateDistrictById(@RequestBody District district,@PathVariable("id") Long id){
+
+        try {
+
+            District addDistrict = districtService.updateDistrictById(district,id);
+            return ResponseEntity.status(HttpStatus.OK).body(addDistrict); 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    // Delete District By Id
+    @DeleteMapping("/district/{id}")
+    public ResponseEntity<District> deleteDistrictById(@PathVariable("id") Long id){
+
+        try {
+
+            District addDistrict = districtService.deleteDistrictById(id);
+            return ResponseEntity.status(HttpStatus.OK).body(addDistrict); 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }
