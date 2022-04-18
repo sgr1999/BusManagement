@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "bus_booking")
-public class BusBooking {
+public class BusBooking extends Auditable<String>{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -103,10 +103,4 @@ public class BusBooking {
 				+ ", busDepoRouteId=" + busDepoRouteId + ", busRouteBusDetailId=" + busRouteBusDetailId + ", totalSeat="
 				+ totalSeat + ", travelingDate=" + travelingDate + "]";
 	}
-
-	
-	
-
-	
-
 }

@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
@@ -20,7 +23,7 @@ public class StateController {
     private StateService stateService;
 
     // Add State
-    @PostMapping("/addState" )
+    @PostMapping("/state" )
     public ResponseEntity<State> addState(@RequestBody State state){
 
         try {
@@ -34,7 +37,7 @@ public class StateController {
     }
 
      // Get State Details
-     @GetMapping("/getState" )
+     @GetMapping("/state" )
      public ResponseEntity<List<State>> getState(){
  
          try {
@@ -52,5 +55,55 @@ public class StateController {
              return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
          }
      }
+
+
+      // Get State By Id
+    @GetMapping("/state/{id}" )
+    public ResponseEntity<State> getStateById(@PathVariable("id") Long id){
+
+        try {
+
+           State add = stateService.getStateById(id);
+            return ResponseEntity.status(HttpStatus.CREATED).body(add);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
+      // Update State By Id
+      @PutMapping("/state/{id}" )
+      public ResponseEntity<State> updateStateById(@RequestBody State state,@PathVariable("id") Long id){
+  
+          try {
+  
+             State add = stateService.updateStateById(state, id);
+
+             add.setStateCode(state.getStateCode());
+             add.setStateName(state.getStateName());
+              return ResponseEntity.status(HttpStatus.CREATED).body(add);
+          } catch (Exception e) {
+              e.printStackTrace();
+              System.out.println(e);
+              return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+          }
+      }
+
+        // Delete State By Id
+    @DeleteMapping("/state/{id}" )
+    public ResponseEntity<State> deleteStateById(@PathVariable("id") Long id){
+
+        try {
+
+           State add = stateService.deleteStateById(id);
+            return ResponseEntity.status(HttpStatus.CREATED).body(add);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
 }

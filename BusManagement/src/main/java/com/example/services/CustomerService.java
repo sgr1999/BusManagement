@@ -1,12 +1,18 @@
 package com.example.services;
 
+
+import java.util.List;
+
+import javax.xml.bind.Unmarshaller.Listener;
+
 import com.example.dao.CustomerRepository;
 import com.example.entites.Customer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class CustomerService {
     
     @Autowired 
@@ -16,7 +22,89 @@ public class CustomerService {
     // Add Customer service
     public Customer addCustomer(Customer customer){
 
-        Customer save = customerRepository.save(customer);        
-        return save;
+        Customer add = null;
+        try{
+
+             add = customerRepository.save(customer);       
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            System.out.println(e);
+            
+        }
+        return add;
+    }
+
+    // Get All Customer 
+    public List<Customer> getAllCustomer(){
+
+        List<Customer> list=null;
+        try{
+
+            list = customerRepository.findAll();       
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            System.out.println(e);
+            
+        }
+        return list;
+    }
+
+    // Get Customer By id
+    public Customer getCustomerById(Long id){
+
+        Customer customer=null;
+        try{
+
+             customer = customerRepository.findCustomerById(id);      
+                
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            System.out.println(e);
+            
+        }
+        return customer;
+    }
+
+    // Update Customer By Id
+    public Customer UpdateCustomerById(Customer customer, Long id){
+
+        Customer add=null;
+        try{
+
+             add = customerRepository.findCustomerById(id);    
+        
+        add.setFirstName(customer.getFirstName());
+        add.setLastName(customer.getLastName());
+        add.setUserName(customer.getUserName());
+        add.setPassword(customer.getPassword());
+        add.setGender(customer.getGender());
+        add.setAge(customer.getAge());
+        add.setMobileNumber(customer.getMobileNumber());
+
+        customerRepository.save(add);   
+       }
+       catch(Exception e){
+           e.printStackTrace();
+           System.out.println(e);
+           
+       }
+       
+        return add;
+    }
+
+     // Delete Customer By id
+     public void deleteCustomerById(Long id){
+
+        try{
+      
+            customerRepository.deleteById(id);      
+       }
+       catch(Exception e){
+           e.printStackTrace();
+          
+       }
     }
 }

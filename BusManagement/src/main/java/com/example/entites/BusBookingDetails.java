@@ -7,16 +7,16 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "bus_booking_detail")
-public class BusBookingDetails {
+public class BusBookingDetails extends Auditable<String>{
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "bus_booking_detail_id")
     private Long busBookingDetailId;
 
-    @OneToMany(targetEntity = BusBookingDetails.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = BusBookingDetails.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "bus_booking_id")
-    private List<BusBooking> busBookingId = new ArrayList<>();
+    private BusBooking busBookingId;
 
     @OneToMany(targetEntity = BusBookingDetails.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
@@ -48,11 +48,11 @@ public class BusBookingDetails {
         this.busBookingDetailId = busBookingDetailId;
     }
 
-    public List<BusBooking> getBusBookingId() {
+    public BusBooking getBusBookingId() {
         return busBookingId;
     }
 
-    public void setBusBookingId(List<BusBooking> busBookingId) {
+    public void setBusBookingId(BusBooking busBookingId) {
         this.busBookingId = busBookingId;
     }
 

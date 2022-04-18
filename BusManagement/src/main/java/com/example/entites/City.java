@@ -1,5 +1,6 @@
 package com.example.entites;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -9,12 +10,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class City {
+public class City extends Auditable<String>{
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "city_id")
     private Long cityId;
+
+    @Column(name = "city_code")
     private Long cityCode;
+
+    @Column(name = "city_name")
     private String cityName;
 
     @ManyToOne(fetch = FetchType.LAZY)

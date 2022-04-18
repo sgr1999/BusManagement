@@ -15,19 +15,80 @@ public class CityService {
     @Autowired
     private CityRepository cityRepository;
 
-    //Add City Details
-    public City addCity(City city){
+     //Add City 
+     public City addCity(City city)
+     {
+         try {
+             
+             City save = cityRepository.save(city);
+             System.out.println(save);
+         } catch (Exception e) {
+             
+         }
+         return city;
+     }
+ 
+     // Get All State
+     public List<City> getCity()
+     {
+       
+         List<City> list =null;
+         try {
+             
+             list = cityRepository.findAll();
+         } catch (Exception e) {
+             e.printStackTrace();
+             System.out.println(e);
+         }
+         return list;
+     }
+ 
+     // Get City By Id
+     public City getCityById(Long id)
+     {
+       
+         City list =null;
+         try {
+             
+             list = cityRepository.getById(id);
+         } catch (Exception e) {
+             e.printStackTrace();
+             System.out.println(e);
+         }
+         return list;
+     }
+ 
+      // Update City By Id
+      public City updateStateById(City city,Long id)
+      {
         
-        City save = cityRepository.save(city);
-        System.out.println(save);
-        return save;
-    }
+        City list =null;
+          try {
+              list.setCityCode(city.getCityCode());
+              list.setCityName(city.getCityName());
 
-    //Add City Details
-    public List<City> getCity(){
-        
-        List<City> list = cityRepository.getAllCity();
-        cityRepository.findAll();
-        return list;
-    }
+              cityRepository.save(list);
+          } catch (Exception e) {
+              e.printStackTrace();
+              System.out.println(e);
+          }
+          return list;
+      }
+ 
+      //Delete By Id
+      public City deleteCityById(Long id){
+
+        City byId = null;
+        try{
+            cityRepository.deleteById(id);
+            byId = cityRepository.getById(id);
+
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            System.out.println(e);
+        }
+
+        return byId;
+      }
 }

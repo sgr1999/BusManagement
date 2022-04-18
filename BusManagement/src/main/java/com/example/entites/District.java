@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "District")
-public class District {
+public class District extends Auditable<String>{
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

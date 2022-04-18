@@ -17,11 +17,27 @@ public class SourceDestinationController {
     @Autowired
     private SourceDestinationService sourceDestinationService;
 
+
+    // @GetMapping("/addSource")
+    // public ResponseEntity<List<SourceDestination>> addSource(){
+
+    //     try {
+    //        List<SourceDestination> source = sourceDestinationService.getSource();
+    //         System.out.println(source);
+    //         return ResponseEntity.status(HttpStatus.ACCEPTED).body(source);
+
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //         System.out.println(e);
+    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    //     }
+    // }
+
     // @GetMapping("/getSource")
     // public ResponseEntity<List<SourceDestination>> getSource(){
 
     //     try {
-    //       //  List<SourceDestination> source = sourceDestinationService.getSource();
+    //        List<SourceDestination> source = sourceDestinationService.getSource();
     //         System.out.println(source);
     //         return ResponseEntity.status(HttpStatus.ACCEPTED).body(source);
 

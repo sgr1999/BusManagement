@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "state")
-public class State {
+public class State extends Auditable<String>{
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "bus_depo_route")
-public class BusDepoRoute {
+public class BusDepoRoute extends Auditable<String>{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
