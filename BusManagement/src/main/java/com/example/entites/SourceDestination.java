@@ -18,16 +18,16 @@ public class SourceDestination extends Auditable<String>{
 	private Long sourceDestinationId;
 
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "state_id" , insertable = false, nullable = true) 
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "state_id") 
     private State stateId;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "district_id" , insertable = false, nullable = true)
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "district_id")
     private District districtId;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "city_id" , insertable = false, nullable = true) 
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "city_id") 
     private City cityId;
 
 	public Long getSourceDestinationId() {
