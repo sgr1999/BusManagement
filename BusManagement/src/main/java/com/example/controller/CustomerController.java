@@ -6,14 +6,15 @@ import java.util.List;
 import com.example.entites.Customer;
 import com.example.services.CustomerService;
 
-
-import org.hibernate.type.ListType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
@@ -87,13 +88,14 @@ public class CustomerController {
 
   // Delete Customer By id
   @DeleteMapping("/customer/{id}")
-  public ResponseEntity deleteCustomer(@PathVariable("id") Long id){
+  public ResponseEntity<Customer> deleteCustomer(@PathVariable("id") Long id){
 
+    Customer deleteCustomerById=null;
       try {
 
-          customerService.deleteCustomerById(id);
+        deleteCustomerById= customerService.deleteCustomerById(id);
      
-          return ResponseEntity.status(HttpStatus.OK).build();
+          return ResponseEntity.status(HttpStatus.OK).body(deleteCustomerById);
       } catch (Exception e) {
           e.printStackTrace();
           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

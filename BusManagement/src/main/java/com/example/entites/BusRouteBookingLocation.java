@@ -14,13 +14,13 @@ public class BusRouteBookingLocation extends Auditable<String>{
     @Column(name = "busroute_booking_location_id")
     private Long BusRouteBookingLocationId;
 
-    @OneToMany(targetEntity = BusRouteBookingLocation.class,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "busdepo_route_id")
-    private List<BusDepoRoute> busDepoRouteId = new ArrayList<>();
+    private BusDepoRoute busDepoRouteId;
 
-    @OneToMany(targetEntity = BusRouteBookingLocation.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id")
-    private List<City> cityId= new ArrayList<>();
+    private City cityId;
 
     @Column(name = "arrival_time")
     private String arrivalTime;
@@ -39,19 +39,21 @@ public class BusRouteBookingLocation extends Auditable<String>{
         BusRouteBookingLocationId = busRouteBookingLocationId;
     }
 
-    public List<BusDepoRoute> getBusDepoRouteId() {
+    
+  
+    public BusDepoRoute getBusDepoRouteId() {
         return busDepoRouteId;
     }
 
-    public void setBusDepoRouteId(List<BusDepoRoute> busDepoRouteId) {
+    public void setBusDepoRouteId(BusDepoRoute busDepoRouteId) {
         this.busDepoRouteId = busDepoRouteId;
     }
 
-    public List<City> getCityId() {
+    public City getCityId() {
         return cityId;
     }
 
-    public void setCityId(List<City> cityId) {
+    public void setCityId(City cityId) {
         this.cityId = cityId;
     }
 

@@ -6,7 +6,6 @@ import com.example.dao.CityRepository;
 import com.example.entites.City;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -65,6 +64,7 @@ public class CityService {
         
         City list =null;
           try {
+              list = cityRepository.getById(id);
               list.setCityCode(city.getCityCode());
               list.setCityName(city.getCityName());
 

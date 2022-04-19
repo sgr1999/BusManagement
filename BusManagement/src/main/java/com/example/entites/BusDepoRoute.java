@@ -1,6 +1,5 @@
 package com.example.entites;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -36,7 +35,7 @@ public class BusDepoRoute extends Auditable<String>{
 	@Column(name = "bus_arrival_time")
 	private String busArrivalTime;
 
-	@ManyToOne(targetEntity = BusDepoRoute.class,cascade = CascadeType.ALL , fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "busdepo_id")
 	private BusDepo busDepoId;
 

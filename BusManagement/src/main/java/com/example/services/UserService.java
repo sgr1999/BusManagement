@@ -6,7 +6,6 @@ import com.example.dao.UserRepository;
 import com.example.entites.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -91,16 +90,19 @@ public class UserService {
     }
 
      // Delete User By id
-     public void deleteUserById(Long id){
+     public User deleteUserById(Long id){
 
+        User list = null;
         try{
-      
+           list = userRepository.findUserById(id);
             userRepository.deleteById(id);      
        }
        catch(Exception e){
            e.printStackTrace();
           
        }
+
+       return list;
     }
     
 }

@@ -7,18 +7,18 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "bus_booking_detail")
-public class BusBookingDetails extends Auditable<String>{
+public class BusBookingDetail extends Auditable<String>{
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "bus_booking_detail_id")
     private Long busBookingDetailId;
 
-    @ManyToOne(targetEntity = BusBookingDetails.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = BusBookingDetail.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "bus_booking_id")
     private BusBooking busBookingId;
 
-    @OneToMany(targetEntity = BusBookingDetails.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = BusBookingDetail.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     private List<Customer> customerId =new ArrayList<>();
 

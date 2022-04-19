@@ -1,6 +1,14 @@
 package com.example.entites;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "bus_type")
@@ -14,7 +22,7 @@ public class BusType extends Auditable<String>{
 	@Column(name = "bus_type")
 	private String busType;
 
-	@OneToOne(targetEntity = BusType.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "busdepo_id")
 	private BusDepo busDepoId;
 
@@ -33,6 +41,9 @@ public class BusType extends Auditable<String>{
 	public void setBusType(String busType) {
 		this.busType = busType;
 	}
+
+
+	
 
 	public BusDepo getBusDepoId() {
 		return busDepoId;

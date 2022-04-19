@@ -1,15 +1,15 @@
 package com.example.entites;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "bus_depo")
@@ -27,15 +27,18 @@ public class BusDepo extends Auditable<String>{
     private String busDepoAddress;
 
     @OneToOne
-	@JoinColumn(name = "state_id",nullable = false)		  
+	@JoinColumn(name = "state_id",nullable = false)		
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})  
     private State stateId;
 
     @OneToOne
-    @JoinColumn(name = "district_id",nullable = false)		  
+    @JoinColumn(name = "district_id",nullable = false)		
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})  
     private District districtId;
 
     @OneToOne
-	@JoinColumn(name = "city_id", nullable = false)		  
+	@JoinColumn(name = "city_id", nullable = false)	
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})  	
     private City cityId;
 
     public Long getBusDepoId() {

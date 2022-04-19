@@ -2,8 +2,6 @@ package com.example.controller;
 
 import java.util.List;
 
-import com.example.dao.BusBookingRepository;
-import com.example.entites.BusBooking;
 import com.example.entites.User;
 import com.example.services.UserService;
 
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller 
 public class UserController {
@@ -87,13 +84,14 @@ public class UserController {
 
   // Delete User By id
   @DeleteMapping("/user/{id}")
-  public ResponseEntity deleteCustomer(@PathVariable("id") Long id){
+  public ResponseEntity<User> deleteCustomer(@PathVariable("id") Long id){
 
+    User list = null;
       try {
 
-          userService.deleteUserById(id);
+          list =userService.deleteUserById(id);
      
-          return ResponseEntity.status(HttpStatus.OK).build();
+          return ResponseEntity.status(HttpStatus.OK).body(list);
       } catch (Exception e) {
           e.printStackTrace();
           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

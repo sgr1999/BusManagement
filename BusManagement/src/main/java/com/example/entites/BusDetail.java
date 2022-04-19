@@ -1,6 +1,5 @@
 package com.example.entites;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -24,8 +24,9 @@ public class BusDetail extends Auditable<String>{
     @Column(name = "bus_number")
     private String busNumber;
 
-    @Column(name = "bus_type")
-    private String busType;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bus_type_id")
+    private BusType busTypeId;
 
     @Column(name = "no_of_seat")
     private Long noOfSeat;
@@ -33,7 +34,7 @@ public class BusDetail extends Auditable<String>{
     @Column(name = "status")
     private String status; 
     
-    @ManyToOne(targetEntity = BusDetail.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "busdepo_id")
     private BusDepo busDepoId;
 
@@ -53,12 +54,13 @@ public class BusDetail extends Auditable<String>{
         this.busNumber = busNumber;
     }
 
-    public String getBusType() {
-        return busType;
+  
+    public BusType getBusTypeId() {
+        return busTypeId;
     }
 
-    public void setBusType(String busType) {
-        this.busType = busType;
+    public void setBusTypeId(BusType busTypeId) {
+        this.busTypeId = busTypeId;
     }
 
     public Long getNoOfSeat() {
@@ -88,9 +90,8 @@ public class BusDetail extends Auditable<String>{
     @Override
     public String toString() {
         return "BusDetail [busDepoId=" + busDepoId + ", busDetailId=" + busDetailId + ", busNumber=" + busNumber
-                + ", busType=" + busType + ", noOfSeat=" + noOfSeat + ", status=" + status + "]";
+                + ", busTypeId=" + busTypeId + ", noOfSeat=" + noOfSeat + ", status=" + status + "]";
     }
 
-    
    
 }

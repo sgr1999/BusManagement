@@ -3,13 +3,10 @@ package com.example.services;
 
 import java.util.List;
 
-import javax.xml.bind.Unmarshaller.Listener;
-
 import com.example.dao.CustomerRepository;
 import com.example.entites.Customer;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -96,15 +93,16 @@ public class CustomerService {
     }
 
      // Delete Customer By id
-     public void deleteCustomerById(Long id){
-
+     public Customer deleteCustomerById(Long id){
+        Customer cc=null;
         try{
-      
+          cc =  customerRepository.getById(id);
             customerRepository.deleteById(id);      
        }
        catch(Exception e){
            e.printStackTrace();
           
        }
+       return cc;
     }
 }

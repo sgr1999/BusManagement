@@ -66,6 +66,7 @@ public class DistrictService {
        
        District list =null;
          try {
+             list = districtRepository.getById(id);
              list.setDistrictCode(district.getDistrictCode());
              list.setDistrictName(district.getDistrictName());
 

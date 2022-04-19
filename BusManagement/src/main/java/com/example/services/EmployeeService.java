@@ -1,15 +1,12 @@
 package com.example.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.example.dao.EmployeeRepository;
 import com.example.entites.Employee;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class EmployeeService {
@@ -67,7 +64,7 @@ public class EmployeeService {
             emp.setMobileNumber(employee.getMobileNumber());
 
             Employee save = employeeRepository.save(emp);
-            System.out.println(employee);
+            System.out.println(save);
         }
         catch(Exception e){
             e.printStackTrace();
@@ -77,11 +74,11 @@ public class EmployeeService {
     }
 
     //Update Employee By Id
-    public void deleteEmpById(Long id){
+    public Employee deleteEmpById(Long id){
 
-       
+        Employee find =null;
         try{
-            
+            find = employeeRepository.findEmpById(id);
              employeeRepository.deleteById(id);
             
         
@@ -90,6 +87,6 @@ public class EmployeeService {
             e.printStackTrace();
         }
        
-       // return emp;
+        return find;
     }
 }

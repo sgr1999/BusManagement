@@ -6,7 +6,6 @@ import com.example.dao.SourceDestinationRepository;
 import com.example.entites.SourceDestination;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -66,6 +65,7 @@ public class SourceDestinationService {
        
        SourceDestination list =null;
          try {
+             list = sourceDestinationRepository.getById(id);
              list.setCityId(source.getCityId());
              list.setDistrictId(source.getDistrictId());
              list.setStateId(source.getStateId());

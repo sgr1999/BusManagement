@@ -1,11 +1,14 @@
 package com.example.entites;
 
-import javax.persistence.CascadeType;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 
 @Entity
@@ -17,17 +20,15 @@ public class BusRouteBusDetail extends Auditable<String>{
     @Column(name = "busroute_busdetail_id")
     private Long busRouteBusDetailId;
 
-    @OneToMany(targetEntity = BusRouteBusDetail.class,cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "busdepo_route_id")
-    private List<BusDepoRoute> busDepoRouteId = new ArrayList<>();
+    private BusDepoRoute busDepoRouteId;
 
     
 
-    @OneToMany(targetEntity = BusRouteBusDetail.class,cascade = CascadeType.ALL, 
-            fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bus_detail_id")
-    private List<BusDetail> busDetailId = new ArrayList<>();
+    private BusDetail busDetailId;
 
 
 
@@ -43,25 +44,26 @@ public class BusRouteBusDetail extends Auditable<String>{
 
 
 
-    public List<BusDepoRoute> getBusDepoRouteId() {
+   
+
+
+    public BusDepoRoute getBusDepoRouteId() {
         return busDepoRouteId;
     }
 
 
 
-    public void setBusDepoRouteId(List<BusDepoRoute> busDepoRouteId) {
+    public void setBusDepoRouteId(BusDepoRoute busDepoRouteId) {
         this.busDepoRouteId = busDepoRouteId;
     }
 
-
-
-    public List<BusDetail> getBusDetailId() {
+    public BusDetail getBusDetailId() {
         return busDetailId;
     }
 
 
 
-    public void setBusDetailId(List<BusDetail> busDetailId) {
+    public void setBusDetailId(BusDetail busDetailId) {
         this.busDetailId = busDetailId;
     }
 

@@ -7,7 +7,6 @@ import com.example.entites.Employee;
 import com.example.services.EmployeeService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -98,14 +97,15 @@ public class EmployeeController {
 
     // Delete Employee By Id
     @DeleteMapping("/employee/{id}" )
-    public ResponseEntity deleteEmpById(@PathVariable("id") Long id){
+    public ResponseEntity<Employee> deleteEmpById(@PathVariable("id") Long id){
 
+        Employee list = null;
         try {
-             employeeService.deleteEmpById(id);
+            list= employeeService.deleteEmpById(id);
             
-            // if(emp1 == null){
-            //     return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            // }
+            if(list == null){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(list);
+            }
             return ResponseEntity.status(HttpStatus.OK).build();
 
             // return ResponseEntity.of(Optional.of(emp1));
