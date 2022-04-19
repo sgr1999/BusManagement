@@ -13,7 +13,7 @@ public class State extends Auditable<String>{
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "state_id")
+    @Column(name = "state_id" ,nullable=true)
     private Long stateId;
 
     @Column(name = "state_code")
