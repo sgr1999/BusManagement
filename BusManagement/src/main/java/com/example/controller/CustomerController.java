@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 
 
 @Controller
+@RequestMapping("/customer")
 public class CustomerController {
     
 
@@ -27,7 +29,7 @@ public class CustomerController {
     private CustomerService customerService;
 
     // Add Customer Details
-    @PostMapping("/customer")
+    @PostMapping("/addCustomer")
     public ResponseEntity<Customer> addCustomer(@RequestBody Customer customer){
 
         try {
@@ -42,7 +44,7 @@ public class CustomerController {
     }
 
     // Get Customer By Id
-    @GetMapping("/customer/{id}")
+    @GetMapping("/getCustomer/{id}")
     public ResponseEntity<Customer> getCustomerById(@PathVariable("id") Long id){
 
         try {
@@ -57,7 +59,7 @@ public class CustomerController {
     }
 
     // Get All Customer Details
-    @GetMapping("/customer")
+    @GetMapping("/getCustomer")
     public ResponseEntity<List<Customer>> getCustomer(){
 
         try {
@@ -72,7 +74,7 @@ public class CustomerController {
     }
 
     // Update Customer By Id
-    @PutMapping("/customer/{id}")
+    @PutMapping("/updateCustomer/{id}")
     public ResponseEntity<Customer> UpdateCustomer(@RequestBody Customer customer, @PathVariable("id") Long id){
 
         try {
@@ -87,7 +89,7 @@ public class CustomerController {
     }
 
   // Delete Customer By id
-  @DeleteMapping("/customer/{id}")
+  @DeleteMapping("/deleteCustomer/{id}")
   public ResponseEntity<Customer> deleteCustomer(@PathVariable("id") Long id){
 
     Customer deleteCustomerById=null;

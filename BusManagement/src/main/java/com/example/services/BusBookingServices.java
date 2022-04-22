@@ -19,10 +19,24 @@ public class BusBookingServices {
    // Add BusBooking Details
    public BusBooking addBusBooking(BusBooking busBooking){
 
-         
+    Long totalSeat= (long) 40;
+    Long bookedSeat =null;
+    Long bookingCount =0L;
     try {
+         bookingCount = busBookingRepository.findBookingSeats();
+         Long bookingSeat = busBooking.getBookingSeat();
+
+        bookedSeat  = bookingCount+bookingSeat;
+
+        Long avaliableSeat =totalSeat- bookedSeat; 
+      
+        
+        
+        busBooking.setTotalSeat(totalSeat);
+        busBooking.setAvaliableSeat(avaliableSeat);
         
         BusBooking save = busBookingRepository.save(busBooking);
+        busBooking.setBookingSeat(bookedSeat);
         System.out.println(save);
         
     } catch (Exception e) {

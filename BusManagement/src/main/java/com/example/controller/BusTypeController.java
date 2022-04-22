@@ -12,13 +12,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/busType")
 public class BusTypeController {
     
     @Autowired
     private BusTypeService busTypeService;
 
     //Add BusType Details
-    @PostMapping("/busType")
+    @PostMapping("/addBusType")
     public ResponseEntity<BusType> addBusType(@RequestBody BusType busType){
 
         try {
@@ -34,7 +35,7 @@ public class BusTypeController {
     }
 
     // Get BusType Details
-    @GetMapping("/busType" )
+    @GetMapping("/getBusType" )
     public ResponseEntity<List<BusType>> getBusType(){
 
        List<BusType> list =null;
@@ -55,7 +56,7 @@ public class BusTypeController {
     }
 
     //Get BusType By Id
-    @GetMapping("/busType/{id}")
+    @GetMapping("/getBusType/{id}")
   public ResponseEntity<BusType> getBusTypeById(@PathVariable("id") Long id){
    BusType list =null;
       try {
@@ -75,7 +76,7 @@ public class BusTypeController {
 
 
   //Update BusType By Id
-  @PutMapping("/busType/{id}")
+  @PutMapping("/updateBusType/{id}")
   public ResponseEntity<BusType> updateBusTypeById(@RequestBody BusType busType,@PathVariable("id") Long id){
 
       try {
@@ -93,7 +94,7 @@ public class BusTypeController {
   }
 
   // Delete BusType By Id
-  @DeleteMapping("/busType/{id}")
+  @DeleteMapping("/deleteBusType/{id}")
   public ResponseEntity<BusType> deleteBusTypeById(@PathVariable("id") Long id){
 
       try {

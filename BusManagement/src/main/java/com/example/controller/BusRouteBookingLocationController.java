@@ -12,13 +12,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/busRouteBookingLocation")
 public class BusRouteBookingLocationController {
     
     @Autowired
     private BusRouteBookingLocationService busRouteBookingLocationService;
 
     //Add BusRouteBookingLocation Details
-    @PostMapping("/busRouteBookingLocation")
+    @PostMapping("/addBusRouteBookingLocation")
     public ResponseEntity<BusRouteBookingLocation> addBusDepo(@RequestBody BusRouteBookingLocation bus){
 
         try {
@@ -34,7 +35,7 @@ public class BusRouteBookingLocationController {
     }
 
     // Get BusRouteBookingLocation Details
-    @GetMapping("/busRouteBookingLocation" )
+    @GetMapping("/getBusRouteBookingLocation" )
     public ResponseEntity<List<BusRouteBookingLocation>> getBusLocation(){
 
        List<BusRouteBookingLocation> list =null;
@@ -55,7 +56,7 @@ public class BusRouteBookingLocationController {
     }
 
     //Get BusRouteBookingLocation By Id
-    @GetMapping("/busRouteBookingLocation/{id}")
+    @GetMapping("/getBusRouteBookingLocation/{id}")
   public ResponseEntity<BusRouteBookingLocation> getBusLocationById(@PathVariable("id") Long id){
    BusRouteBookingLocation list =null;
       try {
@@ -75,7 +76,7 @@ public class BusRouteBookingLocationController {
 
 
   //Update BusRouteBookingLocation By Id
-  @PutMapping("/busRouteBookingLocation/{id}")
+  @PutMapping("/updateBusRouteBookingLocation/{id}")
   public ResponseEntity<BusRouteBookingLocation> updateBusDepoById(@RequestBody BusRouteBookingLocation bus,@PathVariable("id") Long id){
 
       try {
@@ -93,7 +94,7 @@ public class BusRouteBookingLocationController {
   }
 
   // Delete BusRouteBookingLocation By Id
-  @DeleteMapping("/busRouteBookingLocation/{id}")
+  @DeleteMapping("/deleteBusRouteBookingLocation/{id}")
   public ResponseEntity<BusRouteBookingLocation> deleteBusDepoById(@PathVariable("id") Long id){
 
       try {

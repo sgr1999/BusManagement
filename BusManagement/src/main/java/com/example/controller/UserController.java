@@ -15,15 +15,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller 
+@RequestMapping("/user")
 public class UserController {
 
 	@Autowired
 	private UserService userService;
     
     // Add User Details
-    @PostMapping("/user")
+    @PostMapping("/addUser")
     public ResponseEntity<User> addCustomer(@RequestBody User user){
 
         try {
@@ -38,7 +40,7 @@ public class UserController {
     }
 
     // Get User By Id
-    @GetMapping("/user/{id}")
+    @GetMapping("/getUser/{id}")
     public ResponseEntity<User> getCustomerById(@PathVariable("id") Long id){
 
         try {
@@ -53,7 +55,7 @@ public class UserController {
     }
 
     // Get All User Details
-    @GetMapping("/user")
+    @GetMapping("/getUser")
     public ResponseEntity<List<User>> getCustomer(){
 
         try {
@@ -68,7 +70,7 @@ public class UserController {
     }
 
     // Update User By Id
-    @PutMapping("/user/{id}")
+    @PutMapping("/updateUser/{id}")
     public ResponseEntity<User> UpdateCustomer(@RequestBody User user, @PathVariable("id") Long id){
 
         try {
@@ -83,7 +85,7 @@ public class UserController {
     }
 
   // Delete User By id
-  @DeleteMapping("/user/{id}")
+  @DeleteMapping("/deleteUser/{id}")
   public ResponseEntity<User> deleteCustomer(@PathVariable("id") Long id){
 
     User list = null;

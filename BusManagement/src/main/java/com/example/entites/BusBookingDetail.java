@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "bus_booking_detail")
 public class BusBookingDetail extends Auditable<String>{
@@ -14,13 +16,16 @@ public class BusBookingDetail extends Auditable<String>{
     @Column(name = "bus_booking_detail_id")
     private Long busBookingDetailId;
 
-    @ManyToOne(targetEntity = BusBookingDetail.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    // here is my problem
+    @OneToMany(targetEntity = BusBookingDetail.class,fetch = FetchType.LAZY)
     @JoinColumn(name = "bus_booking_id")
-    private BusBooking busBookingId;
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private List<BusBooking> busBookingId = new ArrayList<>();
 
-    @OneToMany(targetEntity = BusBookingDetail.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
-    private List<Customer> customerId =new ArrayList<>();
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Customer customerId;
 
     @Column(name = "seat_number")
     private String seatNumber;
@@ -48,19 +53,19 @@ public class BusBookingDetail extends Auditable<String>{
         this.busBookingDetailId = busBookingDetailId;
     }
 
-    public BusBooking getBusBookingId() {
+    public List<BusBooking> getBusBookingId() {
         return busBookingId;
     }
 
-    public void setBusBookingId(BusBooking busBookingId) {
+    public void setBusBookingId(List<BusBooking> busBookingId) {
         this.busBookingId = busBookingId;
     }
 
-    public List<Customer> getCustomerId() {
+    public Customer getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(List<Customer> customerId) {
+    public void setCustomerId(Customer customerId) {
         this.customerId = customerId;
     }
 
@@ -119,8 +124,4 @@ public class BusBookingDetail extends Auditable<String>{
                 + ", paymentId=" + paymentId + ", paymentType=" + paymentType + ", seatNumber=" + seatNumber
                 + ", status=" + status + "]";
     }
-    
-
-    
-  
 }

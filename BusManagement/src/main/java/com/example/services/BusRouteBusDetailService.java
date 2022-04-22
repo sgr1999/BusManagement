@@ -1,8 +1,10 @@
 package com.example.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.dao.BusRouteBusDetailRepository;
+import com.example.entites.BusDetail;
 import com.example.entites.BusRouteBusDetail;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +20,9 @@ public class BusRouteBusDetailService {
     // Add BusRouteBusDetail Details
     public BusRouteBusDetail addBusRoute(BusRouteBusDetail busRouteBusDetail){
 
-         
+        
         try {
-            
+           
             BusRouteBusDetail save = busRouteBusDetailRepository.save(busRouteBusDetail);
             System.out.println(save);
             

@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/city")
 public class CityController {
     
     @Autowired
@@ -23,7 +25,7 @@ public class CityController {
 
 
     //Add City Details
-    @PostMapping("/city")
+    @PostMapping("/addCity")
     public ResponseEntity<City> addCity(@RequestBody City city){
 
         try {
@@ -38,7 +40,7 @@ public class CityController {
     }
 
     // Get City All
-    @GetMapping("/city")
+    @GetMapping("/getCity")
     public ResponseEntity<List<City>> getCity(){
 
         try {
@@ -51,7 +53,7 @@ public class CityController {
         }
     }
 
-    @GetMapping("/city/{id}")
+    @GetMapping("/getCity/{id}")
     public ResponseEntity<City> getCityById(@PathVariable("id") Long id){
 
         try {
@@ -67,7 +69,7 @@ public class CityController {
     }
 
 
-    @PutMapping("/city/{id}")
+    @PutMapping("/updateCity/{id}")
     public ResponseEntity<City> updateCityById(@RequestBody City city,@PathVariable("id") Long id){
 
         try {
@@ -80,7 +82,7 @@ public class CityController {
         }
     }
 
-    @DeleteMapping("/city/{id}")
+    @DeleteMapping("/deleteCity/{id}")
     public ResponseEntity<City> deleteCityById(@PathVariable("id") Long id){
 
         try {

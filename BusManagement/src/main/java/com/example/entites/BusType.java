@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "bus_type")
 public class BusType extends Auditable<String>{
@@ -24,6 +26,7 @@ public class BusType extends Auditable<String>{
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "busdepo_id")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private BusDepo busDepoId;
 
 	public Long getBusTypeId() {

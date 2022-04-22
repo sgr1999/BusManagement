@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/sourceDestination")
 public class SourceDestinationController {
     
     @Autowired
@@ -20,7 +21,7 @@ public class SourceDestinationController {
 
 
     // Add SourceDestination
-    @PostMapping("/sourceDestination" )
+    @PostMapping("/addSourceDestination" )
     public ResponseEntity<SourceDestination> addSource(@RequestBody SourceDestination sourceDestination){
 
         try {
@@ -35,7 +36,7 @@ public class SourceDestinationController {
     }
 
      // Get SourceDestination Details
-     @GetMapping("/sourceDestination" )
+     @GetMapping("/getSourceDestination" )
      public ResponseEntity<List<SourceDestination>> getSource(){
  
         List<SourceDestination> list =null;
@@ -55,7 +56,7 @@ public class SourceDestinationController {
      }
 
      //Get SourceDestination By Id
-     @GetMapping("/sourceDestination/{id}")
+     @GetMapping("/getSourceDestination/{id}")
    public ResponseEntity<SourceDestination> getSourceById(@PathVariable("id") Long id){
     SourceDestination list =null;
        try {
@@ -74,7 +75,7 @@ public class SourceDestinationController {
 
 
    //Update SourceDestination By Id
-   @PutMapping("/sourceDestination/{id}")
+   @PutMapping("/updateSourceDestination/{id}")
    public ResponseEntity<SourceDestination> updateSourceById(@RequestBody SourceDestination sourceDestination,@PathVariable("id") Long id){
 
        try {
@@ -91,7 +92,7 @@ public class SourceDestinationController {
    }
 
    // Delete SourceDestination By Id
-   @DeleteMapping("/sourceDestination/{id}")
+   @DeleteMapping("/deleteSourceDestination/{id}")
    public ResponseEntity<SourceDestination> deleteSourceById(@PathVariable("id") Long id){
 
        try {

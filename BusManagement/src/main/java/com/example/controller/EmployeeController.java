@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("employee")
 public class EmployeeController {
     
     @Autowired
@@ -26,7 +28,7 @@ public class EmployeeController {
    
 
     // Add Employee
-    @PostMapping("/employee" )
+    @PostMapping("/addEmployee" )
     public ResponseEntity<Employee> addEmp(@RequestBody final Employee emp){
 
         try {
@@ -42,7 +44,7 @@ public class EmployeeController {
     }
 
     // Get All Employee
-    @GetMapping("/employee" )
+    @GetMapping("/getEmployee" )
     public ResponseEntity<List<Employee>> getEmp(){
 
         try {
@@ -58,7 +60,7 @@ public class EmployeeController {
     }
 
     // Get Employee By
-    @GetMapping("/employee/{id}" )
+    @GetMapping("/getEmployee/{id}" )
     public ResponseEntity<Employee> getEmpById(@PathVariable("id") Long id){
 
         try {
@@ -76,8 +78,8 @@ public class EmployeeController {
         }
     }
 
-    // Get Employee By
-    @PutMapping("/employee/{id}" )
+    // update Employee By id
+    @PutMapping("/updateEmployee/{id}" )
     public ResponseEntity<Employee> updateEmpById(@PathVariable("id") Long id,@RequestBody Employee emp){
 
         try {
@@ -96,7 +98,7 @@ public class EmployeeController {
     }
 
     // Delete Employee By Id
-    @DeleteMapping("/employee/{id}" )
+    @DeleteMapping("/deleteEmployee/{id}" )
     public ResponseEntity<Employee> deleteEmpById(@PathVariable("id") Long id){
 
         Employee list = null;

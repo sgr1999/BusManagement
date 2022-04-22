@@ -1,5 +1,6 @@
 package com.example.entites;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,7 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 @Entity
@@ -20,11 +24,13 @@ public class BusDepoRoute extends Auditable<String>{
 	@Column(name="busdepo_route_id")
 	private Long busDepoRouteId;
 
-	@Column(name="source")
-	private String source;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="source_id")
+	private SourceDestination sourceId;
 
-	@Column(name="distination")
-	private String distination;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="distination_id")
+	private SourceDestination distinationId;
 
 	@Column(name = "total_km")
 	private String totalKm;
@@ -37,6 +43,7 @@ public class BusDepoRoute extends Auditable<String>{
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "busdepo_id")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private BusDepo busDepoId;
 
 	public Long getBusDepoRouteId() {
@@ -47,20 +54,21 @@ public class BusDepoRoute extends Auditable<String>{
 		this.busDepoRouteId = busDepoRouteId;
 	}
 
-	public String getSource() {
-		return source;
+
+	public SourceDestination getSourceId() {
+		return sourceId;
 	}
 
-	public void setSource(String source) {
-		this.source = source;
+	public void setSourceId(SourceDestination sourceId) {
+		this.sourceId = sourceId;
 	}
 
-	public String getDistination() {
-		return distination;
+	public SourceDestination getDistinationId() {
+		return distinationId;
 	}
 
-	public void setDistination(String distination) {
-		this.distination = distination;
+	public void setDistinationId(SourceDestination distinationId) {
+		this.distinationId = distinationId;
 	}
 
 	public String getTotalKm() {
@@ -98,8 +106,8 @@ public class BusDepoRoute extends Auditable<String>{
 	@Override
 	public String toString() {
 		return "BusDepoRoute [busArrivalTime=" + busArrivalTime + ", busDepartureTime=" + busDepartureTime
-				+ ", busDepoId=" + busDepoId + ", busDepoRouteId=" + busDepoRouteId + ", distination=" + distination
-				+ ", source=" + source + ", totalKm=" + totalKm + "]";
+				+ ", busDepoId=" + busDepoId + ", busDepoRouteId=" + busDepoRouteId + ", distination=" + distinationId
+				+ ", source=" + sourceId + ", totalKm=" + totalKm + "]";
 	}
 
 	

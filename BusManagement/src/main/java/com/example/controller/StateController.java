@@ -15,15 +15,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/state")
 public class StateController {
     
     @Autowired
     private StateService stateService;
 
     // Add State
-    @PostMapping("/state" )
+    @PostMapping("/addState" )
     public ResponseEntity<State> addState(@RequestBody State state){
 
         try {
@@ -37,7 +39,7 @@ public class StateController {
     }
 
      // Get State Details
-     @GetMapping("/state" )
+     @GetMapping("/getState" )
      public ResponseEntity<List<State>> getState(){
  
          try {
@@ -58,7 +60,7 @@ public class StateController {
 
 
       // Get State By Id
-    @GetMapping("/state/{id}" )
+    @GetMapping("/getState/{id}" )
     public ResponseEntity<State> getStateById(@PathVariable("id") Long id){
 
         try {
@@ -74,7 +76,7 @@ public class StateController {
 
 
       // Update State By Id
-      @PutMapping("/state/{id}" )
+      @PutMapping("/updateState/{id}" )
       public ResponseEntity<State> updateStateById(@RequestBody State state,@PathVariable("id") Long id){
   
           try {
@@ -92,7 +94,7 @@ public class StateController {
       }
 
         // Delete State By Id
-    @DeleteMapping("/state/{id}" )
+    @DeleteMapping("/deleteState/{id}" )
     public ResponseEntity<State> deleteStateById(@PathVariable("id") Long id){
 
         try {

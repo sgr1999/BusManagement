@@ -15,15 +15,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/busBookingDetail")
 public class BusBookingDetailController {
     
     @Autowired
     private BusBookingDetailService busBookingDetailService;
 
     //Add BusBookingDetail Details
-    @PostMapping("/busBookingDetail")
+    @PostMapping("/addBookingDetail")
     public ResponseEntity<BusBookingDetail> addBusDepo(@RequestBody BusBookingDetail busBookingDetail){
 
         try {
@@ -39,7 +41,7 @@ public class BusBookingDetailController {
     }
 
     // Get BusBookingDetail Details
-    @GetMapping("/busBookingDetail" )
+    @GetMapping("/getAllBookingDetail" )
     public ResponseEntity<List<BusBookingDetail>> getBusBookingDetail(){
 
        List<BusBookingDetail> list =null;
@@ -60,7 +62,7 @@ public class BusBookingDetailController {
     }
 
     //Get BusBookingDetail By Id
-    @GetMapping("/busBookingDetail/{id}")
+    @GetMapping("/getBookingDetail/{id}")
   public ResponseEntity<BusBookingDetail> getBusDepoById(@PathVariable("id") Long id){
    BusBookingDetail list =null;
       try {
@@ -80,7 +82,7 @@ public class BusBookingDetailController {
 
 
   //Update BusBookingDetail By Id
-  @PutMapping("/busBookingDetail/{id}")
+  @PutMapping("/updateBookingDetail/{id}")
   public ResponseEntity<BusBookingDetail> updateBusDepoById(@RequestBody BusBookingDetail busBookingDetail,@PathVariable("id") Long id){
 
       try {
@@ -98,7 +100,7 @@ public class BusBookingDetailController {
   }
 
   // Delete BusBookingDetail By Id
-  @DeleteMapping("/busBookingDetail/{id}")
+  @DeleteMapping("/deleteBookingDetail/{id}")
   public ResponseEntity<BusBookingDetail> deleteBusDepoById(@PathVariable("id") Long id){
 
       try {

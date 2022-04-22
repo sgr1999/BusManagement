@@ -12,13 +12,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/busDetail")
 public class BusDetailController {
     
     @Autowired
     private BusDetailService busDetailService;
 
     //Add BusDetail Details
-    @PostMapping("/busDetail")
+    @PostMapping("/addBusDetail")
     public ResponseEntity<BusDetail> addBusDetail(@RequestBody BusDetail busDetail){
 
         try {
@@ -34,7 +35,7 @@ public class BusDetailController {
     }
 
     // Get BusDetail Details
-    @GetMapping("/busDetail" )
+    @GetMapping("/GetBusDetail" )
     public ResponseEntity<List<BusDetail>> getBusDetail(){
 
        List<BusDetail> list =null;
@@ -55,7 +56,7 @@ public class BusDetailController {
     }
 
     //Get BusDetail By Id
-    @GetMapping("/busDetail/{id}")
+    @GetMapping("/GetBusDetail/{id}")
   public ResponseEntity<BusDetail> getBusDetailById(@PathVariable("id") Long id){
    BusDetail list =null;
       try {
@@ -75,7 +76,7 @@ public class BusDetailController {
 
 
   //Update BusDetail By Id
-  @PutMapping("/busDetail/{id}")
+  @PutMapping("/updateBusDetail/{id}")
   public ResponseEntity<BusDetail> updateBusDetailById(@RequestBody BusDetail busDetail,@PathVariable("id") Long id){
 
       try {
@@ -93,7 +94,7 @@ public class BusDetailController {
   }
 
   // Delete BusDetail By Id
-  @DeleteMapping("/busDetail/{id}")
+  @DeleteMapping("/deleteBusDetail/{id}")
   public ResponseEntity<BusDetail> deleteBusDetailById(@PathVariable("id") Long id){
 
       try {

@@ -1,9 +1,9 @@
 package com.example.entites;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 @Entity
@@ -15,13 +15,15 @@ public class BusBooking extends Auditable<String>{
 	@Column(name = "bus_booking_id")
 	private long busBookingId;
 
-	@OneToMany(targetEntity = BusBooking.class,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "busdepo_route_id")
-	private List<BusDepoRoute> busDepoRouteId = new ArrayList<>();
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	private BusDepoRoute busDepoRouteId;
 
-	@OneToMany(targetEntity = BusBooking.class,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "busroute_busdetail_id")
-	private List<BusRouteBusDetail> busRouteBusDetailId = new ArrayList<>();
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	private BusRouteBusDetail busRouteBusDetailId;
 
 	@Column(name = "booking_date")
 	private String bookingDate;
@@ -48,16 +50,17 @@ public class BusBooking extends Auditable<String>{
 	public void setBusBookingId(long busBookingId) {
 		this.busBookingId = busBookingId;
 	}
-	public List<BusDepoRoute> getBusDepoRouteId() {
+	
+	public BusDepoRoute getBusDepoRouteId() {
 		return busDepoRouteId;
 	}
-	public void setBusDepoRouteId(List<BusDepoRoute> busDepoRouteId) {
+	public void setBusDepoRouteId(BusDepoRoute busDepoRouteId) {
 		this.busDepoRouteId = busDepoRouteId;
 	}
-	public List<BusRouteBusDetail> getBusRouteBusDetailId() {
+	public BusRouteBusDetail getBusRouteBusDetailId() {
 		return busRouteBusDetailId;
 	}
-	public void setBusRouteBusDetailId(List<BusRouteBusDetail> busRouteBusDetailId) {
+	public void setBusRouteBusDetailId(BusRouteBusDetail busRouteBusDetailId) {
 		this.busRouteBusDetailId = busRouteBusDetailId;
 	}
 	public String getBookingDate() {

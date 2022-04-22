@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/district")
 public class DistrictController {
     
 
@@ -19,7 +20,7 @@ public class DistrictController {
     private DistrictService districtService;
 
      // Add District
-     @PostMapping("/district" )
+     @PostMapping("/addDistrict" )
      public ResponseEntity<District> addDis(@RequestBody District district){
  
          try {
@@ -33,7 +34,7 @@ public class DistrictController {
      }
 
       // Get District Details
-      @GetMapping("/district" )
+      @GetMapping("/getDistrict" )
       public ResponseEntity<List<District>> getDis(){
   
           try {
@@ -53,7 +54,7 @@ public class DistrictController {
       }
 
       //Get District By Id
-      @GetMapping("/district/{id}")
+      @GetMapping("/getDistrict/{id}")
     public ResponseEntity<District> getDistrictById(@PathVariable("id") Long id){
 
         try {
@@ -68,7 +69,7 @@ public class DistrictController {
 
 
     //Update District By Id
-    @PutMapping("/district/{id}")
+    @PutMapping("/updateDistrict/{id}")
     public ResponseEntity<District> updateDistrictById(@RequestBody District district,@PathVariable("id") Long id){
 
         try {
@@ -82,7 +83,7 @@ public class DistrictController {
     }
 
     // Delete District By Id
-    @DeleteMapping("/district/{id}")
+    @DeleteMapping("/deleteDistrict/{id}")
     public ResponseEntity<District> deleteDistrictById(@PathVariable("id") Long id){
 
         try {

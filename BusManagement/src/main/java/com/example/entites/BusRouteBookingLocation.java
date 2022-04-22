@@ -1,9 +1,10 @@
 package com.example.entites;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "busroute_booking_location")
@@ -16,10 +17,12 @@ public class BusRouteBookingLocation extends Auditable<String>{
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "busdepo_route_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private BusDepoRoute busDepoRouteId;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private City cityId;
 
     @Column(name = "arrival_time")

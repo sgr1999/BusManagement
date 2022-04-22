@@ -22,5 +22,4 @@ public class BusManagementApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BusManagementApplication.class, args);
 	}
-
 }

@@ -19,6 +19,8 @@ public class BusDepoRouteService {
 
          
         try {
+
+            
             
             BusDepoRoute save = busDepoRouteRepository.save(busDepoRoute);
             System.out.println(save);
@@ -71,8 +73,8 @@ public class BusDepoRouteService {
             list = busDepoRouteRepository.getById(id);
 
             list.setBusDepoId(busDepoRoute.getBusDepoId());
-            list.setSource(busDepoRoute.getSource());
-            list.setDistination(busDepoRoute.getTotalKm());
+            list.setSourceId(busDepoRoute.getSourceId());
+            list.setTotalKm(busDepoRoute.getTotalKm());
             list.setBusDepartureTime(busDepoRoute.getBusDepartureTime());
             list.setBusArrivalTime(busDepoRoute.getBusArrivalTime());
 

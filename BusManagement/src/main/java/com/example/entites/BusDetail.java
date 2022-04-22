@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 @Entity
 @Table(name = "bus_detail")
@@ -26,6 +28,7 @@ public class BusDetail extends Auditable<String>{
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bus_type_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private BusType busTypeId;
 
     @Column(name = "no_of_seat")
@@ -36,6 +39,7 @@ public class BusDetail extends Auditable<String>{
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "busdepo_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private BusDepo busDepoId;
 
     public Long getBusDetailId() {

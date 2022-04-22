@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BusDepoRouteRepository extends JpaRepository<BusDepoRoute, Long>{
     
+    
 }
