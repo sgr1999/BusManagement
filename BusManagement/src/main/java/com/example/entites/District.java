@@ -1,6 +1,8 @@
 package com.example.entites;
 
 
+import java.util.Collection;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.example.Model.DistrictModel;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -42,7 +45,6 @@ public class District extends Auditable<String>{
     public void setDistrictId(Long districtId) {
         this.districtId = districtId;
     }
-
 
     public Long getDistrictCode() {
         return districtCode;

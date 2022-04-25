@@ -1,9 +1,12 @@
 package com.example.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.example.Model.DistrictModel;
 import com.example.dao.DistrictRepository;
 import com.example.entites.District;
+import com.example.entites.State;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,6 +17,7 @@ public class DistrictService {
 
     @Autowired
     private DistrictRepository districtRepository;
+    
 
 
     //Add District 
@@ -31,18 +35,32 @@ public class DistrictService {
     }
 
     // Get All District
-    public List<District> getDistrict()
+    public List<DistrictModel> getDistrict()
     {
       
-        List<District> list =null;
+        List<District> list=new ArrayList<>();
+        List<State> list2 = new ArrayList<>();
+       
+        List<DistrictModel> list1=new ArrayList<>();
         try {
             
             list = districtRepository.findAll();
+            System.out.println(list);
+
+            for(District d : list){
+             
+
+              list1.add(new DistrictModel(d.getDistrictCode(),d.getDistrictName(),d.getStateId()));
+             
+
+            }
+            
+
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
         }
-        return list;
+        return list1;
     }
 
     // Get District By Id

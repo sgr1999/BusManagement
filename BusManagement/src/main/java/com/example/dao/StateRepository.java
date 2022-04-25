@@ -11,4 +11,6 @@ public interface StateRepository extends JpaRepository<State, Long>{
     
     @Query("select s from State s")
     public List<State> getAllState();
+
+    
 }

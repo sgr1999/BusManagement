@@ -2,6 +2,7 @@ package com.example.controller;
 
 import java.util.*;
 
+import com.example.Model.DistrictModel;
 import com.example.entites.*;
 import com.example.services.DistrictService;
 
@@ -35,11 +36,11 @@ public class DistrictController {
 
       // Get District Details
       @GetMapping("/getDistrict" )
-      public ResponseEntity<List<District>> getDis(){
+      public ResponseEntity<List<DistrictModel>> getDis(){
   
           try {
 
-            List<District> list = districtService.getDistrict();
+            List<DistrictModel> list = districtService.getDistrict();
 
             if(list.size()<=0){
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
