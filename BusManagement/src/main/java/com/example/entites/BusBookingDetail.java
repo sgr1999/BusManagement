@@ -1,9 +1,17 @@
 package com.example.entites;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -14,14 +22,24 @@ public class BusBookingDetail extends Auditable<String>{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "bus_booking_detail_id")
-    private Long busBookingDetailId;
+    private Long id;
 
     // here is my problem
-    @OneToMany(targetEntity = BusBookingDetail.class,fetch = FetchType.LAZY)
-    @JoinColumn(name = "bus_booking_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private List<BusBooking> busBookingId = new ArrayList<>();
+//    @OneToMany(targetEntity = BusBookingDetail.class,fetch = FetchType.LAZY)
+//    @JoinColumn(name = "bus_booking_id")
+//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//    private List<BusBooking> busBookingId = new ArrayList<>();
 
+//    @JoinColumn(name = "bus_booking_id")
+//   	@JsonIgnore
+//   	@ManyToOne(fetch = FetchType.LAZY)
+//   	private BusBooking busBooking;
+    
+    @ManyToOne
+    //Adding the name
+    @JoinColumn(name = "bus_booking_id")
+    BusBooking busBooking;
+    
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -45,23 +63,25 @@ public class BusBookingDetail extends Auditable<String>{
     @Column(name = "status")
     private String status;
 
-    public Long getBusBookingDetailId() {
-        return busBookingDetailId;
-    }
 
-    public void setBusBookingDetailId(Long busBookingDetailId) {
-        this.busBookingDetailId = busBookingDetailId;
-    }
 
-    public List<BusBooking> getBusBookingId() {
-        return busBookingId;
-    }
+//    public List<BusBooking> getBusBookingId() {
+//        return busBookingId;
+//    }
+//
+//    public void setBusBookingId(List<BusBooking> busBookingId) {
+//        this.busBookingId = busBookingId;
+//    }
 
-    public void setBusBookingId(List<BusBooking> busBookingId) {
-        this.busBookingId = busBookingId;
-    }
+    public Long getId() {
+		return id;
+	}
 
-    public Customer getCustomerId() {
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Customer getCustomerId() {
         return customerId;
     }
 
@@ -117,11 +137,20 @@ public class BusBookingDetail extends Auditable<String>{
         this.status = status;
     }
 
+    public BusBooking getBusBooking() {
+		return busBooking;
+	}
+
+	public void setBusBooking(BusBooking busBooking) {
+		this.busBooking = busBooking;
+	}
+
     @Override
     public String toString() {
-        return "BusBookingDetails [busBookingDetailId=" + busBookingDetailId + ", busBookingId=" + busBookingId
-                + ", customerId=" + customerId + ", paymentAmount=" + paymentAmount + ", paymentDate=" + paymentDate
-                + ", paymentId=" + paymentId + ", paymentType=" + paymentType + ", seatNumber=" + seatNumber
-                + ", status=" + status + "]";
+        return "BusBookingDetail [busBooking=" + busBooking + ", customerId=" + customerId + ", id=" + id
+                + ", paymentAmount=" + paymentAmount + ", paymentDate=" + paymentDate + ", paymentId=" + paymentId
+                + ", paymentType=" + paymentType + ", seatNumber=" + seatNumber + ", status=" + status + "]";
     }
+
+
 }

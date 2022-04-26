@@ -70,7 +70,7 @@ public class BusBookingDetailService {
        BusBookingDetail list =null;
          try {
             list = busBookingDetailRepository.getById(id);  
-             list.setBusBookingId(bus.getBusBookingId());
+         //    list.setBusBookingId(bus.getBusBookingId());
              list.setCustomerId(bus.getCustomerId());
              list.setSeatNumber(bus.getSeatNumber());
              list.setPaymentDate(bus.getPaymentDate());

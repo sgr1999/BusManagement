@@ -1,25 +1,33 @@
 package com.example.Model;
 
-import com.example.entites.State;
 
 public class DistrictModel {
     
 
     private Long districtCode;
 
-
     private String districtName;
 
-    private Long stateCode;
+    private String stateCode;
 
     private String stateName;
 
-    public DistrictModel(Long districtCode, String districtName, Long stateCode, String stateName) {
+
+    public DistrictModel(Long districtCode, String districtName, String stateCode, String stateName) {
         this.districtCode = districtCode;
         this.districtName = districtName;
         this.stateCode = stateCode;
         this.stateName = stateName;
     }
+
+
+
+    public DistrictModel(Long districtCode, String districtName) {
+        this.districtCode = districtCode;
+        this.districtName = districtName;
+    }
+
+
 
     public Long getDistrictCode() {
         return districtCode;
@@ -37,13 +45,18 @@ public class DistrictModel {
         this.districtName = districtName;
     }
 
-    public Long getStateCode() {
+  
+    public String getStateCode() {
         return stateCode;
     }
 
-    public void setStateCode(Long stateCode) {
+
+
+    public void setStateCode(String stateCode) {
         this.stateCode = stateCode;
     }
+
+
 
     public String getStateName() {
         return stateName;

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.example.Model.DistrictModel;
 import com.example.dao.DistrictRepository;
+import com.example.dao.StateRepository;
 import com.example.entites.District;
 import com.example.entites.State;
 
@@ -18,6 +19,8 @@ public class DistrictService {
     @Autowired
     private DistrictRepository districtRepository;
     
+    @Autowired
+    private StateRepository stateRepository;
 
 
     //Add District 
@@ -39,21 +42,31 @@ public class DistrictService {
     {
       
         List<District> list=new ArrayList<>();
+        List<DistrictModel> list1=new ArrayList<>();
         List<State> list2 = new ArrayList<>();
        
-        List<DistrictModel> list1=new ArrayList<>();
         try {
             
             list = districtRepository.findAll();
-            System.out.println(list);
+            list2 = stateRepository.findAll();
 
+            
+           
+            
             for(District d : list){
-             
 
-              list1.add(new DistrictModel(d.getDistrictCode(),d.getDistrictName(),d.getStateId()));
-             
+             for(State s : list2){
 
+                //  if(d.getStateId().equals(s.getStateId())){
+                    list1.add(new DistrictModel(d.getDistrictCode(), d.getDistrictName(),s.getStateCode(),s.getStateName()));
+                // }
+
+                System.out.println("-------d------- : "+d.getStateId());
+                System.out.println("-------s------- : "+s.getStateId());
             }
+            
+        }
+        System.out.println(list2);
             
 
         } catch (Exception e) {

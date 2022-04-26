@@ -1,7 +1,20 @@
 package com.example.entites;
 
 
-import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -13,18 +26,24 @@ public class BusBooking extends Auditable<String>{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "bus_booking_id")
-	private long busBookingId;
+	private Long id;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "busdepo_route_id")
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private BusDepoRoute busDepoRouteId;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "busroute_busdetail_id")
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-	private BusRouteBusDetail busRouteBusDetailId;
+//	@OneToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "busroute_busdetail_id")
+//	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//	private BusRouteBusDetail busRouteBusDetailId;
 
+//	@OneToMany(mappedBy = "busBooking")
+//	private List<BusBookingDetail> busBookingDetails;
+	
+	 @OneToMany(cascade = CascadeType.ALL)
+	 private Set<BusBookingDetail> busBookingDetails;
+	
 	@Column(name = "booking_date")
 	private String bookingDate;
 
@@ -44,25 +63,18 @@ public class BusBooking extends Auditable<String>{
 	private String travelingDate;
 
 	
-	public long getBusBookingId() {
-		return busBookingId;
-	}
-	public void setBusBookingId(long busBookingId) {
-		this.busBookingId = busBookingId;
-	}
-	
 	public BusDepoRoute getBusDepoRouteId() {
 		return busDepoRouteId;
 	}
 	public void setBusDepoRouteId(BusDepoRoute busDepoRouteId) {
 		this.busDepoRouteId = busDepoRouteId;
 	}
-	public BusRouteBusDetail getBusRouteBusDetailId() {
-		return busRouteBusDetailId;
-	}
-	public void setBusRouteBusDetailId(BusRouteBusDetail busRouteBusDetailId) {
-		this.busRouteBusDetailId = busRouteBusDetailId;
-	}
+//	public BusRouteBusDetail getBusRouteBusDetailId() {
+//		return busRouteBusDetailId;
+//	}
+//	public void setBusRouteBusDetailId(BusRouteBusDetail busRouteBusDetailId) {
+//		this.busRouteBusDetailId = busRouteBusDetailId;
+//	}
 	public String getBookingDate() {
 		return bookingDate;
 	}
@@ -99,11 +111,34 @@ public class BusBooking extends Auditable<String>{
 	public void setTravelingDate(String travelingDate) {
 		this.travelingDate = travelingDate;
 	}
-	@Override
-	public String toString() {
-		return "BusBooking [avaliableSeat=" + avaliableSeat + ", bookingDate=" + bookingDate + ", bookingNumber="
-				+ bookingNumber + ", bookingSeat=" + bookingSeat + ", busBookingId=" + busBookingId
-				+ ", busDepoRouteId=" + busDepoRouteId + ", busRouteBusDetailId=" + busRouteBusDetailId + ", totalSeat="
-				+ totalSeat + ", travelingDate=" + travelingDate + "]";
+	public Long getId() {
+		return id;
 	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	public Set<BusBookingDetail> getBusBookingDetails() {
+		return busBookingDetails;
+	}
+	public void setBusBookingDetails(Set<BusBookingDetail> busBookingDetails) {
+		this.busBookingDetails = busBookingDetails;
+	}
+	
+	
+	//	public List<BusBookingDetail> getBusBookingDetails() {
+		//		return busBookingDetails;
+		//	}
+		//	public void setBusBookingDetails(List<BusBookingDetail> busBookingDetails) {
+			//		this.busBookingDetails = busBookingDetails;
+			//	}
+			
+			@Override
+			public String toString() {
+				return "BusBooking [avaliableSeat=" + avaliableSeat + ", bookingDate=" + bookingDate + ", bookingNumber="
+						+ bookingNumber + ", bookingSeat=" + bookingSeat + ", busBookingDetails=" + busBookingDetails
+						+ ", busDepoRouteId=" + busDepoRouteId + ", id=" + id + ", totalSeat=" + totalSeat + ", travelingDate="
+						+ travelingDate + "]";
+			}
+
 }

@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import com.example.entites.BusBooking;
 import com.example.services.BusBookingServices;
@@ -21,14 +22,10 @@ public class BusBookingController {
 
     //Add BusBooking Details
     @PostMapping("/addBooking")
-    public ResponseEntity<BusBooking> addBusBooking(@RequestBody BusBooking busBooking){
-
-        
+    public ResponseEntity<BusBooking> addBusBooking(@RequestBody Map<String, Object> mpBusBooking){
         try {
 
-           
-
-            BusBooking addBusDepo = busBookingServices.addBusBooking(busBooking);
+            BusBooking addBusDepo = busBookingServices.addBusBooking(mpBusBooking);
             System.out.println(addBusDepo);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(addBusDepo);
         } catch (Exception e) {
