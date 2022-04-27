@@ -3,6 +3,7 @@ package com.example.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.example.Model.BusBookingModel;
 import com.example.entites.BusBooking;
 import com.example.services.BusBookingServices;
 
@@ -37,9 +38,9 @@ public class BusBookingController {
 
     // Get BusBooking Details
     @GetMapping("/getBooking" )
-    public ResponseEntity<List<BusBooking>> getBusBooking(){
+    public ResponseEntity<List<BusBookingModel>> getBusBooking(){
 
-       List<BusBooking> list =null;
+       List<BusBookingModel> list =null;
         try {
 
             list= busBookingServices.getBusBooking();

@@ -56,11 +56,11 @@ public class DistrictController {
 
       //Get District By Id
       @GetMapping("/getDistrict/{id}")
-    public ResponseEntity<District> getDistrictById(@PathVariable("id") Long id){
+    public ResponseEntity<DistrictModel> getDistrictById(@PathVariable("id") Long id){
 
         try {
 
-            District addDistrict = districtService.getDistrictById(id);
+            DistrictModel addDistrict = districtService.getDistrictById(id);
             return ResponseEntity.status(HttpStatus.OK).body(addDistrict); 
         } catch (Exception e) {
             e.printStackTrace();

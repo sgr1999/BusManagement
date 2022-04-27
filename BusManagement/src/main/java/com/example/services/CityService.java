@@ -1,7 +1,9 @@
 package com.example.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.example.Model.CityModel;
 import com.example.dao.CityRepository;
 import com.example.entites.City;
 
@@ -28,14 +30,14 @@ public class CityService {
          return city;
      }
  
-     // Get All State
-     public List<City> getCity()
+     // Get All City
+     public List<CityModel> getCity()
      {
        
-         List<City> list =null;
+         List<CityModel> list =new ArrayList<>();
          try {
              
-             list = cityRepository.findAll();
+             list = cityRepository.findData();
          } catch (Exception e) {
              e.printStackTrace();
              System.out.println(e);

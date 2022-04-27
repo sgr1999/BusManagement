@@ -1,7 +1,6 @@
 package com.example.entites;
 
 
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -69,12 +68,16 @@ public class BusBooking extends Auditable<String>{
 	public void setBusDepoRouteId(BusDepoRoute busDepoRouteId) {
 		this.busDepoRouteId = busDepoRouteId;
 	}
+
+
 //	public BusRouteBusDetail getBusRouteBusDetailId() {
 //		return busRouteBusDetailId;
 //	}
 //	public void setBusRouteBusDetailId(BusRouteBusDetail busRouteBusDetailId) {
 //		this.busRouteBusDetailId = busRouteBusDetailId;
 //	}
+
+
 	public String getBookingDate() {
 		return bookingDate;
 	}

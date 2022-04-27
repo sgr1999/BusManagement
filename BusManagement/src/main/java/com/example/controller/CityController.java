@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.Model.CityModel;
 import com.example.entites.City;
 import com.example.services.CityService;
 
@@ -41,11 +42,11 @@ public class CityController {
 
     // Get City All
     @GetMapping("/getCity")
-    public ResponseEntity<List<City>> getCity(){
+    public ResponseEntity<List<CityModel>> getCity(){
 
         try {
 
-            List<City> addCity = cityService.getCity();
+            List<CityModel> addCity = cityService.getCity();
             return ResponseEntity.status(HttpStatus.OK).body(addCity); 
         } catch (Exception e) {
             e.printStackTrace();

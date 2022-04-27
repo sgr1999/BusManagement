@@ -1,7 +1,9 @@
 package com.example.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.example.Model.SourceDestinationModel;
 import com.example.dao.SourceDestinationRepository;
 import com.example.entites.SourceDestination;
 
@@ -29,13 +31,13 @@ public class SourceDestinationService {
     }
 
     // Get All SourceDestination
-    public List<SourceDestination> getSource()
+    public List<SourceDestinationModel> getSource()
     {
       
-        List<SourceDestination> list =null;
+        List<SourceDestinationModel> list =new ArrayList<>();
         try {
             
-            list = sourceDestinationRepository.findAll();
+            list = sourceDestinationRepository.findData();
     
         } catch (Exception e) {
             e.printStackTrace();

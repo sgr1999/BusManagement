@@ -41,49 +41,28 @@ public class DistrictService {
     public List<DistrictModel> getDistrict()
     {
       
-        List<District> list=new ArrayList<>();
-        List<DistrictModel> list1=new ArrayList<>();
-        List<State> list2 = new ArrayList<>();
-       
+        List<DistrictModel> data=null;
         try {
-            
-            list = districtRepository.findAll();
-            list2 = stateRepository.findAll();
 
-            
-           
-            
-            for(District d : list){
-
-             for(State s : list2){
-
-                //  if(d.getStateId().equals(s.getStateId())){
-                    list1.add(new DistrictModel(d.getDistrictCode(), d.getDistrictName(),s.getStateCode(),s.getStateName()));
-                // }
-
-                System.out.println("-------d------- : "+d.getStateId());
-                System.out.println("-------s------- : "+s.getStateId());
-            }
-            
-        }
-        System.out.println(list2);
+             data = districtRepository.getData();
+           System.out.println(data);
             
 
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
         }
-        return list1;
+        return data;
     }
 
     // Get District By Id
-    public District getDistrictById(Long id)
+    public DistrictModel getDistrictById(Long id)
     {
       
-        District list =null;
+        DistrictModel list =null;
         try {
             
-            list = districtRepository.getById(id);
+            list = districtRepository.getDataById(id);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);

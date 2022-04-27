@@ -11,6 +11,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.Model.BusBookingModel;
 import com.example.dao.BusBookingDetailRepository;
 import com.example.dao.BusBookingRepository;
 import com.example.dao.BusDepoRouteRepository;
@@ -155,13 +156,13 @@ public class BusBookingServices {
 	}
 
 	// Get All BusBooking
-	public List<BusBooking> getBusBooking()
+	public List<BusBookingModel> getBusBooking()
 	{
 
-		List<BusBooking> list =null;
+		List<BusBookingModel> list =null;
 		try {
 
-			list = busBookingRepository.findAll();
+			list = busBookingRepository.findData();
 
 		} catch (Exception e) {
 			e.printStackTrace();
