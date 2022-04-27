@@ -70,6 +70,10 @@ public class BusBookingServices {
 
             // Logic of booking Seats
             bookingCount = busBookingRepository.findBookingSeats();
+
+			if(bookingCount==null){
+				bookingCount=0L;
+			}
             Long bookingSeat = Long.parseLong((String) mpBusBooking.get("bookingSeat"));
             bookingSeat += bookingCount;
 			Long avaliableSeat =totalSeat- bookingSeat;

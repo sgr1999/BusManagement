@@ -73,7 +73,8 @@ public class BusDepoRouteService {
             list = busDepoRouteRepository.getById(id);
 
             list.setBusDepoId(busDepoRoute.getBusDepoId());
-            list.setSourceId(busDepoRoute.getSourceId());
+            list.setSource(busDepoRoute.getSource());
+            list.setDestination(busDepoRoute.getDestination());
             list.setTotalKm(busDepoRoute.getTotalKm());
             list.setBusDepartureTime(busDepoRoute.getBusDepartureTime());
             list.setBusArrivalTime(busDepoRoute.getBusArrivalTime());

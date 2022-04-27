@@ -23,13 +23,11 @@ public class BusDepoRoute extends Auditable<String>{
 	@Column(name="busdepo_route_id")
 	private Long busDepoRouteId;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="source_id")
-	private SourceDestination sourceId;
+	@Column(name="source_id")
+	private String source;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="distination_id")
-	private SourceDestination distinationId;
+	@Column(name="distination_id")
+	private String destination;
 
 	@Column(name = "total_km")
 	private String totalKm;
@@ -54,20 +52,21 @@ public class BusDepoRoute extends Auditable<String>{
 	}
 
 
-	public SourceDestination getSourceId() {
-		return sourceId;
+
+	public String getSource() {
+		return source;
 	}
 
-	public void setSourceId(SourceDestination sourceId) {
-		this.sourceId = sourceId;
+	public void setSource(String source) {
+		this.source = source;
 	}
 
-	public SourceDestination getDistinationId() {
-		return distinationId;
+	public String getDestination() {
+		return destination;
 	}
 
-	public void setDistinationId(SourceDestination distinationId) {
-		this.distinationId = distinationId;
+	public void setDestination(String destination) {
+		this.destination = destination;
 	}
 
 	public String getTotalKm() {
@@ -105,10 +104,11 @@ public class BusDepoRoute extends Auditable<String>{
 	@Override
 	public String toString() {
 		return "BusDepoRoute [busArrivalTime=" + busArrivalTime + ", busDepartureTime=" + busDepartureTime
-				+ ", busDepoId=" + busDepoId + ", busDepoRouteId=" + busDepoRouteId + ", distination=" + distinationId
-				+ ", source=" + sourceId + ", totalKm=" + totalKm + "]";
+				+ ", busDepoId=" + busDepoId + ", busDepoRouteId=" + busDepoRouteId + ", destination=" + destination
+				+ ", source=" + source + ", totalKm=" + totalKm + "]";
 	}
 
+	
 	
 	
 	
