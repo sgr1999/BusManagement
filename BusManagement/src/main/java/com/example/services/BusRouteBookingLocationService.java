@@ -2,6 +2,7 @@ package com.example.services;
 
 import java.util.List;
 
+import com.example.Model.BusRouteBookingLocationModel;
 import com.example.dao.BusRouteBookingLocationRepository;
 import com.example.entites.BusRouteBookingLocation;
 
@@ -31,13 +32,13 @@ public class BusRouteBookingLocationService {
     }
 
     // Get All BusRouteBookingLocation
-    public List<BusRouteBookingLocation> getBuslocation()
+    public List<BusRouteBookingLocationModel> getBuslocation()
     {
       
-        List<BusRouteBookingLocation> list =null;
+        List<BusRouteBookingLocationModel> list =null;
         try {
             
-            list = busRouteBookingLocationRepository.findAll();
+            list = busRouteBookingLocationRepository.findData();
     
         } catch (Exception e) {
             e.printStackTrace();

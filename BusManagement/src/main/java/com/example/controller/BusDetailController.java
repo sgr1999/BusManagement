@@ -2,6 +2,7 @@ package com.example.controller;
 
 import java.util.List;
 
+import com.example.Model.BusDetailModel;
 import com.example.entites.BusDetail;
 import com.example.services.BusDetailService;
 
@@ -35,10 +36,10 @@ public class BusDetailController {
     }
 
     // Get BusDetail Details
-    @GetMapping("/GetBusDetail" )
-    public ResponseEntity<List<BusDetail>> getBusDetail(){
+    @GetMapping("/getBusDetail" )
+    public ResponseEntity<List<BusDetailModel>> getBusDetail(){
 
-       List<BusDetail> list =null;
+       List<BusDetailModel> list =null;
         try {
 
             list= busDetailService.getBusDetail();
@@ -56,7 +57,7 @@ public class BusDetailController {
     }
 
     //Get BusDetail By Id
-    @GetMapping("/GetBusDetail/{id}")
+    @GetMapping("/getBusDetail/{id}")
   public ResponseEntity<BusDetail> getBusDetailById(@PathVariable("id") Long id){
    BusDetail list =null;
       try {

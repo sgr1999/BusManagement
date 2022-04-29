@@ -2,6 +2,7 @@ package com.example.services;
 
 import java.util.List;
 
+import com.example.Model.BusTypeModel;
 import com.example.dao.BusTypeRepository;
 import com.example.entites.BusType;
 
@@ -31,13 +32,13 @@ public class BusTypeService {
     }
 
     // Get All BusType
-    public List<BusType> getBusType()
+    public List<BusTypeModel> getBusType()
     {
       
-        List<BusType> list =null;
+        List<BusTypeModel> list =null;
         try {
             
-            list = busTypeRepository.findAll();
+            list = busTypeRepository.findData();
     
         } catch (Exception e) {
             e.printStackTrace();

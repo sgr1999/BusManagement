@@ -1,16 +1,16 @@
 package com.example.Model;
 
 public class BusBookingModel {
-    
+
     private String bookingDate;
     private String bookingNumber;
     private Long totalSeat;
-    private Long bookingSeat;
+    private Long bookingSeat; 
     private Long avaliableSeat;
     private String travelingDate;
 
-   private String source;
-   private String destination;
+    private String source;
+    private String destination;
     private String totalKm;
     private String busDepartureTime;
     private String busArrivalTime;
@@ -20,11 +20,6 @@ public class BusBookingModel {
     private String cityName;
     private String districtName;
     private String stateName;
-
-
-
-
-
 
     public BusBookingModel(String bookingDate, String bookingNumber, Long totalSeat, Long bookingSeat,
             Long avaliableSeat, String travelingDate, String source, String destination, String totalKm,
@@ -48,167 +43,132 @@ public class BusBookingModel {
         this.stateName = stateName;
     }
 
-
-    
-    public String getSource() {
-        return source;
-    }
-
-
-
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-
-
-    public String getDestination() {
-        return destination;
-    }
-
-
-
-    public void setDestination(String destination) {
-        this.destination = destination;
-    }
-
-
-
-    public String getTotalKm() {
-        return totalKm;
-    }
-
-
-
-    public void setTotalKm(String totalKm) {
-        this.totalKm = totalKm;
-    }
-
-
-
-    public String getBusDepartureTime() {
-        return busDepartureTime;
-    }
-
-
-
-    public void setBusDepartureTime(String busDepartureTime) {
-        this.busDepartureTime = busDepartureTime;
-    }
-
-
-
-    public String getBusArrivalTime() {
-        return busArrivalTime;
-    }
-
-
-
-    public void setBusArrivalTime(String busArrivalTime) {
-        this.busArrivalTime = busArrivalTime;
-    }
-
-
-
     public String getBusDepoName() {
         return busDepoName;
     }
-
-
 
     public void setBusDepoName(String busDepoName) {
         this.busDepoName = busDepoName;
     }
 
-
-
     public String getBusDepoAddress() {
         return busDepoAddress;
     }
-
-
 
     public void setBusDepoAddress(String busDepoAddress) {
         this.busDepoAddress = busDepoAddress;
     }
 
-
-
     public String getCityName() {
         return cityName;
     }
-
-
 
     public void setCityName(String cityName) {
         this.cityName = cityName;
     }
 
-
-
     public String getDistrictName() {
         return districtName;
     }
-
-
 
     public void setDistrictName(String districtName) {
         this.districtName = districtName;
     }
 
-
-
     public String getStateName() {
         return stateName;
     }
-
-
 
     public void setStateName(String stateName) {
         this.stateName = stateName;
     }
 
+    public String getTotalKm() {
+        return totalKm;
+    }
 
+    public void setTotalKm(String totalKm) {
+        this.totalKm = totalKm;
+    }
+
+    public String getBusDepartureTime() {
+        return busDepartureTime;
+    }
+
+    public void setBusDepartureTime(String busDepartureTime) {
+        this.busDepartureTime = busDepartureTime;
+    }
+
+    public String getBusArrivalTime() {
+        return busArrivalTime;
+    }
+
+    public void setBusArrivalTime(String busArrivalTime) {
+        this.busArrivalTime = busArrivalTime;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
 
     public String getBookingDate() {
         return bookingDate;
     }
- 
+
     public void setBookingDate(String bookingDate) {
         this.bookingDate = bookingDate;
     }
+
     public String getBookingNumber() {
         return bookingNumber;
     }
+
     public void setBookingNumber(String bookingNumber) {
         this.bookingNumber = bookingNumber;
     }
+
     public Long getTotalSeat() {
         return totalSeat;
     }
+
     public void setTotalSeat(Long totalSeat) {
         this.totalSeat = totalSeat;
     }
+
     public Long getBookingSeat() {
         return bookingSeat;
     }
+
     public void setBookingSeat(Long bookingSeat) {
         this.bookingSeat = bookingSeat;
     }
+
     public Long getAvaliableSeat() {
         return avaliableSeat;
     }
+
     public void setAvaliableSeat(Long avaliableSeat) {
         this.avaliableSeat = avaliableSeat;
     }
+
     public String getTravelingDate() {
         return travelingDate;
     }
+
     public void setTravelingDate(String travelingDate) {
         this.travelingDate = travelingDate;
     }
 
-   
-    
-   
 }

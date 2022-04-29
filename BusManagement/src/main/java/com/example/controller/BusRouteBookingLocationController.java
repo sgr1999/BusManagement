@@ -2,6 +2,7 @@ package com.example.controller;
 
 import java.util.List;
 
+import com.example.Model.BusRouteBookingLocationModel;
 import com.example.entites.BusRouteBookingLocation;
 import com.example.services.BusRouteBookingLocationService;
 
@@ -36,9 +37,9 @@ public class BusRouteBookingLocationController {
 
     // Get BusRouteBookingLocation Details
     @GetMapping("/getBusRouteBookingLocation" )
-    public ResponseEntity<List<BusRouteBookingLocation>> getBusLocation(){
+    public ResponseEntity<List<BusRouteBookingLocationModel>> getBusLocation(){
 
-       List<BusRouteBookingLocation> list =null;
+       List<BusRouteBookingLocationModel> list =null;
         try {
 
             list= busRouteBookingLocationService.getBuslocation();

@@ -1,9 +1,15 @@
 package com.example.services;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.example.Model.BusDepoModel;
 import com.example.dao.BusDepoRepository;
+import com.example.dao.CityRepository;
 import com.example.entites.BusDepo;
+import com.example.entites.City;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +19,9 @@ public class BusDepoService {
     
     @Autowired
     private BusDepoRepository busDepoRepository;
+
+    @Autowired
+    private CityRepository cityRepository;
 
     // Add BusDepo Details
     public BusDepo addBusDepo(BusDepo busDepo){
@@ -31,19 +40,34 @@ public class BusDepoService {
     }
 
     // Get All BusDepo
-    public List<BusDepo> getBusDepo()
+    public Map<String,Object> getBusDepo()
     {
       
-        List<BusDepo> list =null;
+        List<BusDepoModel> list =null;
+        List<BusDepoModel> list1 =null;
+        Map<String,Object> map = new HashMap<>();
         try {
             
-            list = busDepoRepository.findAll();
-    
+            list = busDepoRepository.findData();
+
+            Long count = busDepoRepository.countData();
+
+            System.out.println("data-------------"+count);
+
+            list.forEach(e->{
+                map.put("busDepoName", e.getBusDepoName());
+                map.put("busDepoAddress", e.getBusDepoAddress());
+                map.put("stateName", e.getStateName());
+                map.put("districtName", e.getDistrictName());
+                map.put("cityName", e.getCityName());
+
+            });
+
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
         }
-        return list;
+        return map;
     }
 
 
@@ -53,7 +77,9 @@ public class BusDepoService {
       
         BusDepo list =null;
         try {
+
             
+         
             list = busDepoRepository.getById(id);
         } catch (Exception e) {
             e.printStackTrace();

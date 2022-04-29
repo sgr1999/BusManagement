@@ -33,7 +33,7 @@ public class District extends Auditable<String>{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "state_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+   // @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private State stateId;
 
     

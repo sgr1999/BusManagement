@@ -2,6 +2,7 @@ package com.example.services;
 
 import java.util.List;
 
+import com.example.Model.BusDepoRouteModel;
 import com.example.dao.BusDepoRouteRepository;
 import com.example.entites.BusDepoRoute;
 
@@ -33,13 +34,13 @@ public class BusDepoRouteService {
     }
 
     // Get All BusDepoRoute
-    public List<BusDepoRoute> getBusDepoRoute()
+    public List<BusDepoRouteModel> getBusDepoRoute()
     {
       
-        List<BusDepoRoute> list =null;
+        List<BusDepoRouteModel> list =null;
         try {
             
-            list = busDepoRouteRepository.findAll();
+            list = busDepoRouteRepository.findData();
     
         } catch (Exception e) {
             e.printStackTrace();

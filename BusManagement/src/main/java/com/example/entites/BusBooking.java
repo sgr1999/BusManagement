@@ -15,7 +15,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 @Entity
@@ -29,7 +31,6 @@ public class BusBooking extends Auditable<String>{
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "busdepo_route_id")
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private BusDepoRoute busDepoRouteId;
 
 //	@OneToOne(fetch = FetchType.LAZY)

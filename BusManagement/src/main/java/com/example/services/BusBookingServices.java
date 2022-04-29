@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -11,6 +12,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.Model.BusBookingInfo;
 import com.example.Model.BusBookingModel;
 import com.example.dao.BusBookingDetailRepository;
 import com.example.dao.BusBookingRepository;
@@ -41,7 +43,6 @@ public class BusBookingServices {
 	public BusBooking addBusBooking(Map<String, Object> mpBusBooking){
 
         Long totalSeat= 40L;
-		Long bookedSeat =null;
 		Long bookingCount =0L;
 
 		try {
@@ -58,6 +59,10 @@ public class BusBookingServices {
             String paymentType = (String) mpBusBooking.get("paymentType");
             String paymentId = (String) mpBusBooking.get("paymentId");
             String paymentDate = (String) mpBusBooking.get("paymentDate");
+			List<String> passengerName = (List<String>) mpBusBooking.get("passengerName");
+			List<Long> passengerAge = (List<Long>) mpBusBooking.get("passengerAge");
+			Long noOfSeat = Long.parseLong((String) mpBusBooking.get("noOfSeat"));
+			String transactionId = (String) mpBusBooking.get("transactionId");
 
 			//    	Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(travelingDate);  
 
@@ -79,8 +84,10 @@ public class BusBookingServices {
 			Long avaliableSeat =totalSeat- bookingSeat;
             
             if(busBooking!=null) {
-//				busBookingDetails = busBooking.getBusBookingDetails();
+			//	busBookingDetails = busBooking.getBusBookingDetails();
 				BusBookingDetail bookingDetail  = new BusBookingDetail();
+				BusBookingInfo bookingInfo = new BusBookingInfo(passengerName, passengerAge, noOfSeat, transactionId);
+
 				bookingDetail.setSeatNumber(seatNumber);
 				bookingDetail.setCustomerId(customer.get());
 				busBookingDetails.add(bookingDetail);
@@ -90,11 +97,20 @@ public class BusBookingServices {
                 bookingDetail.setPaymentType(paymentType);
                 bookingDetail.setPaymentId(paymentId);
 
-//				busBooking.setBusBookingDetails(busBookingDetails);
-
+				
+				//	busBooking.setBusBookingDetails(busBookingDetails);
+				
                 busBooking.setTotalSeat(totalSeat);
                 busBooking.setAvaliableSeat(avaliableSeat);
                 busBooking.setBookingSeat(bookingSeat);
+
+				List<BusBookingInfo> list =new  ArrayList<>();
+				List<BusBookingDetail> list1 = new ArrayList<>();
+
+				list.forEach(e->{
+
+					
+				});
 
 				busBookingRepository.save(busBooking);
 				busBookingDetailRepository.save(bookingDetail);
@@ -118,7 +134,7 @@ public class BusBookingServices {
 		     	busBooking.setAvaliableSeat(avaliableSeat);
                  busBooking.setBookingSeat(bookingSeat);
 
-//				busBooking.setBusBookingDetails(busBookingDetails);
+			//	busBooking.setBusBookingDetails(busBookingDetails);
 				busBookingRepository.save(busBooking);
 				busBookingDetailRepository.save(bookingDetail);
 				
@@ -160,19 +176,43 @@ public class BusBookingServices {
 	}
 
 	// Get All BusBooking
-	public List<BusBookingModel> getBusBooking()
+	public Map<String, Object> getBusBooking()
 	{
 
 		List<BusBookingModel> list =null;
+
+		Map<String, Object> map = new HashMap<>();
 		try {
 
+			
+		
 			list = busBookingRepository.findData();
+
+			list.forEach(e->{
+
+				map.put("bookingDate", e.getBookingDate());
+				map.put("bookingNumber", e.getBookingNumber());
+				map.put("totalSeat",e.getTotalSeat());
+				map.put("bookingSeat", e.getBookingSeat());
+				map.put("avaliableSeat", e.getAvaliableSeat());
+				map.put("travelingDate", e.getTravelingDate());
+				map.put("source", e.getSource());
+				map.put("destination", e.getDestination());
+				map.put("totalKm", e.getTotalKm());
+				map.put("busDepartureTime", e.getBusDepartureTime());
+				map.put("busArrivalTime", e.getBusArrivalTime());
+				map.put("busDepoName", e.getBusDepoName());
+				map.put("busDepoAddress", e.getBusDepoAddress());
+				map.put("cityName",e.getCityName());
+				map.put("districtName", e.getDistrictName());
+				map.put("stateName", e.getStateName());
+			});
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(e);
 		}
-		return list;
+		return map;
 	}
 
 

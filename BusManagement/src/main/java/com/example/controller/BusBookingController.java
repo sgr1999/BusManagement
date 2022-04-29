@@ -38,9 +38,9 @@ public class BusBookingController {
 
     // Get BusBooking Details
     @GetMapping("/getBooking" )
-    public ResponseEntity<List<BusBookingModel>> getBusBooking(){
+    public ResponseEntity<Map<String, Object>> getBusBooking(){
 
-       List<BusBookingModel> list =null;
+        Map<String, Object> list =null;
         try {
 
             list= busBookingServices.getBusBooking();

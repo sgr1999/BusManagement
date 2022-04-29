@@ -34,6 +34,25 @@ public class BusRouteBookingLocation extends Auditable<String>{
     @Column(name = "booking_allowed")
     private String bookingAllowed;
 
+
+    
+    public BusRouteBookingLocation(Long busRouteBookingLocationId, BusDepoRoute busDepoRouteId, City cityId,
+            String arrivalTime, String routeSequence, String bookingAllowed) {
+        BusRouteBookingLocationId = busRouteBookingLocationId;
+        this.busDepoRouteId = busDepoRouteId;
+        this.cityId = cityId;
+        this.arrivalTime = arrivalTime;
+        this.routeSequence = routeSequence;
+        this.bookingAllowed = bookingAllowed;
+    }
+
+
+    
+    public BusRouteBookingLocation() {
+    }
+
+
+
     public Long getBusRouteBookingLocationId() {
         return BusRouteBookingLocationId;
     }

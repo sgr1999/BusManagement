@@ -1,5 +1,8 @@
 package com.example.entites;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,35 +17,49 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+
 @Entity
 @Table(name = "bus_booking_detail")
-public class BusBookingDetail extends Auditable<String>{
-    
+public class BusBookingDetail extends Auditable<String> {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "bus_booking_detail_id")
     private Long id;
 
     // here is my problem
-//    @OneToMany(targetEntity = BusBookingDetail.class,fetch = FetchType.LAZY)
-//    @JoinColumn(name = "bus_booking_id")
-//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-//    private List<BusBooking> busBookingId = new ArrayList<>();
+    // @OneToMany(targetEntity = BusBookingDetail.class,fetch = FetchType.LAZY)
+    // @JoinColumn(name = "bus_booking_id")
+    // @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    // private List<BusBooking> busBookingId = new ArrayList<>();
 
-//    @JoinColumn(name = "bus_booking_id")
-//   	@JsonIgnore
-//   	@ManyToOne(fetch = FetchType.LAZY)
-//   	private BusBooking busBooking;
-    
+    // @JoinColumn(name = "bus_booking_id")
+    // @JsonIgnore
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // private BusBooking busBooking;
+
+    // Adding the name
     @ManyToOne
-    //Adding the name
+    // @JsonBackReference
+    // @JsonIgnoreProperties(value = {"referenceList",
+    // "handler","hibernateLazyInitializer"}, allowSetters = true)
     @JoinColumn(name = "bus_booking_id")
     BusBooking busBooking;
-    
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     private Customer customerId;
+
+    @Column(name = "passenger_name")
+    private String passengerName;
+
+    @Column(name = "passenger_age")
+    private Long passengerAge;
+    
+
+    @Column(name = "transaction_id")
+    private String transactionId;
 
     @Column(name = "seat_number")
     private String seatNumber;
@@ -54,7 +71,7 @@ public class BusBookingDetail extends Auditable<String>{
     private String paymentId;
 
     @Column(name = "payment_amount")
-    private long paymentAmount;
+    private Long paymentAmount;
 
     @Column(name = "payment_type")
     private String paymentType;
@@ -63,24 +80,60 @@ public class BusBookingDetail extends Auditable<String>{
     private String status;
 
 
+    
+    
 
-//    public List<BusBooking> getBusBookingId() {
-//        return busBookingId;
-//    }
-//
-//    public void setBusBookingId(List<BusBooking> busBookingId) {
-//        this.busBookingId = busBookingId;
-//    }
+    public BusBookingDetail(Long id, BusBooking busBooking, Customer customerId, String passengerName,
+            Long passengerAge, String seatNumber, String paymentDate, String paymentId, Long paymentAmount,
+            String paymentType, String status) {
+        this.id = id;
+        this.busBooking = busBooking;
+        this.customerId = customerId;
+        this.passengerName = passengerName;
+        this.passengerAge = passengerAge;
+        this.seatNumber = seatNumber;
+        this.paymentDate = paymentDate;
+        this.paymentId = paymentId;
+        this.paymentAmount = paymentAmount;
+        this.paymentType = paymentType;
+        this.status = status;
+    }
+
+    
+
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+
+
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
+    }
+
+
+
+    public BusBookingDetail() {
+    }
+
 
     public Long getId() {
-		return id;
-	}
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public Customer getCustomerId() {
+    public BusBooking getBusBooking() {
+        return busBooking;
+    }
+
+    public void setBusBooking(BusBooking busBooking) {
+        this.busBooking = busBooking;
+    }
+
+    public Customer getCustomerId() {
         return customerId;
     }
 
@@ -88,13 +141,35 @@ public class BusBookingDetail extends Auditable<String>{
         this.customerId = customerId;
     }
 
+    public String getPassengerName() {
+        return passengerName;
+    }
+
+
+    public void setPassengerName(String passengerName) {
+        this.passengerName = passengerName;
+    }
+
+
+    public Long getPassengerAge() {
+        return passengerAge;
+    }
+
+
+    public void setPassengerAge(Long passengerAge) {
+        this.passengerAge = passengerAge;
+    }
+
+
     public String getSeatNumber() {
         return seatNumber;
     }
 
+
     public void setSeatNumber(String seatNumber) {
         this.seatNumber = seatNumber;
     }
+
 
     public String getPaymentDate() {
         return paymentDate;
@@ -112,11 +187,11 @@ public class BusBookingDetail extends Auditable<String>{
         this.paymentId = paymentId;
     }
 
-    public long getPaymentAmount() {
+    public Long getPaymentAmount() {
         return paymentAmount;
     }
 
-    public void setPaymentAmount(long paymentAmount) {
+    public void setPaymentAmount(Long paymentAmount) {
         this.paymentAmount = paymentAmount;
     }
 
@@ -136,20 +211,6 @@ public class BusBookingDetail extends Auditable<String>{
         this.status = status;
     }
 
-    public BusBooking getBusBooking() {
-		return busBooking;
-	}
-
-	public void setBusBooking(BusBooking busBooking) {
-		this.busBooking = busBooking;
-	}
-
-    @Override
-    public String toString() {
-        return "BusBookingDetail [busBooking=" + busBooking + ", customerId=" + customerId + ", id=" + id
-                + ", paymentAmount=" + paymentAmount + ", paymentDate=" + paymentDate + ", paymentId=" + paymentId
-                + ", paymentType=" + paymentType + ", seatNumber=" + seatNumber + ", status=" + status + "]";
-    }
-
-
+    
+    
 }

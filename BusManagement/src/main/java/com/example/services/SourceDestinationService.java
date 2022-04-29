@@ -1,7 +1,9 @@
 package com.example.services;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.example.Model.SourceDestinationModel;
 import com.example.dao.SourceDestinationRepository;
@@ -31,19 +33,31 @@ public class SourceDestinationService {
     }
 
     // Get All SourceDestination
-    public List<SourceDestinationModel> getSource()
+    public Map<String, Object> getSource()
     {
       
         List<SourceDestinationModel> list =new ArrayList<>();
+
+        Map<String, Object> map = new HashMap<>();
+
         try {
             
             list = sourceDestinationRepository.findData();
     
+            list.forEach(e->{
+
+                map.put("cityCode", e.getCityCode());
+                map.put("cityName", e.getCityName());
+                map.put("districtCode",e.getDistrictCode());
+                map.put("districtName", e.getDistrictName());
+                map.put("stateCode",e.getStateCode());
+                map.put("stateName", e.getStateName());
+            });
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
         }
-        return list;
+        return map;
     }
 
     // Get SourceDestination By Id

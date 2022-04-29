@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import com.example.Model.SourceDestinationModel;
 import com.example.entites.SourceDestination;
@@ -38,9 +39,9 @@ public class SourceDestinationController {
 
      // Get SourceDestination Details
      @GetMapping("/getSourceDestination" )
-     public ResponseEntity<List<SourceDestinationModel>> getSource(){
+     public ResponseEntity<Map<String, Object>> getSource(){
  
-        List<SourceDestinationModel> list =null;
+        Map<String, Object> list =null;
          try {
 
              list= sourceDestinationService.getSource();
