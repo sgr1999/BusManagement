@@ -1,10 +1,15 @@
 package com.example.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import com.example.Model.BusBookingInfo;
 import com.example.Model.BusBookingModel;
 import com.example.entites.BusBooking;
+import com.example.entites.BusBookingDetail;
 import com.example.services.BusBookingServices;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +29,37 @@ public class BusBookingController {
     //Add BusBooking Details
     @PostMapping("/addBooking")
     public ResponseEntity<BusBooking> addBusBooking(@RequestBody Map<String, Object> mpBusBooking){
+
+        BusBooking addBusDepo = null;
         try {
 
-            BusBooking addBusDepo = busBookingServices.addBusBooking(mpBusBooking);
-            System.out.println(addBusDepo);
+            String passengerName = (String) mpBusBooking.get("passengerName");
+            String passengerAge = (String) mpBusBooking.get("passengerAge");
+            String seatNumber = (String) mpBusBooking.get("seatNumber");
+            String[] str = passengerName.split("[,]");
+            String[] str1 = passengerAge.split("[,]");
+            String[] seat = seatNumber.split("[,]");
+        
+           
+            BusBookingDetail busBookingDetail = new BusBookingDetail();
+            busBookingDetail.setTransactionId(UUID.randomUUID().toString().toUpperCase().split("-")[0]);
+            busBookingDetail.setPaymentId(UUID.randomUUID().toString().split("-")[0]);
+
+            int c = 0;
+            for(String passenger : str){
+
+                Long age = Long.parseLong(str1[c].trim());
+                Long seatN = Long.parseLong(seat[c].trim());
+                System.out.println("passenger : "+passengerName+"  "+age);
+              busBookingDetail.setPassengerAge(age);
+              busBookingDetail.setSeatNumber(seatN);
+              busBookingDetail.setPassengerName(passenger.trim());
+             addBusDepo = busBookingServices.addBusBooking(mpBusBooking,busBookingDetail);
+             c++;
+            }
+
+           
+   
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(addBusDepo);
         } catch (Exception e) {
             e.printStackTrace();

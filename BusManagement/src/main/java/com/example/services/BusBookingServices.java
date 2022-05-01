@@ -8,7 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.random.RandomGenerator;
 
+import org.hibernate.id.UUIDHexGenerator;
+import org.hibernate.type.UUIDBinaryType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +26,12 @@ import com.example.entites.BusBooking;
 import com.example.entites.BusBookingDetail;
 import com.example.entites.BusDepoRoute;
 import com.example.entites.Customer;
+import com.fasterxml.jackson.databind.ser.std.UUIDSerializer;
 
 @Service
 public class BusBookingServices {
+
+	private static final String UUIDSerializer = null;
 
 	@Autowired
 	private BusBookingRepository busBookingRepository;
@@ -40,7 +47,7 @@ public class BusBookingServices {
 
 
 	// Add BusBooking Details
-	public BusBooking addBusBooking(Map<String, Object> mpBusBooking){
+	public BusBooking addBusBooking(Map<String, Object> mpBusBooking, BusBookingDetail detail){
 
         Long totalSeat= 40L;
 		Long bookingCount =0L;
@@ -54,23 +61,28 @@ public class BusBookingServices {
 			String travelingDate = (String) mpBusBooking.get("travelingDate");
 			Long busDepoRouteId =  Long.parseLong((String)mpBusBooking.get("busDepoRouteId"));
 			Long customerId= Long.parseLong((String)mpBusBooking.get("customerId"));
-			String seatNumber= (String) mpBusBooking.get("seatNumber");
+			//String seatNumber= (String) mpBusBooking.get("seatNumber");
             Long paymentAmount = Long.parseLong((String)mpBusBooking.get("paymentAmount"));
             String paymentType = (String) mpBusBooking.get("paymentType");
-            String paymentId = (String) mpBusBooking.get("paymentId");
+            String paymentId = detail.getPaymentId();
             String paymentDate = (String) mpBusBooking.get("paymentDate");
-			List<String> passengerName = (List<String>) mpBusBooking.get("passengerName");
-			List<Long> passengerAge = (List<Long>) mpBusBooking.get("passengerAge");
-			Long noOfSeat = Long.parseLong((String) mpBusBooking.get("noOfSeat"));
-			String transactionId = (String) mpBusBooking.get("transactionId");
+
+		   // Passenger Details Logic
+			String passengerName = detail.getPassengerName();
+			Long passengerAge = detail.getPassengerAge();
+			Long seatNumber = detail.getSeatNumber();
+			String transactionId = detail.getTransactionId();
+
 
 			//    	Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(travelingDate);  
-
 			Optional<Customer> customer = customerRepository.findById(customerId);
 			Optional<BusDepoRoute> busDepoRoute = busDepoRouteRepository.findById(busDepoRouteId);
 			Date travellingDate = dateFormat.parse(travelingDate);
             Date paymentDate1 = dateFormat.parse(paymentDate);
 			BusBooking busBooking = busBookingRepository.findByBusDepoRouteIdAndTravelingDate(busDepoRoute.get(), travelingDate);
+			
+			
+
 			
 
             // Logic of booking Seats
@@ -86,9 +98,9 @@ public class BusBookingServices {
             if(busBooking!=null) {
 			//	busBookingDetails = busBooking.getBusBookingDetails();
 				BusBookingDetail bookingDetail  = new BusBookingDetail();
-				BusBookingInfo bookingInfo = new BusBookingInfo(passengerName, passengerAge, noOfSeat, transactionId);
+				
 
-				bookingDetail.setSeatNumber(seatNumber);
+				
 				bookingDetail.setCustomerId(customer.get());
 				busBookingDetails.add(bookingDetail);
 				bookingDetail.setBusBooking(busBooking);
@@ -96,24 +108,30 @@ public class BusBookingServices {
                 bookingDetail.setPaymentDate(paymentDate);
                 bookingDetail.setPaymentType(paymentType);
                 bookingDetail.setPaymentId(paymentId);
+				bookingDetail.setTransactionId(transactionId);
 
-				
+				bookingDetail.setPassengerName(passengerName);
+				bookingDetail.setPassengerAge(passengerAge);
+				bookingDetail.setSeatNumber(seatNumber);
 				//	busBooking.setBusBookingDetails(busBookingDetails);
 				
                 busBooking.setTotalSeat(totalSeat);
                 busBooking.setAvaliableSeat(avaliableSeat);
                 busBooking.setBookingSeat(bookingSeat);
+				
+				
+				
+				
+			
+				
 
-				List<BusBookingInfo> list =new  ArrayList<>();
-				List<BusBookingDetail> list1 = new ArrayList<>();
+				
+					busBookingRepository.save(busBooking);
+					busBookingDetailRepository.save(bookingDetail);
+				
+		
 
-				list.forEach(e->{
-
-					
-				});
-
-				busBookingRepository.save(busBooking);
-				busBookingDetailRepository.save(bookingDetail);
+			//	busBookingDetailRepository.save(bookingDetail);
 
               
                
@@ -125,7 +143,7 @@ public class BusBookingServices {
                 busBooking.setBookingDate(bookingDate);
 				
 				BusBookingDetail bookingDetail  = new BusBookingDetail();
-				bookingDetail.setSeatNumber(seatNumber);
+				
 				bookingDetail.setCustomerId(customer.get());
 				bookingDetail.setBusBooking(busBooking);
 				busBookingDetails.add(bookingDetail);
@@ -142,7 +160,10 @@ public class BusBookingServices {
 			return busBooking;
 		} catch (ParseException e) {
 			e.printStackTrace();
+			
 		}
+
+		
 
 		return null;
 	}

@@ -61,8 +61,8 @@ public class BusBookingDetail extends Auditable<String> {
     @Column(name = "transaction_id")
     private String transactionId;
 
-    @Column(name = "seat_number")
-    private String seatNumber;
+    @Column(name = "seat_number", unique = true)
+    private Long seatNumber;
 
     @Column(name = "payment_date")
     private String paymentDate;
@@ -83,21 +83,6 @@ public class BusBookingDetail extends Auditable<String> {
     
     
 
-    public BusBookingDetail(Long id, BusBooking busBooking, Customer customerId, String passengerName,
-            Long passengerAge, String seatNumber, String paymentDate, String paymentId, Long paymentAmount,
-            String paymentType, String status) {
-        this.id = id;
-        this.busBooking = busBooking;
-        this.customerId = customerId;
-        this.passengerName = passengerName;
-        this.passengerAge = passengerAge;
-        this.seatNumber = seatNumber;
-        this.paymentDate = paymentDate;
-        this.paymentId = paymentId;
-        this.paymentAmount = paymentAmount;
-        this.paymentType = paymentType;
-        this.status = status;
-    }
 
     
 
@@ -146,9 +131,12 @@ public class BusBookingDetail extends Auditable<String> {
     }
 
 
+  
+
     public void setPassengerName(String passengerName) {
         this.passengerName = passengerName;
     }
+
 
 
     public Long getPassengerAge() {
@@ -161,14 +149,19 @@ public class BusBookingDetail extends Auditable<String> {
     }
 
 
-    public String getSeatNumber() {
+   
+
+
+    public Long getSeatNumber() {
         return seatNumber;
     }
 
 
-    public void setSeatNumber(String seatNumber) {
+
+    public void setSeatNumber(Long seatNumber) {
         this.seatNumber = seatNumber;
     }
+
 
 
     public String getPaymentDate() {
