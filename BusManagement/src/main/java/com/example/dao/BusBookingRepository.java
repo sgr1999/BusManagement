@@ -9,11 +9,18 @@ import com.example.entites.BusDepoRoute;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface BusBookingRepository extends JpaRepository<BusBooking, Long>{
     
-    @Query("select b.bookingSeat from BusBooking b")
-    public Long findBookingSeats();
+
+    
+
+    @Query("select bb.id from BusBooking bb , BusDepoRoute bdr where bdr.busDepoRouteId = :id")
+    public Long findBookingId(@Param("id") Long id);
+
+    @Query("select count(bbd.seatNumber) from BusBooking bb , BusBookingDetail bbd where bb.id = :id")
+    public Long findBookingSeats(@Param("id") Long id);
 
     BusBooking findByBusDepoRouteIdAndTravelingDate(BusDepoRoute busDepoRoute, String travelingDate);
 

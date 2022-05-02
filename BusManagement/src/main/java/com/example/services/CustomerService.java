@@ -7,6 +7,7 @@ import com.example.dao.CustomerRepository;
 import com.example.entites.Customer;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,14 +23,18 @@ public class CustomerService {
         Customer add = null;
         try{
 
-             add = customerRepository.save(customer);       
+             add = customerRepository.save(customer);  
+             return add;    
+        }
+        catch(DataIntegrityViolationException e1){
+            System.out.println("UserName Already exist in database");
+
         }
         catch(Exception e){
             e.printStackTrace();
             System.out.println(e);
-            
         }
-        return add;
+        return null;
     }
 
     // Get All Customer 
@@ -93,16 +98,16 @@ public class CustomerService {
     }
 
      // Delete Customer By id
-     public Customer deleteCustomerById(Long id){
-        Customer cc=null;
+     public void deleteCustomerById(Long id){
+        
         try{
-          cc =  customerRepository.getById(id);
+          
             customerRepository.deleteById(id);      
        }
        catch(Exception e){
            e.printStackTrace();
           
        }
-       return cc;
+       
     }
 }

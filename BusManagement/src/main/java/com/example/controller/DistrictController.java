@@ -2,6 +2,9 @@ package com.example.controller;
 
 import java.util.*;
 
+import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
+
 import com.example.Model.DistrictModel;
 import com.example.entites.*;
 import com.example.services.DistrictService;
@@ -22,12 +25,18 @@ public class DistrictController {
 
      // Add District
      @PostMapping("/addDistrict" )
-     public ResponseEntity<District> addDis(@RequestBody District district){
+     public ResponseEntity<District> addDis(@Valid @RequestBody Map<String,Object> mpDistrict){
  
          try {
  
-            District add = districtService.addDistrict(district);
-             return ResponseEntity.status(HttpStatus.CREATED).body(add);
+            District add = districtService.addDistrict(mpDistrict);
+
+            if (add != null) {
+                return ResponseEntity.status(HttpStatus.CREATED).build();
+            }
+            else{
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
          } catch (Exception e) {
              e.printStackTrace();
              return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -61,7 +70,13 @@ public class DistrictController {
         try {
 
             DistrictModel addDistrict = districtService.getDistrictById(id);
-            return ResponseEntity.status(HttpStatus.OK).body(addDistrict); 
+
+            if(addDistrict !=null){
+                return ResponseEntity.status(HttpStatus.OK).body(addDistrict); 
+            }
+            else{
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -76,7 +91,13 @@ public class DistrictController {
         try {
 
             District addDistrict = districtService.updateDistrictById(district,id);
-            return ResponseEntity.status(HttpStatus.OK).body(addDistrict); 
+
+            if (addDistrict != null) {
+                return ResponseEntity.status(HttpStatus.OK).build(); 
+            }
+            else{
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -88,10 +109,18 @@ public class DistrictController {
     public ResponseEntity<District> deleteDistrictById(@PathVariable("id") Long id){
 
         try {
+            District add = districtService.deleteDistrictById(id);
 
-            District addDistrict = districtService.deleteDistrictById(id);
-            return ResponseEntity.status(HttpStatus.OK).body(addDistrict); 
-        } catch (Exception e) {
+                System.out.println(" =-------------"+add);
+               return ResponseEntity.status(HttpStatus.OK).build(); 
+           
+          
+        } 
+        catch(EntityNotFoundException e1){
+            System.out.println("district id does not exist in table");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+        catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

@@ -1,6 +1,9 @@
 package com.example.entites;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "customer")
@@ -12,22 +15,34 @@ public class Customer extends Auditable<String>{
 	private Long customerId;
 
 	@Column(name = "first_name")
+	@NotEmpty
+	@Size(min=2, message = "First name should have at least 2 characters")
 	private String firstName;
 
+	@NotEmpty
+	@Size(min=2, message = "Last name should have at least 2 characters")
 	@Column(name = "last_name")
 	private String lastName;
 
-	@Column(name = "user_name")
+	@NotEmpty
+	@Email(message = "Check user name properly")
+	@Column(name = "user_name", unique = true)
 	private String userName;
 
+	@NotEmpty
+	@Size(min=8, message = "Password should have at least 8 characters")
 	@Column(name = "password")
 	private String password;
 
 	@Column(name = "mobile_number")
+	@NotEmpty
+	@Size(min=10, max = 10, message = "Enter Correct mobile number in 10 digits")
 	private String mobileNumber;
 
+	@NotEmpty
 	@Column(name = "gender")
 	private String gender;
+
 
 	@Column(name = "age")
 	private Long age;

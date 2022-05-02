@@ -1,6 +1,10 @@
 package com.example.controller;
 
 import java.util.List;
+import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 
 import com.example.entites.State;
 import com.example.services.StateService;
@@ -26,12 +30,18 @@ public class StateController {
 
     // Add State
     @PostMapping("/addState" )
-    public ResponseEntity<State> addState(@RequestBody State state){
+    public ResponseEntity<State> addState(@Valid @RequestBody State state){
 
         try {
 
            State add = stateService.addState(state);
-            return ResponseEntity.status(HttpStatus.CREATED).body(add);
+
+           if(add != null){
+               return ResponseEntity.status(HttpStatus.CREATED).body(add);
+           }
+           else{
+            return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).build();
+           }
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -60,14 +70,25 @@ public class StateController {
 
 
       // Get State By Id
-    @GetMapping("/getState/{id}" )
+    @GetMapping("/getState/{id}")
     public ResponseEntity<State> getStateById(@PathVariable("id") Long id){
 
         try {
 
            State add = stateService.getStateById(id);
-            return ResponseEntity.status(HttpStatus.CREATED).body(add);
-        } catch (Exception e) {
+           System.out.println(add);
+           if(add != null){
+               return ResponseEntity.status(HttpStatus.CREATED).body(add);
+           }
+           else{
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+           }
+        } 
+        catch(EntityNotFoundException e1){
+            System.out.println("State id not found in database");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+        catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -85,8 +106,12 @@ public class StateController {
 
              add.setStateCode(state.getStateCode());
              add.setStateName(state.getStateName());
-              return ResponseEntity.status(HttpStatus.CREATED).body(add);
-          } catch (Exception e) {
+              return ResponseEntity.status(HttpStatus.OK).body(add);
+          }
+          catch(EntityNotFoundException e1){
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+          } 
+          catch (Exception e) {
               e.printStackTrace();
               System.out.println(e);
               return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -99,8 +124,13 @@ public class StateController {
 
         try {
 
-           State add = stateService.deleteStateById(id);
-            return ResponseEntity.status(HttpStatus.CREATED).body(add);
+           Optional<State> list = stateService.deleteStateById(id);
+           if(!list.isEmpty()){
+               return ResponseEntity.status(HttpStatus.OK).build();
+           }
+           else{
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+           }
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);

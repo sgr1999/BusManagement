@@ -2,6 +2,8 @@ package com.example.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.example.entites.BusBookingDetail;
 import com.example.services.BusBookingDetailService;
 
@@ -26,7 +28,7 @@ public class BusBookingDetailController {
 
     //Add BusBookingDetail Details
     @PostMapping("/addBookingDetail")
-    public ResponseEntity<BusBookingDetail> addBusDepo(@RequestBody BusBookingDetail busBookingDetail){
+    public ResponseEntity<BusBookingDetail> addBusDepo(@Valid @RequestBody BusBookingDetail busBookingDetail){
 
         try {
 

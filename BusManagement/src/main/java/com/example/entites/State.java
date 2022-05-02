@@ -6,9 +6,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "state")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class State extends Auditable<String>{
     
     @Id
@@ -16,10 +20,12 @@ public class State extends Auditable<String>{
     @Column(name = "state_id")
     private Long stateId;
 
-    @Column(name = "state_code")
+    @NotBlank(message = "State code can not be empty")
+    @Column(name = "state_code" ,unique = true)
     private String stateCode;
 
-    @Column(name = "state_name")
+    @NotBlank(message = "State name can not be empty")
+    @Column(name = "state_name" ,unique = true)
     private String stateName;
 
     public Long getStateId() {

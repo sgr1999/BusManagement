@@ -3,6 +3,8 @@ package com.example.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import com.example.entites.Employee;
 import com.example.services.EmployeeService;
 
@@ -29,15 +31,21 @@ public class EmployeeController {
 
     // Add Employee
     @PostMapping("/addEmployee" )
-    public ResponseEntity<Employee> addEmp(@RequestBody final Employee emp){
+    public ResponseEntity<Employee> addEmp(@Valid @RequestBody final Employee emp){
 
         try {
             
             
             Employee add = employeeService.addEmp(emp);
+
+            if (add != null) {
+                
+                return ResponseEntity.status(HttpStatus.CREATED).body(add);
+            }else{
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
             
-            return ResponseEntity.status(HttpStatus.CREATED).body(add);
-        } catch (final Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

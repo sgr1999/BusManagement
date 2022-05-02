@@ -1,11 +1,16 @@
 package com.example.services;
 
 import java.util.List;
+import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
 
 import com.example.dao.StateRepository;
 import com.example.entites.State;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,14 +23,20 @@ public class StateService {
     //Add State 
     public State addState(State state)
     {
+        State save = null;
         try {
             
-            State save = stateRepository.save(state);
-            System.out.println(save);
-        } catch (Exception e) {
-            
+           save = stateRepository.save(state);
+           
         }
-        return state;
+        catch(DataIntegrityViolationException e1){
+            System.out.println("State Code or State Name check properly data alredy does exist in database");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
+        return save;
     }
 
     // Get All State
@@ -35,7 +46,7 @@ public class StateService {
         List<State> list =null;
         try {
             
-            list = stateRepository.getAllState();
+            list = stateRepository.findAll();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
@@ -51,11 +62,16 @@ public class StateService {
         try {
             
             list = stateRepository.getById(id);
-        } catch (Exception e) {
+            return list;
+        } 
+        catch(EntityNotFoundException e1){
+            System.out.println("State id not found in database");
+        }
+        catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
         }
-        return list;
+        return null;
     }
 
      // Update State By Id
@@ -68,7 +84,13 @@ public class StateService {
              list = stateRepository.getById(id);
              list.setStateCode(state.getStateCode());
              list.setStateName(state.getStateName());
-         } catch (Exception e) {
+
+             stateRepository.save(list);
+         } 
+         catch(EntityNotFoundException e){
+             System.out.println("State Id not present in database");
+         }
+         catch (Exception e) {
              e.printStackTrace();
              System.out.println(e);
          }
@@ -76,15 +98,24 @@ public class StateService {
      }
 
       // Delete State By Id
-    public State deleteStateById(Long id)
+    public Optional<State> deleteStateById(Long id)
     {
-      
-        State list =null;
+        Optional<State> list=null;
         try {
-            
+        list = stateRepository.findById(id);
+
+        if(!list.isEmpty()){
+
             stateRepository.deleteById(id);
-            list = stateRepository.getById(id);
-        } catch (Exception e) {
+        }else{
+            throw new Exception("State Id not present in database");
+        }
+           
+        } 
+        catch(EmptyResultDataAccessException e1){
+            System.out.println("--state Id does not exist in database--");
+        }
+        catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
         }

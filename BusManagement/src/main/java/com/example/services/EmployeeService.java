@@ -6,6 +6,7 @@ import com.example.dao.EmployeeRepository;
 import com.example.entites.Employee;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,8 +18,20 @@ public class EmployeeService {
     // Add Employee
     public Employee addEmp(Employee emp){
 
-        Employee save = employeeRepository.save(emp);
-        System.out.println(save);
+        Employee save = null;
+        try {
+            
+            save = employeeRepository.save(emp);
+            System.out.println(save);
+        } 
+        catch(DataIntegrityViolationException e1){
+            System.out.println("UserName Already exist in database");
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
         return save;
     }
 

@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -31,12 +33,14 @@ public class BusBooking extends Auditable<String>{
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "busdepo_route_id")
+	@NotEmpty(message = "BusDepoRoute Id can not be null")
 	private BusDepoRoute busDepoRouteId;
 
-//	@OneToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "busroute_busdetail_id")
-//	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-//	private BusRouteBusDetail busRouteBusDetailId;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "busroute_busdetail_id")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	@NotEmpty(message = "BusRouteBusDetail Id can not be null")
+	private BusRouteBusDetail busRouteBusDetailId;
 
 //	@OneToMany(mappedBy = "busBooking")
 //	private List<BusBookingDetail> busBookingDetails;
@@ -71,12 +75,12 @@ public class BusBooking extends Auditable<String>{
 	}
 
 
-//	public BusRouteBusDetail getBusRouteBusDetailId() {
-//		return busRouteBusDetailId;
-//	}
-//	public void setBusRouteBusDetailId(BusRouteBusDetail busRouteBusDetailId) {
-//		this.busRouteBusDetailId = busRouteBusDetailId;
-//	}
+	public BusRouteBusDetail getBusRouteBusDetailId() {
+		return busRouteBusDetailId;
+	}
+	public void setBusRouteBusDetailId(BusRouteBusDetail busRouteBusDetailId) {
+		this.busRouteBusDetailId = busRouteBusDetailId;
+	}
 
 
 	public String getBookingDate() {

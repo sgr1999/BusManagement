@@ -3,10 +3,14 @@ package com.example.controller;
 
 import java.util.List;
 
+import javax.persistence.Cache;
+import javax.validation.Valid;
+
 import com.example.entites.Customer;
 import com.example.services.CustomerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,14 +34,21 @@ public class CustomerController {
 
     // Add Customer Details
     @PostMapping("/addCustomer")
-    public ResponseEntity<Customer> addCustomer(@RequestBody Customer customer){
+    public ResponseEntity<Customer> addCustomer(@Valid @RequestBody Customer customer){
 
         try {
 
             Customer add = customerService.addCustomer(customer);
-       
-            return ResponseEntity.status(HttpStatus.CREATED).body(add);
-        } catch (Exception e) {
+            
+            if(add !=null){
+
+                return ResponseEntity.status(HttpStatus.CREATED).body(add);
+            }
+            else{
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+        } 
+        catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
@@ -92,12 +103,12 @@ public class CustomerController {
   @DeleteMapping("/deleteCustomer/{id}")
   public ResponseEntity<Customer> deleteCustomer(@PathVariable("id") Long id){
 
-    Customer deleteCustomerById=null;
+
       try {
 
-        deleteCustomerById= customerService.deleteCustomerById(id);
+        customerService.deleteCustomerById(id);
      
-          return ResponseEntity.status(HttpStatus.OK).body(deleteCustomerById);
+          return ResponseEntity.status(HttpStatus.OK).build();
       } catch (Exception e) {
           e.printStackTrace();
           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

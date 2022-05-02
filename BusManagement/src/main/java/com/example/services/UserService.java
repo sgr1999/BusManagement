@@ -20,14 +20,15 @@ public class UserService {
         User add = null;
         try{
 
-             add = userRepository.save(user);       
+             add = userRepository.save(user);     
+             return add;  
         }
         catch(Exception e){
             e.printStackTrace();
             System.out.println(e);
             
         }
-        return add;
+        return null;
     }
 
     // Get All User 

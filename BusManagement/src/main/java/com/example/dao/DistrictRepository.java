@@ -15,9 +15,9 @@ public interface DistrictRepository extends JpaRepository<District,Long>{
     @Query("select d from District d")
     public List<District> getAll();
 
-    @Query("select new com.example.Model.DistrictModel(d.districtCode, d.districtName, s.stateCode, s.stateName) from District d, State s")
+    @Query("select new com.example.Model.DistrictModel(d.districtCode, d.districtName) from District d")
     public List<DistrictModel> getData();
 
-    @Query("select new com.example.Model.DistrictModel(d.districtCode, d.districtName, s.stateCode, s.stateName) from District d, State s where d.districtId = :id")
+    @Query("select new com.example.Model.DistrictModel(d.districtCode, d.districtName) from District d where d.districtId = :id")
     public DistrictModel getDataById(@Param("id") Long id);
 }

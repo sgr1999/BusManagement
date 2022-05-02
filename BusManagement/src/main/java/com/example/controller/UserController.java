@@ -2,6 +2,8 @@ package com.example.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.example.entites.User;
 import com.example.services.UserService;
 
@@ -26,13 +28,20 @@ public class UserController {
     
     // Add User Details
     @PostMapping("/addUser")
-    public ResponseEntity<User> addCustomer(@RequestBody User user){
+    public ResponseEntity<User> addCustomer(@Valid @RequestBody User user){
 
         try {
 
+        
             User add = userService.addUser(user);
+
+            if (add !=null) {
+                
+                return ResponseEntity.status(HttpStatus.CREATED).body(add);
+            }else{
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
        
-            return ResponseEntity.status(HttpStatus.CREATED).body(add);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

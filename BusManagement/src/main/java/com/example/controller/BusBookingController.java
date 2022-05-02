@@ -1,18 +1,16 @@
 package com.example.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import com.example.Model.BusBookingInfo;
-import com.example.Model.BusBookingModel;
+import javax.validation.Valid;
+
 import com.example.entites.BusBooking;
 import com.example.entites.BusBookingDetail;
 import com.example.services.BusBookingServices;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -28,9 +26,8 @@ public class BusBookingController {
 
     //Add BusBooking Details
     @PostMapping("/addBooking")
-    public ResponseEntity<BusBooking> addBusBooking(@RequestBody Map<String, Object> mpBusBooking){
+    public ResponseEntity<BusBooking> addBusBooking(@Valid @RequestBody Map<String, Object> mpBusBooking){
 
-        BusBooking addBusDepo = null;
         try {
 
             String passengerName = (String) mpBusBooking.get("passengerName");
@@ -40,28 +37,39 @@ public class BusBookingController {
             String[] str1 = passengerAge.split("[,]");
             String[] seat = seatNumber.split("[,]");
         
+            if (str.length != str1.length || str.length != seat.length) {
+                
+                throw new Exception("check field , Name , Age , SeatNumber have to same for per person");
+            }
            
             BusBookingDetail busBookingDetail = new BusBookingDetail();
             busBookingDetail.setTransactionId(UUID.randomUUID().toString().toUpperCase().split("-")[0]);
             busBookingDetail.setPaymentId(UUID.randomUUID().toString().split("-")[0]);
 
+           
             int c = 0;
+            
             for(String passenger : str){
 
                 Long age = Long.parseLong(str1[c].trim());
                 Long seatN = Long.parseLong(seat[c].trim());
                 System.out.println("passenger : "+passengerName+"  "+age);
-              busBookingDetail.setPassengerAge(age);
-              busBookingDetail.setSeatNumber(seatN);
-              busBookingDetail.setPassengerName(passenger.trim());
-             addBusDepo = busBookingServices.addBusBooking(mpBusBooking,busBookingDetail);
+             
+             busBookingDetail.setPassengerAge(age);
+             busBookingDetail.setSeatNumber(seatN);
+             busBookingDetail.setPassengerName(passenger.trim());
+             busBookingServices.addBusBooking(mpBusBooking,busBookingDetail);
              c++;
-            }
 
-           
+            }   
    
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(addBusDepo);
-        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+        } 
+        catch(DataIntegrityViolationException e1){
+            System.out.println("bus seat already booked , Select other seatNumber");
+			return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).build();
+        }
+        catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

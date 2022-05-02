@@ -12,6 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.example.Model.DistrictModel;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -25,15 +29,17 @@ public class District extends Auditable<String>{
     @Column(name = "district_id")
     private Long districtId;
 
-    @Column(name = "district_code")
+    @NotNull(message = "district code can not be null")
+    @Column(name = "district_code" , unique = true)
     private Long districtCode;
 
-    @Column(name = "district_name")
+    @NotBlank(message = "district name is required")
+    @Column(name = "district_name" , unique = true)
     private String districtName;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "state_id")
-   // @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private State stateId;
 
     

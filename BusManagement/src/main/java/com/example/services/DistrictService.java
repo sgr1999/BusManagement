@@ -2,6 +2,10 @@ package com.example.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
 
 import com.example.Model.DistrictModel;
 import com.example.dao.DistrictRepository;
@@ -10,6 +14,7 @@ import com.example.entites.District;
 import com.example.entites.State;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,17 +29,41 @@ public class DistrictService {
 
 
     //Add District 
-    public District addDistrict(District district)
+    public District addDistrict(Map<String,Object> mpDistrict)
     {
+        District save = null;
         try {
+
+            Long districtCode = Long.parseLong((String)mpDistrict.get("districtCode"));
+            String districtName = (String) mpDistrict.get("districtName");
+            Long stateId = Long.parseLong((String)mpDistrict.get("stateId"));
+            Optional<State> stateId1 = stateRepository.findById(stateId);
             
-            District save = districtRepository.save(district);
-            System.out.println(save);
-        } catch (Exception e) {
+            
+
+            District district = new District();
+
+            district.setDistrictCode(districtCode);
+            district.setDistrictName(districtName);
+
+            if(!stateId1.isEmpty())
+            {
+                district.setStateId(stateId1.get());
+            }
+            else{
+                throw new Exception("state id does not exist in database");
+            }
+
+           save = districtRepository.save(district);
+        }
+        catch(DataIntegrityViolationException e1){
+            System.out.println("--District code or District name already does exist in database");
+        }
+        catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
         }
-        return district;
+        return save;
     }
 
     // Get All District
@@ -63,6 +92,8 @@ public class DistrictService {
         try {
             
             list = districtRepository.getDataById(id);
+
+            System.out.println("--------------------"+list);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
@@ -80,12 +111,20 @@ public class DistrictService {
              list.setDistrictCode(district.getDistrictCode());
              list.setDistrictName(district.getDistrictName());
 
-             districtRepository.save(list);
-         } catch (Exception e) {
+      
+                 
+                 list=  districtRepository.save(list);
+            
+          return list;
+         } 
+         catch(EntityNotFoundException e1){
+             System.out.println("--district id not present in database please check it properly");
+         }
+         catch (Exception e) {
              e.printStackTrace();
              System.out.println(e);
          }
-         return list;
+         return null;
      }
 
      //Delete By Id
@@ -93,9 +132,8 @@ public class DistrictService {
 
        District byId = null;
        try{
-           districtRepository.deleteById(id);
            byId = districtRepository.getById(id);
-
+           districtRepository.deleteById(id);
        }
        catch(Exception e){
            e.printStackTrace();
