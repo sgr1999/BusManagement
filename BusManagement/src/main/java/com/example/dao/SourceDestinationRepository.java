@@ -18,4 +18,7 @@ public interface SourceDestinationRepository extends JpaRepository<SourceDestina
 
     @Query("select new com.example.Model.SourceDestinationModel(c.cityCode, c.cityName, d.districtCode, d.districtName, s.stateCode, s.stateName) from SourceDestination sd, City c , District d, State s where sd.sourceDestinationId = :id")
     public SourceDestinationModel findDataById(@Param("id") Long id);
+
+    @Query("select sd.cityId from SourceDestination sd where sd.sourceDestinationId = :id")
+    public Long findSource(@Param("id") Long id);
 }

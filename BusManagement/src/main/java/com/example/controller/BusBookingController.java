@@ -1,10 +1,12 @@
 package com.example.controller;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.validation.Valid;
 
+import com.example.Model.BusBookingModel;
 import com.example.entites.BusBooking;
 import com.example.entites.BusBookingDetail;
 import com.example.services.BusBookingServices;
@@ -28,6 +30,7 @@ public class BusBookingController {
     @PostMapping("/addBooking")
     public ResponseEntity<BusBooking> addBusBooking(@Valid @RequestBody Map<String, Object> mpBusBooking){
 
+        ResponseEntity<BusBooking> bus =null;
         try {
 
             String passengerName = (String) mpBusBooking.get("passengerName");
@@ -53,17 +56,22 @@ public class BusBookingController {
 
                 Long age = Long.parseLong(str1[c].trim());
                 Long seatN = Long.parseLong(seat[c].trim());
-                System.out.println("passenger : "+passengerName+"  "+age);
              
              busBookingDetail.setPassengerAge(age);
              busBookingDetail.setSeatNumber(seatN);
              busBookingDetail.setPassengerName(passenger.trim());
-             busBookingServices.addBusBooking(mpBusBooking,busBookingDetail);
+            bus =  busBookingServices.addBusBooking(mpBusBooking,busBookingDetail);
              c++;
 
             }   
+
+            if (bus !=null) {
+                
+                return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
    
-            return ResponseEntity.status(HttpStatus.ACCEPTED).build();
         } 
         catch(DataIntegrityViolationException e1){
             System.out.println("bus seat already booked , Select other seatNumber");
@@ -78,17 +86,16 @@ public class BusBookingController {
 
     // Get BusBooking Details
     @GetMapping("/getBooking" )
-    public ResponseEntity<Map<String, Object>> getBusBooking(){
+    public ResponseEntity<List<BusBookingModel>> getBusBooking(){
 
-        Map<String, Object> list =null;
+       
         try {
 
-            list= busBookingServices.getBusBooking();
+          List<BusBookingModel>  list= busBookingServices.getBusBooking();
            if(list.size()<=0){
                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
            }
 
-            System.out.println(list);
             return ResponseEntity.status(HttpStatus.OK).body(list);
         } catch (Exception e) {
             e.printStackTrace();
@@ -98,9 +105,9 @@ public class BusBookingController {
     }
 
     //Get BusBooking By Id
-    @GetMapping("/GetBooking/{id}")
-  public ResponseEntity<BusBooking> getBusBookingById(@PathVariable("id") Long id){
-   BusBooking list =null;
+    @GetMapping("/getBooking/{id}")
+  public ResponseEntity<Map<String,Object>> getBusBookingById(@PathVariable("id") Long id){
+    Map<String,Object> list =null;
       try {
 
            list= busBookingServices.getBusBookingById(id);
@@ -127,7 +134,7 @@ public class BusBookingController {
           if(add==null){
            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
        }
-          return ResponseEntity.status(HttpStatus.OK).body(add); 
+          return ResponseEntity.status(HttpStatus.OK).build(); 
       } catch (Exception e) {
           e.printStackTrace();
           System.out.println(e);
@@ -145,7 +152,7 @@ public class BusBookingController {
           if(add==null){
            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
        }
-          return ResponseEntity.status(HttpStatus.OK).body(add); 
+          return ResponseEntity.status(HttpStatus.OK).build(); 
       } catch (Exception e) {
           e.printStackTrace();
           System.out.println(e);

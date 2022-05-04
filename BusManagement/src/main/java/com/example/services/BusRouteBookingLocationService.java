@@ -1,12 +1,16 @@
 package com.example.services;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.example.Model.BusRouteBookingLocationModel;
 import com.example.dao.BusRouteBookingLocationRepository;
 import com.example.entites.BusRouteBookingLocation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,45 +26,66 @@ public class BusRouteBookingLocationService {
         try {
             
             BusRouteBookingLocation save = busRouteBookingLocationRepository.save(bus);
-            System.out.println(save);
             
-        } catch (Exception e) {
+            return save;
+            
+        } 
+        catch(DataIntegrityViolationException ee){
+            System.out.println("--#--City id might have alredy in database OR busDepoRouteId not found in database--#--");
+        }
+        catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
         }
-        return bus;
+        return null;
     }
 
     // Get All BusRouteBookingLocation
     public List<BusRouteBookingLocationModel> getBuslocation()
     {
       
-        List<BusRouteBookingLocationModel> list =null;
+        List<BusRouteBookingLocation> list =null;
+        List<BusRouteBookingLocationModel> list1 = new ArrayList<>();
         try {
             
-            list = busRouteBookingLocationRepository.findData();
+            list = busRouteBookingLocationRepository.findAll();
     
+            list.forEach(e->{
+                list1.add(new BusRouteBookingLocationModel(e.getArrivalTime(), e.getRouteSequence(), e.getBookingAllowed(), e.getBusDepoRouteId().getTotalKm(), e.getBusDepoRouteId().getBusDepartureTime(), e.getBusDepoRouteId().getBusArrivalTime(), e.getCityId().getCityName()));
+            });
+            return list1;
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
         }
-        return list;
+        return null;
     }
 
 
     // Get BusRouteBookingLocation By Id
-    public BusRouteBookingLocation getBusLocationById(Long id)
+    public Map<String,Object> getBusLocationById(Long id)
     {
       
         BusRouteBookingLocation list =null;
+        Map<String,Object> map= new HashMap<>();
         try {
             
             list = busRouteBookingLocationRepository.getById(id);
+
+            map.put("arrivalTime", list.getArrivalTime());
+            map.put("routeSequence", list.getRouteSequence());
+            map.put("bookingAllowed", list.getBookingAllowed());
+            map.put("totalKm", list.getBusDepoRouteId().getTotalKm());
+            map.put("busDepartureTime", list.getBusDepoRouteId().getBusDepartureTime());
+            map.put("busArrivalTime", list.getBusDepoRouteId().getBusArrivalTime());
+            map.put("cityName", list.getCityId().getCityName());
+           
+            return map;
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
         }
-        return list;
+        return null;
     }
 
      // Update BusRouteBookingLocation By Id
@@ -77,11 +102,13 @@ public class BusRouteBookingLocationService {
              list.setBookingAllowed(bus.getBookingAllowed());
 
              busRouteBookingLocationRepository.save(list);
+
+             return list;
          } catch (Exception e) {
              e.printStackTrace();
              System.out.println(e);
          }
-         return list;
+         return null;
      }
 
      //Delete BusRouteBookingLocation By Id
@@ -91,13 +118,13 @@ public class BusRouteBookingLocationService {
        try{
            byId = busRouteBookingLocationRepository.getById(id);
            busRouteBookingLocationRepository.deleteById(id);
-
+        return byId;
        }
        catch(Exception e){
            e.printStackTrace();
            System.out.println(e);
        }
 
-       return byId;
+       return null;
      }
 }

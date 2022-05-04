@@ -1,6 +1,9 @@
 package com.example.controller;
 
 import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
 
 import com.example.Model.BusRouteBookingLocationModel;
 import com.example.entites.BusRouteBookingLocation;
@@ -21,13 +24,18 @@ public class BusRouteBookingLocationController {
 
     //Add BusRouteBookingLocation Details
     @PostMapping("/addBusRouteBookingLocation")
-    public ResponseEntity<BusRouteBookingLocation> addBusDepo(@RequestBody BusRouteBookingLocation bus){
+    public ResponseEntity<BusRouteBookingLocation> addBusDepo(@Valid @RequestBody BusRouteBookingLocation bus){
 
         try {
 
             BusRouteBookingLocation addBusDepo = busRouteBookingLocationService.addBusLocation(bus);
-            System.out.println(addBusDepo);
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(addBusDepo);
+            
+            if (addBusDepo !=null) {
+                
+                return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
@@ -58,8 +66,8 @@ public class BusRouteBookingLocationController {
 
     //Get BusRouteBookingLocation By Id
     @GetMapping("/getBusRouteBookingLocation/{id}")
-  public ResponseEntity<BusRouteBookingLocation> getBusLocationById(@PathVariable("id") Long id){
-   BusRouteBookingLocation list =null;
+  public ResponseEntity<Map<String,Object>> getBusLocationById(@PathVariable("id") Long id){
+    Map<String,Object> list =null;
       try {
 
            list= busRouteBookingLocationService.getBusLocationById(id);
@@ -86,7 +94,7 @@ public class BusRouteBookingLocationController {
           if(add==null){
            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
        }
-          return ResponseEntity.status(HttpStatus.OK).body(add); 
+          return ResponseEntity.status(HttpStatus.OK).build(); 
       } catch (Exception e) {
           e.printStackTrace();
           System.out.println(e);
@@ -104,7 +112,7 @@ public class BusRouteBookingLocationController {
           if(add==null){
            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
        }
-          return ResponseEntity.status(HttpStatus.OK).body(add); 
+          return ResponseEntity.status(HttpStatus.OK).build(); 
       } catch (Exception e) {
           e.printStackTrace();
           System.out.println(e);

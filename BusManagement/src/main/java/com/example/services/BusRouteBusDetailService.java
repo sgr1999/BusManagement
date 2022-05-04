@@ -1,13 +1,19 @@
 package com.example.services;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.example.Model.BusRouteBusDetailModel;
 import com.example.dao.BusRouteBusDetailRepository;
+import com.example.dao.SourceDestinationRepository;
 import com.example.entites.BusDetail;
 import com.example.entites.BusRouteBusDetail;
+import com.example.entites.SourceDestination;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 
@@ -17,6 +23,9 @@ public class BusRouteBusDetailService {
     @Autowired
     private BusRouteBusDetailRepository busRouteBusDetailRepository;
 
+    @Autowired
+    private SourceDestinationRepository sourceDestinationRepository;
+
     // Add BusRouteBusDetail Details
     public BusRouteBusDetail addBusRoute(BusRouteBusDetail busRouteBusDetail){
 
@@ -25,44 +34,72 @@ public class BusRouteBusDetailService {
            
             BusRouteBusDetail save = busRouteBusDetailRepository.save(busRouteBusDetail);
             System.out.println(save);
+
+            return save;
             
-        } catch (Exception e) {
+        } 
+        catch(DataIntegrityViolationException ee){
+            System.out.println("--#--Check BusDepoRoute Id OR BusDetail Id that may be alredy does exist in table OR Not Found--#--");
+        }
+        catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
         }
-        return busRouteBusDetail;
+        return null;
     }
 
     // Get All BusRouteBusDetail
-    public List<BusRouteBusDetail> getBusRoute()
+    public List<BusRouteBusDetailModel> getBusRoute()
     {
       
         List<BusRouteBusDetail> list =null;
+        List<BusRouteBusDetailModel> list1 = new ArrayList<>();
         try {
             
             list = busRouteBusDetailRepository.findAll();
     
+            list.forEach(e->{
+                SourceDestination source = sourceDestinationRepository.getById(e.getBusDepoRouteId().getSource());
+                SourceDestination destination = sourceDestinationRepository.getById(e.getBusDepoRouteId().getDestination());
+                
+                list1.add(new BusRouteBusDetailModel(source.getCityId().getCityName(), destination.getCityId().getCityName(), e.getBusDepoRouteId().getTotalKm(), e.getBusDepoRouteId().getBusDepartureTime(), e.getBusDepoRouteId().getBusArrivalTime(), e.getBusDetailId().getBusNumber(), e.getBusDetailId().getNoOfSeat()));
+            });
+            return list1;
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
         }
-        return list;
+        return null;
     }
 
 
     // Get BusRouteBusDetail By Id
-    public BusRouteBusDetail getBusRouteById(Long id)
+    public Map<String,Object> getBusRouteById(Long id)
     {
       
         BusRouteBusDetail list =null;
+        Map<String,Object> map = new HashMap<>();
         try {
             
             list = busRouteBusDetailRepository.getById(id);
+
+            SourceDestination source = sourceDestinationRepository.getById(list.getBusDepoRouteId().getSource());
+            SourceDestination destination = sourceDestinationRepository.getById(list.getBusDepoRouteId().getDestination());
+
+            map.put("source", source.getCityId().getCityName());
+            map.put("destination", destination.getCityId().getCityName());
+            map.put("totalKm", list.getBusDepoRouteId().getTotalKm());
+            map.put("busDepartureTime", list.getBusDepoRouteId().getBusDepartureTime());
+            map.put("busArrivalTime", list.getBusDepoRouteId().getBusArrivalTime());
+            map.put("busNumber", list.getBusDetailId().getBusNumber());
+            map.put("noOfSeat", list.getBusDetailId().getNoOfSeat());
+           
+            return map;
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
         }
-        return list;
+        return null;
     }
 
      // Update BusRouteBusDetail By Id
@@ -76,11 +113,12 @@ public class BusRouteBusDetailService {
              list.setBusDetailId(busRouteBusDetail.getBusDetailId());
 
              busRouteBusDetailRepository.save(list);
+             return list;
          } catch (Exception e) {
              e.printStackTrace();
              System.out.println(e);
          }
-         return list;
+         return null;
      }
 
      //Delete BusRouteBusDetail By Id
@@ -90,13 +128,13 @@ public class BusRouteBusDetailService {
        try{
            byId = busRouteBusDetailRepository.getById(id);
            busRouteBusDetailRepository.deleteById(id);
-
+        return byId;
        }
        catch(Exception e){
            e.printStackTrace();
            System.out.println(e);
        }
 
-       return byId;
+       return null;
      }
 }

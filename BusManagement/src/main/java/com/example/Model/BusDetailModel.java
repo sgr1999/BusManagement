@@ -7,7 +7,7 @@ public class BusDetailModel {
     private String status; 
 
     private String busType;
-
+    
     private String busDepoName;
     private String busDepoAddress;
 

@@ -1,9 +1,11 @@
 package com.example.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
+import com.example.Model.BusBookingDetailModel;
 import com.example.entites.BusBookingDetail;
 import com.example.services.BusBookingDetailService;
 
@@ -33,8 +35,13 @@ public class BusBookingDetailController {
         try {
 
             BusBookingDetail addBusDepo = busBookingDetailService.addBusBookingDetail(busBookingDetail);
-            System.out.println(addBusDepo);
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(addBusDepo);
+            
+            if (addBusDepo != null) {
+                
+                return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
@@ -44,9 +51,9 @@ public class BusBookingDetailController {
 
     // Get BusBookingDetail Details
     @GetMapping("/getAllBookingDetail" )
-    public ResponseEntity<List<BusBookingDetail>> getBusBookingDetail(){
+    public ResponseEntity<List<BusBookingDetailModel>> getBusBookingDetail(){
 
-       List<BusBookingDetail> list =null;
+       List<BusBookingDetailModel> list =null;
         try {
 
             list= busBookingDetailService.getBusBookingDetail();
@@ -54,7 +61,6 @@ public class BusBookingDetailController {
                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
            }
 
-            System.out.println(list);
             return ResponseEntity.status(HttpStatus.OK).body(list);
         } catch (Exception e) {
             e.printStackTrace();
@@ -65,8 +71,8 @@ public class BusBookingDetailController {
 
     //Get BusBookingDetail By Id
     @GetMapping("/getBookingDetail/{id}")
-  public ResponseEntity<BusBookingDetail> getBusDepoById(@PathVariable("id") Long id){
-   BusBookingDetail list =null;
+  public ResponseEntity<Map<String,Object>> getBusDepoById(@PathVariable("id") Long id){
+    Map<String,Object> list =null;
       try {
 
            list= busBookingDetailService.getBusBookingDetailById(id);
@@ -93,7 +99,7 @@ public class BusBookingDetailController {
           if(add==null){
            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
        }
-          return ResponseEntity.status(HttpStatus.OK).body(add); 
+          return ResponseEntity.status(HttpStatus.OK).build(); 
       } catch (Exception e) {
           e.printStackTrace();
           System.out.println(e);
@@ -111,7 +117,7 @@ public class BusBookingDetailController {
           if(add==null){
            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
        }
-          return ResponseEntity.status(HttpStatus.OK).body(add); 
+          return ResponseEntity.status(HttpStatus.OK).build(); 
       } catch (Exception e) {
           e.printStackTrace();
           System.out.println(e);

@@ -28,14 +28,14 @@ public class BusRouteBusDetail extends Auditable<String>{
     private Long busRouteBusDetailId;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "busdepo_route_id")
+    @JoinColumn(name = "busdepo_route_id", unique = true)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private BusDepoRoute busDepoRouteId;
 
     
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bus_detail_id")
+    @JoinColumn(name = "bus_detail_id", unique = true)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private BusDetail busDetailId;
 

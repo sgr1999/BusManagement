@@ -3,8 +3,11 @@ package com.example.entites;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import org.hibernate.type.TrueFalseType;
 
 @Entity
 @Table(name = "busroute_booking_location")
@@ -21,16 +24,19 @@ public class BusRouteBookingLocation extends Auditable<String>{
     private BusDepoRoute busDepoRouteId;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "city_id")
+    @JoinColumn(name = "city_id", unique = true)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private City cityId;
 
+    @NotBlank(message = "arrivalTime can not be empty please enter valid detail")
     @Column(name = "arrival_time")
     private String arrivalTime;
 
+    @NotBlank(message = "routeSequence can not be empty please enter valid detail")
     @Column(name = "route_sequence")
     private String routeSequence;
 
+    @NotBlank(message = "bookingAllowed can not be empty please enter valid detail")
     @Column(name = "booking_allowed")
     private String bookingAllowed;
 

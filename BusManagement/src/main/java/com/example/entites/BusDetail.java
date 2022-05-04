@@ -10,6 +10,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -23,7 +26,8 @@ public class BusDetail extends Auditable<String>{
     @Column(name = "bus_detailId")
     private Long busDetailId;
 
-    @Column(name = "bus_number")
+    @NotBlank(message = "busNumber can not be empty please enter valid detail")
+    @Column(name = "bus_number", unique = true)
     private String busNumber;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -31,9 +35,11 @@ public class BusDetail extends Auditable<String>{
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private BusType busTypeId;
 
+    @NotNull(message = "noOfSeat can not be empty please enter seat no. between 1 to 40")
     @Column(name = "no_of_seat")
     private Long noOfSeat;
 
+    @NotBlank(message = "status can not be empty please enter valid detail")
     @Column(name = "status")
     private String status; 
     

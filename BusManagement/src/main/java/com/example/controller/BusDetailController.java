@@ -1,6 +1,9 @@
 package com.example.controller;
 
 import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
 
 import com.example.Model.BusDetailModel;
 import com.example.entites.BusDetail;
@@ -21,13 +24,18 @@ public class BusDetailController {
 
     //Add BusDetail Details
     @PostMapping("/addBusDetail")
-    public ResponseEntity<BusDetail> addBusDetail(@RequestBody BusDetail busDetail){
+    public ResponseEntity<BusDetail> addBusDetail(@Valid @RequestBody BusDetail busDetail){
 
         try {
 
             BusDetail addBusDepo = busDetailService.addBusDetail(busDetail);
-            System.out.println(addBusDepo);
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(addBusDepo);
+            
+            if (addBusDepo !=null) {
+                return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+            
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
@@ -46,9 +54,8 @@ public class BusDetailController {
            if(list.size()<=0){
                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
            }
-
-            System.out.println(list);
             return ResponseEntity.status(HttpStatus.OK).body(list);
+
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
@@ -58,15 +65,15 @@ public class BusDetailController {
 
     //Get BusDetail By Id
     @GetMapping("/getBusDetail/{id}")
-  public ResponseEntity<BusDetail> getBusDetailById(@PathVariable("id") Long id){
-   BusDetail list =null;
+  public ResponseEntity<Map<String,Object>> getBusDetailById(@PathVariable("id") Long id){
+    Map<String,Object> list =null;
       try {
 
            list= busDetailService.getBusDetailById(id);
 
           if(list==null){
            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-       }
+         }
           return ResponseEntity.status(HttpStatus.OK).body(list); 
       } catch (Exception e) {
           e.printStackTrace();
@@ -86,7 +93,7 @@ public class BusDetailController {
           if(add==null){
            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
        }
-          return ResponseEntity.status(HttpStatus.OK).body(add); 
+          return ResponseEntity.status(HttpStatus.OK).build(); 
       } catch (Exception e) {
           e.printStackTrace();
           System.out.println(e);
@@ -104,7 +111,7 @@ public class BusDetailController {
           if(add==null){
            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
        }
-          return ResponseEntity.status(HttpStatus.OK).body(add); 
+          return ResponseEntity.status(HttpStatus.OK).build(); 
       } catch (Exception e) {
           e.printStackTrace();
           System.out.println(e);

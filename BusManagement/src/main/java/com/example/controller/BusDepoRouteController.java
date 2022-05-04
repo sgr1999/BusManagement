@@ -1,6 +1,9 @@
 package com.example.controller;
 
 import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
 
 import com.example.Model.BusDepoRouteModel;
 import com.example.entites.BusDepoRoute;
@@ -21,13 +24,18 @@ public class BusDepoRouteController {
 
     //Add BusDepoRoute Details
     @PostMapping("/addBusDepoRoute")
-    public ResponseEntity<BusDepoRoute> addBusDepoRoute(@RequestBody BusDepoRoute busDepoRoute){
+    public ResponseEntity<BusDepoRoute> addBusDepoRoute(@Valid @RequestBody BusDepoRoute busDepoRoute){
 
         try {
 
             BusDepoRoute addBusDepo = busDepoRouteService.addBusDepoRoute(busDepoRoute);
-            System.out.println(addBusDepo);
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(addBusDepo);
+            
+            if (addBusDepo !=null) {
+                
+                return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
@@ -58,8 +66,8 @@ public class BusDepoRouteController {
 
     //Get BusDepoRoute By Id
     @GetMapping("/getBusDepoRoute/{id}")
-  public ResponseEntity<BusDepoRoute> getBusDepoById(@PathVariable("id") Long id){
-   BusDepoRoute list =null;
+  public ResponseEntity<Map<String,Object>> getBusDepoById(@PathVariable("id") Long id){
+    Map<String,Object> list =null;
       try {
 
            list= busDepoRouteService.getBusDepoRouteById(id);
@@ -86,7 +94,7 @@ public class BusDepoRouteController {
           if(add==null){
            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
        }
-          return ResponseEntity.status(HttpStatus.OK).body(add); 
+          return ResponseEntity.status(HttpStatus.OK).build(); 
       } catch (Exception e) {
           e.printStackTrace();
           System.out.println(e);
@@ -104,7 +112,7 @@ public class BusDepoRouteController {
           if(add==null){
            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
        }
-          return ResponseEntity.status(HttpStatus.OK).body(add); 
+          return ResponseEntity.status(HttpStatus.OK).build(); 
       } catch (Exception e) {
           e.printStackTrace();
           System.out.println(e);

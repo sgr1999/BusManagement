@@ -13,6 +13,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.random.RandomGenerator;
 
+import javax.xml.transform.Source;
+
 import org.apache.catalina.connector.Response;
 import org.hibernate.annotations.SourceType;
 import org.hibernate.id.UUIDHexGenerator;
@@ -22,6 +24,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionSystemException;
 
 import net.bytebuddy.asm.Advice.Local;
 
@@ -33,11 +36,13 @@ import com.example.dao.BusDepoRouteRepository;
 import com.example.dao.BusDetailRepository;
 import com.example.dao.BusRouteBusDetailRepository;
 import com.example.dao.CustomerRepository;
+import com.example.dao.SourceDestinationRepository;
 import com.example.entites.BusBooking;
 import com.example.entites.BusBookingDetail;
 import com.example.entites.BusDepoRoute;
 import com.example.entites.BusRouteBusDetail;
 import com.example.entites.Customer;
+import com.example.entites.SourceDestination;
 import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Empty;
 import com.fasterxml.jackson.databind.ser.std.UUIDSerializer;
 
@@ -63,6 +68,9 @@ public class BusBookingServices {
 
 	@Autowired
 	private BusRouteBusDetailRepository busRouteBusDetailRepository;
+
+	@Autowired
+	private SourceDestinationRepository sourceDestinationRepository;
 
 
 	// Add BusBooking Details
@@ -250,60 +258,72 @@ public class BusBookingServices {
 	// 	return busBooking;
 	// }
 
+
 	// Get All BusBooking
-	public Map<String, Object> getBusBooking()
+	public List<BusBookingModel> getBusBooking()
 	{
 
-		List<BusBookingModel> list =null;
+		List<BusBooking> list =null;
+		List<BusBookingModel> list1 = new ArrayList<>();
 
-		Map<String, Object> map = new HashMap<>();
+		
 		try {
 
 			
 		
-			list = busBookingRepository.findData();
+			list = busBookingRepository.findAll();
 
-			list.forEach(e->{
 
-				map.put("bookingDate", e.getBookingDate());
-				map.put("bookingNumber", e.getBookingNumber());
-				map.put("totalSeat",e.getTotalSeat());
-				map.put("bookingSeat", e.getBookingSeat());
-				map.put("avaliableSeat", e.getAvaliableSeat());
-				map.put("travelingDate", e.getTravelingDate());
-				map.put("source", e.getSource());
-				map.put("destination", e.getDestination());
-				map.put("totalKm", e.getTotalKm());
-				map.put("busDepartureTime", e.getBusDepartureTime());
-				map.put("busArrivalTime", e.getBusArrivalTime());
-				map.put("busDepoName", e.getBusDepoName());
-				map.put("busDepoAddress", e.getBusDepoAddress());
-				map.put("cityName",e.getCityName());
-				map.put("districtName", e.getDistrictName());
-				map.put("stateName", e.getStateName());
-			});
+				list.forEach(e->{
+					SourceDestination source = sourceDestinationRepository.getById(e.getBusDepoRouteId().getSource());
+					SourceDestination destination = sourceDestinationRepository.getById(e.getBusDepoRouteId().getDestination());
+					list1.add(new BusBookingModel(e.getBookingDate(), e.getBookingNumber(),e.getTotalSeat(),e.getBookingSeat(),e.getAvaliableSeat(), e.getTravelingDate(), source.getCityId().getCityName(), destination.getCityId().getCityName(), e.getBusDepoRouteId().getTotalKm(), e.getBusDepoRouteId().getBusDepartureTime(), e.getBusDepoRouteId().getBusArrivalTime(),e.getBusDepoRouteId().getBusDepoId().getBusDepoName(),e.getBusDepoRouteId().getBusDepoId().getBusDepoAddress()));
 
+				});
+
+			return list1;
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(e);
 		}
-		return map;
+		return null;
 	}
 
 
 	// Get BusBooking By Id
-	public BusBooking getBusBookingById(Long id)
+	public Map<String, Object> getBusBookingById(Long id)
 	{
 
 		BusBooking list =null;
+		Map<String, Object> map = new HashMap<>();
 		try {
 
 			list = busBookingRepository.getById(id);
+
+			SourceDestination source = sourceDestinationRepository.getById(list.getBusDepoRouteId().getSource());
+			SourceDestination destination = sourceDestinationRepository.getById(list.getBusDepoRouteId().getDestination());
+				map.put("bookingDate", list.getBookingDate());
+				map.put("bookingNumber", list.getBookingNumber());
+				map.put("totalSeat", list.getTotalSeat());
+				map.put("bookingSeat", list.getBookingSeat());
+				map.put("avaliableSeat", list.getAvaliableSeat());
+				
+				map.put("travelingDate", list.getTravelingDate());
+				map.put("source", source.getCityId().getCityName());
+				map.put("destination", destination.getCityId().getCityName());
+				map.put("totalKm", list.getBusDepoRouteId().getTotalKm());
+				map.put("busDepartureTime", list.getBusDepoRouteId().getBusDepartureTime());
+				map.put("busArrivalTime", list.getBusDepoRouteId().getBusArrivalTime());
+				map.put("busDepoName", list.getBusDepoRouteId().getBusDepoId().getBusDepoName());
+				map.put("busDepoAddress", list.getBusDepoRouteId().getBusDepoId().getBusDepoAddress());
+
+				return map;
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(e);
 		}
-		return list;
+		return null;
 	}
 
 	// Update BusBooking By Id
@@ -314,19 +334,26 @@ public class BusBookingServices {
 		try {
 			list = busBookingRepository.getById(id);  
 			list.setBusDepoRouteId(bus.getBusDepoRouteId());
-			//         list.setBusRouteBusDetailId(bus.getBusRouteBusDetailId());
+			list.setBusRouteBusDetailId(bus.getBusRouteBusDetailId());
 			list.setBookingNumber(bus.getBookingNumber());
-			list.setTotalSeat(bus.getTotalSeat());
-			list.setBookingSeat(bus.getBookingSeat());
-			list.setAvaliableSeat(bus.getAvaliableSeat());
 			list.setTravelingDate(bus.getTravelingDate());
+			list.setBookingDate(bus.getBookingDate());
 
 			busBookingRepository.save(list);
-		} catch (Exception e) {
+
+			return list;
+		} 
+		catch(TransactionSystemException e1){
+			System.out.println("please fill data properly all it can not be null");
+		}
+		catch(DataIntegrityViolationException ee){
+			System.out.println("Check busDepoRouteId OR busRouteBusDetailId that may be not found in database");
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(e);
 		}
-		return list;
+		return null;
 	}
 
 	//Delete BusBooking By Id
@@ -336,13 +363,16 @@ public class BusBookingServices {
 		try{
 			byId = busBookingRepository.getById(id);
 			busBookingRepository.deleteById(id);
-
+			return byId;
+		}
+		catch(DataIntegrityViolationException ee){
+			System.out.println("You can not delete Bus Booking that data is present in bus booking details table");
 		}
 		catch(Exception e){
 			e.printStackTrace();
 			System.out.println(e);
 		}
 
-		return byId;
+		return null;
 	}
 }

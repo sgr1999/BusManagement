@@ -33,13 +33,11 @@ public class BusBooking extends Auditable<String>{
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "busdepo_route_id")
-	@NotEmpty(message = "BusDepoRoute Id can not be null")
 	private BusDepoRoute busDepoRouteId;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "busroute_busdetail_id")
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-	@NotEmpty(message = "BusRouteBusDetail Id can not be null")
 	private BusRouteBusDetail busRouteBusDetailId;
 
 //	@OneToMany(mappedBy = "busBooking")
@@ -48,9 +46,13 @@ public class BusBooking extends Auditable<String>{
 	 @OneToMany(cascade = CascadeType.ALL)
 	 private Set<BusBookingDetail> busBookingDetails;
 	
+	 @NotEmpty
+	@NotNull(message = "booking date is required")
 	@Column(name = "booking_date")
 	private String bookingDate;
 
+	@NotEmpty
+	@NotNull(message = "bookingNumber can not be null")
 	@Column(name = "booking_number")
 	private String bookingNumber;
 
@@ -63,6 +65,8 @@ public class BusBooking extends Auditable<String>{
 	@Column(name = "avaliable_seat")
 	private Long avaliableSeat;
 
+	@NotEmpty
+	@NotNull(message = "travelingDate can not be null")
 	@Column(name = "traveling_date")
 	private String travelingDate;
 
