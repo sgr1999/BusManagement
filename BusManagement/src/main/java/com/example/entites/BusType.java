@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -21,6 +22,7 @@ public class BusType extends Auditable<String>{
 	@Column(name = "bustype_id")
 	private Long busTypeId;
 
+	@NotEmpty
 	@Column(name = "bus_type")
 	private String busType;
 
@@ -44,9 +46,6 @@ public class BusType extends Auditable<String>{
 	public void setBusType(String busType) {
 		this.busType = busType;
 	}
-
-
-	
 
 	public BusDepo getBusDepoId() {
 		return busDepoId;

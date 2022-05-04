@@ -12,14 +12,18 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+
+
 @Entity
 @Table(name = "source_destination")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class SourceDestination extends Auditable<String>{
 
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "source_destination_id")
 	private Long sourceDestinationId;
+
 
 
 	@OneToOne(fetch = FetchType.EAGER)
@@ -29,10 +33,12 @@ public class SourceDestination extends Auditable<String>{
 
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "district_id")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private District districtId;
 
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "city_id") 
+	@JoinColumn(name = "city_id", unique = true) 
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private City cityId;
 
 	public Long getSourceDestinationId() {

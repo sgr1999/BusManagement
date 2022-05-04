@@ -1,21 +1,23 @@
 package com.example.Model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-
-public class BusDepoModel {
+public class BusTypeModel1 {
     
+    private String busType;
     private String busDepoName;
     private String busDepoAddress;
 
-    
-
-    public BusDepoModel(String busDepoName, String busDepoAddress) {
+    public BusTypeModel1(String busType, String busDepoName, String busDepoAddress) {
+        this.busType = busType;
         this.busDepoName = busDepoName;
         this.busDepoAddress = busDepoAddress;
+    }
+
+
+    public String getBusType() {
+        return busType;
+    }
+    public void setBusType(String busType) {
+        this.busType = busType;
     }
     public String getBusDepoName() {
         return busDepoName;
@@ -30,7 +32,7 @@ public class BusDepoModel {
         this.busDepoAddress = busDepoAddress;
     }
    
-
     
-   
+
+
 }

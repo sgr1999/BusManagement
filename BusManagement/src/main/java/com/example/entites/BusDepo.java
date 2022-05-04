@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -20,9 +22,11 @@ public class BusDepo extends Auditable<String>{
     @Column(name = "busdepo_id")
     private Long busDepoId;
 
-    @Column(name = "busdepo_name")
+    @NotEmpty
+    @Column(name = "busdepo_name", unique = true)
     private String busDepoName;
 
+    @NotEmpty
     @Column(name = "busdepo_address")
     private String busDepoAddress;
 
@@ -36,6 +40,7 @@ public class BusDepo extends Auditable<String>{
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})  
     private District districtId;
 
+    
     @OneToOne
 	@JoinColumn(name = "city_id", nullable = false)	
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})  	

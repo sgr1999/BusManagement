@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -19,16 +21,33 @@ public class City extends Auditable<String>{
     @Column(name = "city_id")
     private Long cityId;
 
-    @Column(name = "city_code")
+    @NotNull(message = "city code can not be null")
+    @Column(name = "city_code", unique = true)
     private Long cityCode;
 
-    @Column(name = "city_name")
+    @NotBlank(message = "city name is required")
+    @Column(name = "city_name" ,unique = true)
     private String cityName;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "district_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private District districtId;
+
+
+
+    
+
+    public City() {
+    }
+
+    public City(Long cityId, @NotNull(message = "city code can not be null") Long cityCode,
+            @NotBlank(message = "city name is required") String cityName, District districtId) {
+        this.cityId = cityId;
+        this.cityCode = cityCode;
+        this.cityName = cityName;
+        this.districtId = districtId;
+    }
 
     public Long getCityId() {
         return cityId;

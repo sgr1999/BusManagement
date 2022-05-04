@@ -3,6 +3,8 @@ package com.example.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import com.example.Model.BusDepoModel;
 import com.example.entites.BusDepo;
 import com.example.services.BusDepoService;
@@ -23,13 +25,20 @@ public class BusDepoController {
 
     //Add BusDepo Details
     @PostMapping("/addBusDepo")
-    public ResponseEntity<BusDepo> addBusDepo(@RequestBody BusDepo busDepo){
+    public ResponseEntity<BusDepo> addBusDepo(@Valid @RequestBody BusDepo busDepo){
 
         try {
 
             BusDepo addBusDepo = busDepoService.addBusDepo(busDepo);
-            System.out.println(addBusDepo);
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(addBusDepo);
+
+            if (addBusDepo !=null) {
+                
+                return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+            }
+            else{
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+            
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
@@ -39,9 +48,9 @@ public class BusDepoController {
 
     // Get BusDepo Details
     @GetMapping("/getBusDepo" )
-    public ResponseEntity<Map<String,Object>> getBusDepo(){
+    public ResponseEntity<List<BusDepoModel>> getBusDepo(){
 
-        Map<String,Object> list =null;
+        List<BusDepoModel> list =null;
         try {
 
             list= busDepoService.getBusDepo();
@@ -60,16 +69,19 @@ public class BusDepoController {
 
     //Get BusDepo By Id
     @GetMapping("/getBusDepo/{id}")
-  public ResponseEntity<BusDepo> getBusDepoById(@PathVariable("id") Long id){
-   BusDepo list =null;
+  public ResponseEntity<BusDepoModel> getBusDepoById(@PathVariable("id") Long id){
+    BusDepoModel list =null;
       try {
 
            list= busDepoService.getBusDepoById(id);
 
-          if(list==null){
-           return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-       }
-          return ResponseEntity.status(HttpStatus.OK).body(list); 
+          if(list!=null){
+            return ResponseEntity.status(HttpStatus.OK).build(); 
+         }
+         else{
+             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+         }
+         
       } catch (Exception e) {
           e.printStackTrace();
           System.out.println(e);
@@ -85,10 +97,12 @@ public class BusDepoController {
       try {
 
           BusDepo add = busDepoService.updateBusDepoById(busDepo,id);
-          if(add==null){
-           return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-       }
-          return ResponseEntity.status(HttpStatus.OK).body(add); 
+          if(add!=null){
+              return ResponseEntity.status(HttpStatus.OK).build(); 
+        }else{
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
       } catch (Exception e) {
           e.printStackTrace();
           System.out.println(e);
@@ -103,10 +117,11 @@ public class BusDepoController {
       try {
 
           BusDepo add = busDepoService.deleteBusDepoById(id);
-          if(add==null){
+          if(add!=null){
+              return ResponseEntity.status(HttpStatus.OK).build(); 
+        }else{
            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
        }
-          return ResponseEntity.status(HttpStatus.OK).body(add); 
       } catch (Exception e) {
           e.printStackTrace();
           System.out.println(e);

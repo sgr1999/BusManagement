@@ -29,8 +29,15 @@ public class SourceDestinationController {
         try {
 
            SourceDestination add = sourceDestinationService.addSource(sourceDestination);
-           System.out.println(add);
-            return ResponseEntity.status(HttpStatus.CREATED).body(add);
+
+           if (add != null) {
+               
+               return ResponseEntity.status(HttpStatus.CREATED).build();
+           }
+           else{
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+           }
+           
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -65,13 +72,16 @@ public class SourceDestinationController {
 
             list= sourceDestinationService.getSourceById(id);
 
-           if(list==null){
+           if(list !=null){
+            return ResponseEntity.status(HttpStatus.OK).body(list); 
+        }
+        else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-           return ResponseEntity.status(HttpStatus.OK).body(list); 
+          
        } catch (Exception e) {
            e.printStackTrace();
-           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+           return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
        }
    }
 
@@ -86,7 +96,7 @@ public class SourceDestinationController {
            if(add==null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-           return ResponseEntity.status(HttpStatus.OK).body(add); 
+           return ResponseEntity.status(HttpStatus.OK).build(); 
        } catch (Exception e) {
            e.printStackTrace();
            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -103,7 +113,7 @@ public class SourceDestinationController {
            if(add==null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-           return ResponseEntity.status(HttpStatus.OK).body(add); 
+           return ResponseEntity.status(HttpStatus.OK).build(); 
        } catch (Exception e) {
            e.printStackTrace();
            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

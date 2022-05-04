@@ -17,6 +17,9 @@ public interface CityRepository extends JpaRepository<City, Long>{
     @Query("select c.cityName from City c where c.cityId = :id")
     public City findCityName(@Param("id") Long id);
 
-    @Query("select new com.example.Model.CityModel(c.cityCode, c.cityName, d.districtCode, d.districtName, s.stateCode, s.stateName) from City c , District d, State s ")
+    @Query("select new com.example.Model.CityModel(c.cityCode, c.cityName) from City c ")
     public List<CityModel> findData();
+
+    @Query("select new com.example.Model.CityModel(c.cityCode, c.cityName) from City c where c.cityId = :id")
+    public CityModel getDataById(@Param("id") Long id);
 }

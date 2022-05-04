@@ -110,16 +110,15 @@ public class DistrictController {
 
         try {
             District add = districtService.deleteDistrictById(id);
+          //  System.out.println("controller ---------"+add);
+            if (add != null) {
+                
+                return ResponseEntity.status(HttpStatus.OK).build();   
+            }else{
 
-                System.out.println(" =-------------"+add);
-               return ResponseEntity.status(HttpStatus.OK).build(); 
-           
-          
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            }
         } 
-        catch(EntityNotFoundException e1){
-            System.out.println("district id does not exist in table");
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }
         catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

@@ -6,7 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.Model.SourceDestinationModel;
+import com.example.dao.CityRepository;
+import com.example.dao.DistrictRepository;
 import com.example.dao.SourceDestinationRepository;
+import com.example.dao.StateRepository;
+import com.example.entites.City;
 import com.example.entites.SourceDestination;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,18 +22,28 @@ public class SourceDestinationService {
     @Autowired
     private SourceDestinationRepository sourceDestinationRepository;
 
+    @Autowired
+    private StateRepository stateRepository;
+
+    @Autowired
+    private DistrictRepository districtRepository;
+
+    @Autowired 
+    private CityRepository cityRepository;
+
     //Add SourceDestination 
     public SourceDestination addSource(SourceDestination sourceDestination)
     {
-        try {
-            
+        try{
+             
            SourceDestination save = sourceDestinationRepository.save(sourceDestination);
            System.out.println(save);
+           return save;
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
         }
-        return sourceDestination;
+        return null;
     }
 
     // Get All SourceDestination
@@ -68,11 +82,12 @@ public class SourceDestinationService {
         try {
             
             list = sourceDestinationRepository.getById(id);
+            return list;
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
         }
-        return list;
+        return null;
     }
 
      // Update SourceDestination By Id
@@ -87,11 +102,12 @@ public class SourceDestinationService {
              list.setStateId(source.getStateId());
 
              sourceDestinationRepository.save(list);
+             return list;
          } catch (Exception e) {
              e.printStackTrace();
              System.out.println(e);
          }
-         return list;
+         return null;
      }
 
      //Delete SourceDestination By Id
@@ -101,13 +117,13 @@ public class SourceDestinationService {
        try{
            byId = sourceDestinationRepository.getById(id);
            sourceDestinationRepository.deleteById(id);
-
+        return byId;
        }
        catch(Exception e){
            e.printStackTrace();
            System.out.println(e);
        }
 
-       return byId;
+       return null;
      }
 }

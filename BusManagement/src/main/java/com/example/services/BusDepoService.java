@@ -1,5 +1,6 @@
 package com.example.services;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +13,7 @@ import com.example.entites.BusDepo;
 import com.example.entites.City;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,61 +33,52 @@ public class BusDepoService {
             
             BusDepo save = busDepoRepository.save(busDepo);
             System.out.println(save);
+            return save;
             
-        } catch (Exception e) {
+        }
+        catch(DataIntegrityViolationException e2){
+            System.out.println("Check Properly , busDepoName alredy exist in table or state Id, district Id, city Id not found in database");
+        }
+        catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
         }
-        return busDepo;
+        return null;
     }
 
     // Get All BusDepo
-    public Map<String,Object> getBusDepo()
+    public List<BusDepoModel> getBusDepo()
     {
       
         List<BusDepoModel> list =null;
-        List<BusDepoModel> list1 =null;
-        Map<String,Object> map = new HashMap<>();
+      
         try {
             
             list = busDepoRepository.findData();
-
-            Long count = busDepoRepository.countData();
-
-            System.out.println("data-------------"+count);
-
-            list.forEach(e->{
-                map.put("busDepoName", e.getBusDepoName());
-                map.put("busDepoAddress", e.getBusDepoAddress());
-                map.put("stateName", e.getStateName());
-                map.put("districtName", e.getDistrictName());
-                map.put("cityName", e.getCityName());
-
-            });
+            return list;
+          
 
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
         }
-        return map;
+        return null;
     }
 
 
     // Get BusDepo By Id
-    public BusDepo getBusDepoById(Long id)
+    public BusDepoModel getBusDepoById(Long id)
     {
       
-        BusDepo list =null;
+        BusDepoModel list =null;
         try {
-
-            
-         
-            list = busDepoRepository.getById(id);
+            list = busDepoRepository.findDataById(id);
+            return list;
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
         }
-        return list;
+        return null;
     }
 
      // Update BusDepo By Id
@@ -102,11 +95,16 @@ public class BusDepoService {
              list.setCityId(busDepo.getCityId());
 
              busDepoRepository.save(list);
-         } catch (Exception e) {
+             return list;
+         } 
+         catch(DataIntegrityViolationException ex2){
+             System.out.println("add data properly you are someting messing");
+         }
+         catch (Exception e) {
              e.printStackTrace();
              System.out.println(e);
          }
-         return list;
+         return null;
      }
 
      //Delete BusDepo By Id
@@ -116,13 +114,13 @@ public class BusDepoService {
        try{
            byId = busDepoRepository.getById(id);
            busDepoRepository.deleteById(id);
-
+        return byId;
        }
        catch(Exception e){
            e.printStackTrace();
            System.out.println(e);
        }
 
-       return byId;
+       return null;
      }
 }

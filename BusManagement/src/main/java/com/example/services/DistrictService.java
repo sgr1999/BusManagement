@@ -15,6 +15,7 @@ import com.example.entites.State;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -58,6 +59,9 @@ public class DistrictService {
         }
         catch(DataIntegrityViolationException e1){
             System.out.println("--District code or District name already does exist in database");
+        }
+        catch(NumberFormatException e2){
+            System.out.println("district code or district name can not be null");
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -129,17 +133,24 @@ public class DistrictService {
 
      //Delete By Id
      public District deleteDistrictById(Long id){
-
        District byId = null;
        try{
-           byId = districtRepository.getById(id);
-           districtRepository.deleteById(id);
+          
+               byId = districtRepository.getById(id);
+              // System.out.println("------------service-------"+byId);
+               districtRepository.deleteById(id);
+               return byId;
+          
+       }
+       catch(EmptyResultDataAccessException e1){
+           System.out.println("--#--district id not present in database check it properly--#--");
+           return null;
        }
        catch(Exception e){
            e.printStackTrace();
            System.out.println(e);
+           return null;
        }
 
-       return byId;
      }
 }

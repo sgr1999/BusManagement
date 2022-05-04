@@ -8,6 +8,7 @@ public class BusTypeModel {
     private String stateName;
     private String districtName;
     private String cityName;
+
     public BusTypeModel(String busType, String busDepoName, String busDepoAddress, String stateName,
             String districtName, String cityName) {
         this.busType = busType;
@@ -17,6 +18,15 @@ public class BusTypeModel {
         this.districtName = districtName;
         this.cityName = cityName;
     }
+
+    
+    public BusTypeModel(String busType, String busDepoName, String busDepoAddress) {
+        this.busType = busType;
+        this.busDepoName = busDepoName;
+        this.busDepoAddress = busDepoAddress;
+    }
+
+
     public String getBusType() {
         return busType;
     }

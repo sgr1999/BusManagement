@@ -12,13 +12,13 @@ import org.springframework.data.repository.query.Param;
 public interface BusDepoRepository extends JpaRepository<BusDepo, Long>{
     
 
-    @Query("select new com.example.Model.BusDepoModel(bd.busDepoName, bd.busDepoAddress, c.cityName, d.districtName, s.stateName) from BusDepo bd, City c, District d, State s")
+    @Query("select new com.example.Model.BusDepoModel(bd.busDepoName, bd.busDepoAddress) from BusDepo bd")
     public List<BusDepoModel> findData();
 
     @Query("select count(b.busDepoId) from BusDepo b")
     public Long countData();
 
-    @Query("select new com.example.Model.BusDepoModel(bd.busDepoName, bd.busDepoAddress, c.cityName, d.districtName, s.stateName) from BusDepo bd, City c, District d, State s where bd.busDepoId = :id")
+    @Query("select new com.example.Model.BusDepoModel(bd.busDepoName, bd.busDepoAddress) from BusDepo bd where bd.busDepoId = :id")
     public BusDepoModel findDataById(@Param("id") Long id);
 
 }

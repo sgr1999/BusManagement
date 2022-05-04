@@ -1,8 +1,12 @@
 package com.example.controller;
 
 import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
 
 import com.example.Model.BusTypeModel;
+import com.example.Model.BusTypeModel1;
 import com.example.entites.BusType;
 import com.example.services.BusTypeService;
 
@@ -21,13 +25,19 @@ public class BusTypeController {
 
     //Add BusType Details
     @PostMapping("/addBusType")
-    public ResponseEntity<BusType> addBusType(@RequestBody BusType busType){
+    public ResponseEntity<BusType> addBusType(@Valid @RequestBody BusType busType){
 
         try {
 
             BusType addBusType = busTypeService.addBusType(busType);
-            System.out.println(addBusType);
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(addBusType);
+
+            if (addBusType!=null) {
+                return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+            }
+            else{
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+           
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
@@ -37,9 +47,9 @@ public class BusTypeController {
 
     // Get BusType Details
     @GetMapping("/getBusType" )
-    public ResponseEntity<List<BusTypeModel>> getBusType(){
+    public ResponseEntity<List<BusTypeModel1>> getBusType(){
 
-        List<BusTypeModel> list =null;
+        List<BusTypeModel1> list =null;
         try {
 
             list= busTypeService.getBusType();
@@ -58,8 +68,8 @@ public class BusTypeController {
 
     //Get BusType By Id
     @GetMapping("/getBusType/{id}")
-  public ResponseEntity<BusType> getBusTypeById(@PathVariable("id") Long id){
-   BusType list =null;
+  public ResponseEntity<Map<String,Object>> getBusTypeById(@PathVariable("id") Long id){
+    Map<String,Object> list =null;
       try {
 
            list= busTypeService.getBusTypeById(id);
@@ -86,7 +96,7 @@ public class BusTypeController {
           if(add==null){
            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
        }
-          return ResponseEntity.status(HttpStatus.OK).body(add); 
+          return ResponseEntity.status(HttpStatus.OK).build(); 
       } catch (Exception e) {
           e.printStackTrace();
           System.out.println(e);
@@ -104,7 +114,7 @@ public class BusTypeController {
           if(add==null){
            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
        }
-          return ResponseEntity.status(HttpStatus.OK).body(add); 
+          return ResponseEntity.status(HttpStatus.OK).build(); 
       } catch (Exception e) {
           e.printStackTrace();
           System.out.println(e);

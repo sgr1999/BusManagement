@@ -5,6 +5,10 @@ import com.example.entites.City;
 import com.example.services.CityService;
 
 import java.util.*;
+
+import javax.validation.Valid;
+
+import org.hibernate.metamodel.model.domain.spi.MapPersistentAttribute;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,13 +31,20 @@ public class CityController {
 
     //Add City Details
     @PostMapping("/addCity")
-    public ResponseEntity<City> addCity(@RequestBody City city){
+    public ResponseEntity<City> addCity(@Valid @RequestBody City city){
 
         try {
 
             City addCity = cityService.addCity(city);
-            return ResponseEntity.status(HttpStatus.OK).body(addCity); 
-        } catch (Exception e) {
+
+            if(addCity !=null){
+                return ResponseEntity.status(HttpStatus.OK).build(); 
+            }
+            else{
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+        } 
+        catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
@@ -47,6 +58,10 @@ public class CityController {
         try {
 
             List<CityModel> addCity = cityService.getCity();
+
+            if (addCity.size()<=0) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); 
+            }
             return ResponseEntity.status(HttpStatus.OK).body(addCity); 
         } catch (Exception e) {
             e.printStackTrace();
@@ -55,14 +70,20 @@ public class CityController {
     }
 
     @GetMapping("/getCity/{id}")
-    public ResponseEntity<City> getCityById(@PathVariable("id") Long id){
+    public ResponseEntity<CityModel> getCityById(@PathVariable("id") Long id){
 
         try {
 
-            City addCity = cityService.getCityById(id);
+            CityModel addCity = cityService.getCityById(id);
 
+            if (addCity !=null) {
+                
+                return ResponseEntity.status(HttpStatus.OK).body(addCity); 
+            }
+            else{
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
            
-            return ResponseEntity.status(HttpStatus.OK).body(addCity); 
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -76,7 +97,13 @@ public class CityController {
         try {
 
             City addCity = cityService.updateCityById(city,id);
-            return ResponseEntity.status(HttpStatus.OK).body(addCity); 
+            if (addCity !=null) {
+                
+                return ResponseEntity.status(HttpStatus.OK).build(); 
+            }
+            else{
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -89,7 +116,14 @@ public class CityController {
         try {
 
             City addCity = cityService.deleteCityById(id);
-            return ResponseEntity.status(HttpStatus.OK).body(addCity); 
+
+            if (addCity !=null) {
+                
+                return ResponseEntity.status(HttpStatus.OK).build(); 
+            }
+            else{
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
