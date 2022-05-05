@@ -10,6 +10,7 @@ import com.example.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,29 +20,31 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@Controller 
+@Controller
 @RequestMapping("/user")
 public class UserController {
 
-	@Autowired
-	private UserService userService;
+    @Autowired
+    private UserService userService;
+
+
     
+
     // Add User Details
     @PostMapping("/addUser")
-    public ResponseEntity<User> addCustomer(@Valid @RequestBody User user){
+    public ResponseEntity<User> addCustomer(@Valid @RequestBody User user) {
 
         try {
 
-        
             User add = userService.addUser(user);
 
-            if (add !=null) {
-                
-                return ResponseEntity.status(HttpStatus.CREATED).body(add);
-            }else{
+            if (add != null) {
+
+                return ResponseEntity.status(HttpStatus.CREATED).build();
+            } else {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
-       
+
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -50,12 +53,14 @@ public class UserController {
 
     // Get User By Id
     @GetMapping("/getUser/{id}")
-    public ResponseEntity<User> getCustomerById(@PathVariable("id") Long id){
+    public ResponseEntity<User> getCustomerById(@PathVariable("id") Long id) {
 
         try {
 
             User add = userService.getUserById(id);
-       
+            if (add == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
             return ResponseEntity.status(HttpStatus.OK).body(add);
         } catch (Exception e) {
             e.printStackTrace();
@@ -65,12 +70,15 @@ public class UserController {
 
     // Get All User Details
     @GetMapping("/getUser")
-    public ResponseEntity<List<User>> getCustomer(){
+    public ResponseEntity<List<User>> getCustomer() {
 
         try {
 
             List<User> add = userService.getAllUser();
-       
+
+            if (add.size() <= 0) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
             return ResponseEntity.status(HttpStatus.OK).body(add);
         } catch (Exception e) {
             e.printStackTrace();
@@ -80,37 +88,37 @@ public class UserController {
 
     // Update User By Id
     @PutMapping("/updateUser/{id}")
-    public ResponseEntity<User> UpdateCustomer(@RequestBody User user, @PathVariable("id") Long id){
+    public ResponseEntity<User> UpdateCustomer(@RequestBody User user, @PathVariable("id") Long id) {
 
         try {
 
             User add = userService.UpdateUserById(user, id);
-       
-            return ResponseEntity.status(HttpStatus.OK).body(add);
+            if (add == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+            return ResponseEntity.status(HttpStatus.OK).build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
-  // Delete User By id
-  @DeleteMapping("/deleteUser/{id}")
-  public ResponseEntity<User> deleteCustomer(@PathVariable("id") Long id){
+    // Delete User By id
+    @DeleteMapping("/deleteUser/{id}")
+    public ResponseEntity<User> deleteCustomer(@PathVariable("id") Long id) {
 
-    User list = null;
-      try {
+        User list = null;
+        try {
 
-          list =userService.deleteUserById(id);
-     
-          return ResponseEntity.status(HttpStatus.OK).body(list);
-      } catch (Exception e) {
-          e.printStackTrace();
-          return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-      }
-  }
-
-    
-
-    
+            list = userService.deleteUserById(id);
+            if (list == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
 }

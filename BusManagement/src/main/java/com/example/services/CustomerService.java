@@ -8,6 +8,7 @@ import com.example.entites.Customer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,6 +17,9 @@ public class CustomerService {
     @Autowired 
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
 
     // Add Customer service
     public Customer addCustomer(Customer customer){
@@ -23,6 +27,7 @@ public class CustomerService {
         Customer add = null;
         try{
 
+            customer.setPassword(passwordEncoder.encode(customer.getPassword()));
              add = customerRepository.save(customer);  
              return add;    
         }
@@ -43,14 +48,15 @@ public class CustomerService {
         List<Customer> list=null;
         try{
 
-            list = customerRepository.findAll();       
+            list = customerRepository.findAll();    
+            return list;   
         }
         catch(Exception e){
             e.printStackTrace();
             System.out.println(e);
             
         }
-        return list;
+        return null;
     }
 
     // Get Customer By id
@@ -59,15 +65,15 @@ public class CustomerService {
         Customer customer=null;
         try{
 
-             customer = customerRepository.findCustomerById(id);      
-                
+             customer = customerRepository.getById(id);      
+                return customer;
         }
         catch(Exception e){
             e.printStackTrace();
             System.out.println(e);
             
         }
-        return customer;
+        return null;
     }
 
     // Update Customer By Id
@@ -86,27 +92,29 @@ public class CustomerService {
         add.setAge(customer.getAge());
         add.setMobileNumber(customer.getMobileNumber());
 
-        customerRepository.save(add);   
+       add =  customerRepository.save(add);   
+       return add;
        }
        catch(Exception e){
            e.printStackTrace();
            System.out.println(e);
            
+           return null;
        }
        
-        return add;
     }
 
      // Delete Customer By id
-     public void deleteCustomerById(Long id){
+     public Customer deleteCustomerById(Long id){
         
         try{
-          
-            customerRepository.deleteById(id);      
+          Customer list = customerRepository.getById(id);
+            customerRepository.deleteById(id);    
+            return list;
        }
        catch(Exception e){
            e.printStackTrace();
-          
+          return null;
        }
        
     }

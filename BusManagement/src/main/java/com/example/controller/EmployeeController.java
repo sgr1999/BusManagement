@@ -40,7 +40,7 @@ public class EmployeeController {
 
             if (add != null) {
                 
-                return ResponseEntity.status(HttpStatus.CREATED).body(add);
+                return ResponseEntity.status(HttpStatus.CREATED).build();
             }else{
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
@@ -59,6 +59,10 @@ public class EmployeeController {
             
             
             List<Employee> add = employeeService.getEmp();
+
+            if (add.size()<=0) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
             
             return ResponseEntity.status(HttpStatus.CREATED).body(add);
         } catch (final Exception e) {
@@ -77,9 +81,8 @@ public class EmployeeController {
             if(emp == null){
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
-            // return ResponseEntity.status(HttpStatus.CREATED).body(emp);
+            return ResponseEntity.status(HttpStatus.OK).body(emp);
 
-            return ResponseEntity.of(Optional.of(emp));
         } catch (final Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -96,9 +99,8 @@ public class EmployeeController {
             if(emp1 == null){
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
-            // return ResponseEntity.status(HttpStatus.CREATED).body(emp);
+            return ResponseEntity.status(HttpStatus.OK).build();
 
-            return ResponseEntity.of(Optional.of(emp1));
         } catch (final Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -114,11 +116,9 @@ public class EmployeeController {
             list= employeeService.deleteEmpById(id);
             
             if(list == null){
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(list);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
             return ResponseEntity.status(HttpStatus.OK).build();
-
-            // return ResponseEntity.of(Optional.of(emp1));
         } catch (final Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

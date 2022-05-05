@@ -1,9 +1,7 @@
 package com.example.services;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.example.Model.CityModel;
 import com.example.dao.CityRepository;
@@ -61,11 +59,12 @@ public class CityService {
         try {
 
             list = cityRepository.findData();
+            return list;
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
         }
-        return list;
+        return null;
     }
 
     // Get City By Id
@@ -93,6 +92,8 @@ public class CityService {
             list = cityRepository.getById(id);
             list.setCityCode(city.getCityCode());
             list.setCityName(city.getCityName());
+            list.setDistrictId(city.getDistrictId());
+            
 
             cityRepository.save(list);
             return list;

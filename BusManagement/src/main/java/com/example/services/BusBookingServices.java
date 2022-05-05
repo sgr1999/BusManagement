@@ -5,35 +5,15 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
-import java.util.random.RandomGenerator;
 
-import javax.xml.transform.Source;
-
-import org.apache.catalina.connector.Response;
-import org.hibernate.annotations.SourceType;
-import org.hibernate.id.UUIDHexGenerator;
-import org.hibernate.type.UUIDBinaryType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.TransactionSystemException;
-
-import net.bytebuddy.asm.Advice.Local;
-
-import com.example.Model.BusBookingInfo;
 import com.example.Model.BusBookingModel;
 import com.example.dao.BusBookingDetailRepository;
 import com.example.dao.BusBookingRepository;
 import com.example.dao.BusDepoRouteRepository;
-import com.example.dao.BusDetailRepository;
 import com.example.dao.BusRouteBusDetailRepository;
 import com.example.dao.CustomerRepository;
 import com.example.dao.SourceDestinationRepository;
@@ -43,13 +23,17 @@ import com.example.entites.BusDepoRoute;
 import com.example.entites.BusRouteBusDetail;
 import com.example.entites.Customer;
 import com.example.entites.SourceDestination;
-import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Empty;
-import com.fasterxml.jackson.databind.ser.std.UUIDSerializer;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionSystemException;
 
 @Service
 public class BusBookingServices {
 
-	private static final String UUIDSerializer = null;
 
 	@Autowired
 	private BusBookingRepository busBookingRepository;
@@ -63,8 +47,6 @@ public class BusBookingServices {
 	@Autowired
 	private BusDepoRouteRepository busDepoRouteRepository;
 
-	@Autowired
-	private BusDetailRepository busDetailRepository;
 
 	@Autowired
 	private BusRouteBusDetailRepository busRouteBusDetailRepository;
@@ -108,7 +90,7 @@ public class BusBookingServices {
 			Optional<Customer> customer = customerRepository.findById(customerId);
 			Optional<BusDepoRoute> busDepoRoute = busDepoRouteRepository.findById(busDepoRouteId);
 			Optional<BusRouteBusDetail> busRouteBusDetail = busRouteBusDetailRepository.findById(busRouteBusDetailId);
-			Date travellingDate = dateFormat.parse(travelingDate);
+		//	Date travellingDate = dateFormat.parse(travelingDate);
             DateTimeFormatter paymentDate = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 			LocalDateTime now = LocalDateTime.now();
 

@@ -7,7 +7,6 @@ import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import org.hibernate.type.TrueFalseType;
 
 @Entity
 @Table(name = "busroute_booking_location")

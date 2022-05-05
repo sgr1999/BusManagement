@@ -6,11 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.Model.SourceDestinationModel;
-import com.example.dao.CityRepository;
-import com.example.dao.DistrictRepository;
 import com.example.dao.SourceDestinationRepository;
-import com.example.dao.StateRepository;
-import com.example.entites.City;
 import com.example.entites.SourceDestination;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,27 +14,17 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SourceDestinationService {
-    
+
     @Autowired
     private SourceDestinationRepository sourceDestinationRepository;
 
-    @Autowired
-    private StateRepository stateRepository;
+    // Add SourceDestination
+    public SourceDestination addSource(SourceDestination sourceDestination) {
+        try {
 
-    @Autowired
-    private DistrictRepository districtRepository;
-
-    @Autowired 
-    private CityRepository cityRepository;
-
-    //Add SourceDestination 
-    public SourceDestination addSource(SourceDestination sourceDestination)
-    {
-        try{
-             
-           SourceDestination save = sourceDestinationRepository.save(sourceDestination);
-           System.out.println(save);
-           return save;
+            SourceDestination save = sourceDestinationRepository.save(sourceDestination);
+            System.out.println(save);
+            return save;
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
@@ -47,41 +33,64 @@ public class SourceDestinationService {
     }
 
     // Get All SourceDestination
-    public Map<String, Object> getSource()
-    {
-      
-        List<SourceDestinationModel> list =new ArrayList<>();
+    public List<SourceDestinationModel> getSource() {
 
-        Map<String, Object> map = new HashMap<>();
+        List<SourceDestination> list = null;
+        List<SourceDestinationModel> list1 = new ArrayList<>();
 
         try {
-            
-            list = sourceDestinationRepository.findData();
-    
-            list.forEach(e->{
 
-                map.put("cityCode", e.getCityCode());
-                map.put("cityName", e.getCityName());
-                map.put("districtCode",e.getDistrictCode());
-                map.put("districtName", e.getDistrictName());
-                map.put("stateCode",e.getStateCode());
-                map.put("stateName", e.getStateName());
+            list = sourceDestinationRepository.findAll();
+
+            list.forEach(e -> {
+                list1.add(new SourceDestinationModel(e.getCityId().getCityCode(), e.getCityId().getCityName(),
+                        e.getDistrictId().getDistrictCode(), e.getDistrictId().getDistrictName(),
+                        e.getStateId().getStateCode(), e.getStateId().getStateName()));
             });
+
+            return list1;
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
         }
-        return map;
+        return null;
     }
 
     // Get SourceDestination By Id
-    public SourceDestination getSourceById(Long id)
-    {
-      
-        SourceDestination list =null;
+    public Map<String, Object> getSourceById(Long id) {
+
+        SourceDestination list = null;
+        Map<String, Object> map = new HashMap<>();
         try {
-            
+
             list = sourceDestinationRepository.getById(id);
+
+            map.put("cityCode", list.getCityId().getCityCode());
+            map.put("cityName", list.getCityId().getCityName());
+            map.put("districtCode", list.getDistrictId().getDistrictCode());
+            map.put("districtName", list.getDistrictId().getDistrictName());
+            map.put("stateCode", list.getStateId().getStateName());
+            map.put("stateName", list.getStateId().getStateName());
+
+            return map;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    // Update SourceDestination By Id
+    public SourceDestination updateSourceById(SourceDestination source, Long id) {
+
+        SourceDestination list = null;
+        try {
+            list = sourceDestinationRepository.getById(id);
+            list.setCityId(source.getCityId());
+            list.setDistrictId(source.getDistrictId());
+            list.setStateId(source.getStateId());
+
+            sourceDestinationRepository.save(list);
             return list;
         } catch (Exception e) {
             e.printStackTrace();
@@ -90,40 +99,19 @@ public class SourceDestinationService {
         return null;
     }
 
-     // Update SourceDestination By Id
-     public SourceDestination updateSourceById(SourceDestination source,Long id)
-     {
-       
-       SourceDestination list =null;
-         try {
-             list = sourceDestinationRepository.getById(id);
-             list.setCityId(source.getCityId());
-             list.setDistrictId(source.getDistrictId());
-             list.setStateId(source.getStateId());
+    // Delete SourceDestination By Id
+    public SourceDestination deleteSourceById(Long id) {
 
-             sourceDestinationRepository.save(list);
-             return list;
-         } catch (Exception e) {
-             e.printStackTrace();
-             System.out.println(e);
-         }
-         return null;
-     }
+        SourceDestination byId = null;
+        try {
+            byId = sourceDestinationRepository.getById(id);
+            sourceDestinationRepository.deleteById(id);
+            return byId;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
 
-     //Delete SourceDestination By Id
-     public SourceDestination deleteSourceById(Long id){
-
-       SourceDestination byId = null;
-       try{
-           byId = sourceDestinationRepository.getById(id);
-           sourceDestinationRepository.deleteById(id);
-        return byId;
-       }
-       catch(Exception e){
-           e.printStackTrace();
-           System.out.println(e);
-       }
-
-       return null;
-     }
+        return null;
+    }
 }

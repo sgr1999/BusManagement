@@ -7,6 +7,7 @@ import com.example.entites.Employee;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,14 +16,19 @@ public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     // Add Employee
     public Employee addEmp(Employee emp){
 
         Employee save = null;
         try {
-            
+            emp.setPassword(passwordEncoder.encode(emp.getPassword()));
             save = employeeRepository.save(emp);
             System.out.println(save);
+
+            return save;
         } 
         catch(DataIntegrityViolationException e1){
             System.out.println("UserName Already exist in database");
@@ -32,15 +38,20 @@ public class EmployeeService {
             e.printStackTrace();
             System.out.println(e);
         }
-        return save;
+        return null;
     }
 
     //Get Employee All
     public List<Employee> getEmp(){
 
-        List<Employee> findAll = employeeRepository.findAll();
+        try {
+            List<Employee> findAll = employeeRepository.findAll();
         System.out.println(findAll);
         return findAll;
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
+        return null;
     }
 
     //Get Employee By Id
@@ -49,15 +60,15 @@ public class EmployeeService {
         Employee emp=null;
         try{
 
-           emp  = employeeRepository.findEmpById(id);
+           emp  = employeeRepository.getById(id);
             
-           
+           return emp;
         }
         catch(Exception e){
             e.printStackTrace();
         }
        
-        return emp;
+        return null;
     }
 
     //Update Employee By Id
@@ -78,12 +89,14 @@ public class EmployeeService {
 
             Employee save = employeeRepository.save(emp);
             System.out.println(save);
+
+            return save;
         }
         catch(Exception e){
             e.printStackTrace();
         }
        
-        return emp;
+        return null;
     }
 
     //Update Employee By Id
@@ -94,12 +107,12 @@ public class EmployeeService {
             find = employeeRepository.findEmpById(id);
              employeeRepository.deleteById(id);
             
-        
+        return find;
         }
         catch(Exception e){
             e.printStackTrace();
         }
        
-        return find;
+        return null;
     }
 }

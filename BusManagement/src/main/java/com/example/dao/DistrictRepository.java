@@ -4,7 +4,6 @@ import java.util.*;
 
 import com.example.Model.DistrictModel;
 import com.example.entites.District;
-import com.example.entites.State;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

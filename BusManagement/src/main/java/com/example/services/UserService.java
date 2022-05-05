@@ -6,6 +6,7 @@ import com.example.dao.UserRepository;
 import com.example.entites.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,6 +14,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
     
     // Add User Details
     public User addUser(User user){
@@ -20,6 +24,9 @@ public class UserService {
         User add = null;
         try{
 
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+            System.out.println("------"+user.getPassword());
              add = userRepository.save(user);     
              return add;  
         }
@@ -38,13 +45,14 @@ public class UserService {
         try{
 
             list = userRepository.findAll();       
+            return list;
         }
         catch(Exception e){
             e.printStackTrace();
             System.out.println(e);
             
+            return null;
         }
-        return list;
     }
 
     // Get User By id
@@ -53,7 +61,9 @@ public class UserService {
         User user=null;
         try{
 
-             user = userRepository.findUserById(id);      
+             user = userRepository.findUserById(id);     
+             
+             return user;
                 
         }
         catch(Exception e){
@@ -61,7 +71,7 @@ public class UserService {
             System.out.println(e);
             
         }
-        return user;
+        return null;
     }
 
     // Update User By Id
@@ -79,7 +89,8 @@ public class UserService {
         add.setStatus(user.getStatus());
         add.setMobileNo(user.getMobileNo());
 
-        userRepository.save(add);   
+        User save = userRepository.save(add);   
+        return save;
        }
        catch(Exception e){
            e.printStackTrace();
@@ -87,7 +98,7 @@ public class UserService {
            
        }
        
-        return add;
+        return null;
     }
 
      // Delete User By id
@@ -96,14 +107,16 @@ public class UserService {
         User list = null;
         try{
            list = userRepository.findUserById(id);
-            userRepository.deleteById(id);      
+            userRepository.deleteById(id);    
+            
+            return list;
        }
        catch(Exception e){
            e.printStackTrace();
           
        }
 
-       return list;
+       return null;
     }
     
 }

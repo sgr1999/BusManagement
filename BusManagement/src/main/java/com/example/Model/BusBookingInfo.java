@@ -1,6 +1,5 @@
 package com.example.Model;
 
-import java.util.List;
 
 public class BusBookingInfo {
 
@@ -8,12 +7,6 @@ public class BusBookingInfo {
     private String passengerAge;
     private Long noOfSeat;
     private String transactionId;
-
-    
- 
-
-    
-
 
     public String getPassengerName() {
         return passengerName;

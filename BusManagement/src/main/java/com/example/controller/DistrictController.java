@@ -1,8 +1,6 @@
 package com.example.controller;
 
 import java.util.*;
-
-import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 import com.example.Model.DistrictModel;

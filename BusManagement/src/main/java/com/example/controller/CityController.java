@@ -8,7 +8,6 @@ import java.util.*;
 
 import javax.validation.Valid;
 
-import org.hibernate.metamodel.model.domain.spi.MapPersistentAttribute;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

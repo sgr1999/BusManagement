@@ -1,16 +1,13 @@
 package com.example.controller;
 
-
 import java.util.List;
 
-import javax.persistence.Cache;
 import javax.validation.Valid;
 
 import com.example.entites.Customer;
 import com.example.services.CustomerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,33 +19,28 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
-
 @Controller
 @RequestMapping("/customer")
 public class CustomerController {
-    
 
     @Autowired
     private CustomerService customerService;
 
     // Add Customer Details
     @PostMapping("/addCustomer")
-    public ResponseEntity<Customer> addCustomer(@Valid @RequestBody Customer customer){
+    public ResponseEntity<Customer> addCustomer(@Valid @RequestBody Customer customer) {
 
         try {
 
             Customer add = customerService.addCustomer(customer);
-            
-            if(add !=null){
 
-                return ResponseEntity.status(HttpStatus.CREATED).body(add);
-            }
-            else{
+            if (add != null) {
+
+                return ResponseEntity.status(HttpStatus.CREATED).build();
+            } else {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
-        } 
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
@@ -56,12 +48,16 @@ public class CustomerController {
 
     // Get Customer By Id
     @GetMapping("/getCustomer/{id}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable("id") Long id){
+    public ResponseEntity<Customer> getCustomerById(@PathVariable("id") Long id) {
 
         try {
 
             Customer add = customerService.getCustomerById(id);
-       
+
+            if (add == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+
             return ResponseEntity.status(HttpStatus.OK).body(add);
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,12 +67,16 @@ public class CustomerController {
 
     // Get All Customer Details
     @GetMapping("/getCustomer")
-    public ResponseEntity<List<Customer>> getCustomer(){
+    public ResponseEntity<List<Customer>> getCustomer() {
 
         try {
 
             List<Customer> add = customerService.getAllCustomer();
-       
+
+            if (add.size() <= 0) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+
             return ResponseEntity.status(HttpStatus.OK).body(add);
         } catch (Exception e) {
             e.printStackTrace();
@@ -86,33 +86,37 @@ public class CustomerController {
 
     // Update Customer By Id
     @PutMapping("/updateCustomer/{id}")
-    public ResponseEntity<Customer> UpdateCustomer(@RequestBody Customer customer, @PathVariable("id") Long id){
+    public ResponseEntity<Customer> UpdateCustomer(@RequestBody Customer customer, @PathVariable("id") Long id) {
 
         try {
 
             Customer add = customerService.UpdateCustomerById(customer, id);
-       
-            return ResponseEntity.status(HttpStatus.OK).body(add);
+            if (add == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+            return ResponseEntity.status(HttpStatus.OK).build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
-  // Delete Customer By id
-  @DeleteMapping("/deleteCustomer/{id}")
-  public ResponseEntity<Customer> deleteCustomer(@PathVariable("id") Long id){
+    // Delete Customer By id
+    @DeleteMapping("/deleteCustomer/{id}")
+    public ResponseEntity<Customer> deleteCustomer(@PathVariable("id") Long id) {
 
+        try {
 
-      try {
+            Customer cc = customerService.deleteCustomerById(id);
+            if (cc == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
 
-        customerService.deleteCustomerById(id);
-     
-          return ResponseEntity.status(HttpStatus.OK).build();
-      } catch (Exception e) {
-          e.printStackTrace();
-          return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-      }
-  }
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
 }

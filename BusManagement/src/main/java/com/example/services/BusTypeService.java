@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.example.Model.BusTypeModel;
 import com.example.Model.BusTypeModel1;
 import com.example.dao.BusTypeRepository;
 import com.example.entites.BusType;
@@ -41,13 +40,10 @@ public class BusTypeService {
     // Get All BusType
     public List<BusTypeModel1> getBusType()
     {
-      
-        List<BusTypeModel> list =null;
         List<BusType> list1 =null;
         List<BusTypeModel1> list2 =new ArrayList<>();
         try {
             
-            list = busTypeRepository.findData();
             list1 = busTypeRepository.findAll();
 
             list1.forEach(e->{

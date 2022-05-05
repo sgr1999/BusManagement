@@ -46,17 +46,16 @@ public class SourceDestinationController {
 
      // Get SourceDestination Details
      @GetMapping("/getSourceDestination" )
-     public ResponseEntity<Map<String, Object>> getSource(){
+     public ResponseEntity<List<SourceDestinationModel>> getSource(){
  
-        Map<String, Object> list =null;
+        
          try {
 
-             list= sourceDestinationService.getSource();
+           List<SourceDestinationModel>  list= sourceDestinationService.getSource();
             if(list.size()<=0){
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
 
-             System.out.println(list);
              return ResponseEntity.status(HttpStatus.OK).body(list);
          } catch (Exception e) {
              e.printStackTrace();
@@ -66,8 +65,8 @@ public class SourceDestinationController {
 
      //Get SourceDestination By Id
      @GetMapping("/getSourceDestination/{id}")
-   public ResponseEntity<SourceDestination> getSourceById(@PathVariable("id") Long id){
-    SourceDestination list =null;
+   public ResponseEntity<Map<String, Object>> getSourceById(@PathVariable("id") Long id){
+    Map<String, Object> list =null;
        try {
 
             list= sourceDestinationService.getSourceById(id);

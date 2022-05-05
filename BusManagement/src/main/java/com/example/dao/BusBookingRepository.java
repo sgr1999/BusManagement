@@ -1,8 +1,5 @@
 package com.example.dao;
 
-import java.util.List;
-
-import com.example.Model.BusBookingModel;
 
 import com.example.entites.BusBooking;
 import com.example.entites.BusDepoRoute;

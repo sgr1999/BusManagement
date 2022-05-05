@@ -5,7 +5,6 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
-import com.example.Model.BusTypeModel;
 import com.example.Model.BusTypeModel1;
 import com.example.entites.BusType;
 import com.example.services.BusTypeService;

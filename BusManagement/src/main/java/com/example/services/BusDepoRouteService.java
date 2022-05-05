@@ -1,21 +1,17 @@
 package com.example.services;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import com.example.Model.BusDepoRouteModel;
 import com.example.dao.BusDepoRouteRepository;
-import com.example.dao.CityRepository;
 import com.example.dao.SourceDestinationRepository;
 import com.example.entites.BusDepoRoute;
 import com.example.entites.SourceDestination;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Description;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -29,8 +25,7 @@ public class BusDepoRouteService {
     @Autowired 
     private SourceDestinationRepository sourceDestinationRepository;
 
-    @Autowired
-    private CityRepository cityRepository;
+
 
     // Add BusDepoRoute Details
     public BusDepoRoute addBusDepoRoute(BusDepoRoute busDepoRoute){
@@ -85,7 +80,6 @@ public class BusDepoRouteService {
     {
       
         BusDepoRoute list =null;
-        BusDepoRouteModel list1 = null;
         Map<String,Object> map = new HashMap<>();
         try {
             

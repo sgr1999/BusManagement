@@ -44,19 +44,17 @@ public class myConfig extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(authenticationProvider());
-		//auth.userDetailsService(userDetailsServiceImpl);
+
 	}
-	
-//	@Autowired
-//	    public void configureGlobal(AuthenticationManagerBuilder builder, PasswordEncoder passwordEncoder) throws Exception {
-//	    builder.userDetailsService(getUserDetailsService()).passwordEncoder(passwordEncoder);
-//	    }
+
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		http.authorizeRequests().antMatchers("/user/**").hasAnyRole("running")
-		.antMatchers("/**").permitAll().and().formLogin()
-		.and().csrf().disable();
+		http.authorizeRequests().antMatchers("/user/**").hasRole("running")
+		.antMatchers("/**").permitAll().and().formLogin().and().csrf().disable();
+
+		// http.authorizeRequests().antMatchers("/user/**").hasRole("running")
+		// .antMatchers("/**").permitAll().and().csrf().disable();
 	}
 }
