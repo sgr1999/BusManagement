@@ -69,7 +69,7 @@ public class StateController {
      }
 
 
-      // Get State By Id
+    //  Get State By Id
     @GetMapping("/getState/{id}")
     public ResponseEntity<State> getStateById(@PathVariable("id") Long id){
 
@@ -81,12 +81,12 @@ public class StateController {
                return ResponseEntity.status(HttpStatus.CREATED).body(add);
            }
            else{
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
            }
         } 
         catch(EntityNotFoundException e1){
             System.out.println("State id not found in database");
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -95,6 +95,7 @@ public class StateController {
         }
     }
 
+  
 
       // Update State By Id
       @PutMapping("/updateState/{id}" )

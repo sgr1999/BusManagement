@@ -25,9 +25,7 @@ public class StateService {
     {
         State save = null;
         try {
-            
            save = stateRepository.save(state);
-           
         }
         catch(DataIntegrityViolationException e1){
             System.out.println("State Code or State Name check properly data alredy does exist in database");
@@ -73,6 +71,9 @@ public class StateService {
         }
         return null;
     }
+
+
+   
 
      // Update State By Id
      public State updateStateById(State state,Long id)

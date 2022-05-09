@@ -19,8 +19,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping("employee")
 public class EmployeeController {
     
@@ -75,18 +76,12 @@ public class EmployeeController {
     @GetMapping("/getEmployee/{id}" )
     public ResponseEntity<Employee> getEmpById(@PathVariable("id") Long id){
 
-        try {
+      
             Employee emp = employeeService.getEmpById(id);
-            
-            if(emp == null){
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            }
-            return ResponseEntity.status(HttpStatus.OK).body(emp);
+          
+            return new ResponseEntity<Employee>(emp, HttpStatus.OK);
 
-        } catch (final Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+       
     }
 
     // update Employee By id

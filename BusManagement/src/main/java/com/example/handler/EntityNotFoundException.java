@@ -10,10 +10,9 @@ public class EntityNotFoundException extends RuntimeException{
     String fieldName;
     long fieldValue;
     public EntityNotFoundException(String resourceName, String fieldName, long fieldValue) {
-        super(String.format("%s not found with %s : %s", resourceName, fieldName));
+        super(String.format("%s not found with %s : %l", resourceName, fieldName));
         this.resourceName = resourceName;
         this.fieldName = fieldName;
         this.fieldValue = fieldValue;
     }
-  
 }

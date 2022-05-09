@@ -51,10 +51,13 @@ public class myConfig extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		http.authorizeRequests().antMatchers("/user/**").hasRole("running")
-		.antMatchers("/**").permitAll().and().formLogin().and().csrf().disable();
+		// http.authorizeRequests().antMatchers("/user/**").hasRole("running")
+		// .antMatchers("/**").permitAll().and().formLogin().and().csrf().disable();
 
 		// http.authorizeRequests().antMatchers("/user/**").hasRole("running")
 		// .antMatchers("/**").permitAll().and().csrf().disable();
+
+		http.authorizeRequests()
+		.antMatchers("/**").permitAll().and().formLogin().and().csrf().disable();
 	}
 }
