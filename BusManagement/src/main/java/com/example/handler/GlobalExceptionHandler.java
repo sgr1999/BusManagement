@@ -1,5 +1,6 @@
 package com.example.handler;
 
+import com.example.exception.ResourceNotFoundException;
 import com.example.response.ApiResponse;
 
 import org.springframework.http.HttpStatus;
@@ -19,12 +20,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ApiResponse> entityNotFoundExceptionHandler(EntityNotFoundException ex){
+    // @ExceptionHandler(ResourceNotFoundException.class)
+    // public ResponseEntity<ApiResponse> resourceNotFoundAnythingExceptionHandler(ResourceNotFoundException ex){
 
-        String message = ex.getMessage();
-        ApiResponse apiResponse = new ApiResponse(message, false);
-        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.NOT_FOUND);
-    }
+    //     String message = ex.getMessage();
+    //     ApiResponse apiResponse = new ApiResponse(message,false);
+    //     return new ResponseEntity<ApiResponse>(apiResponse,HttpStatus.NOT_FOUND);
+    // }
 
 }

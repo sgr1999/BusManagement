@@ -17,6 +17,13 @@ public class ApiResponse {
         this.message = message;
         this.success = success;
     }
+
+    
+    public ApiResponse(String message) {
+        this.message = message;
+    }
+
+
     public ApiResponse() {
     }
     public String getMessage() {

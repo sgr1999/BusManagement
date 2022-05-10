@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import com.example.entites.Employee;
+import com.example.response.ApiResponse;
 import com.example.services.EmployeeService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class EmployeeController {
 
     // Add Employee
     @PostMapping("/addEmployee" )
-    public ResponseEntity<Employee> addEmp(@Valid @RequestBody final Employee emp){
+    public ResponseEntity<ApiResponse> addEmp(@Valid @RequestBody final Employee emp){
 
         try {
             
@@ -41,7 +42,7 @@ public class EmployeeController {
 
             if (add != null) {
                 
-                return ResponseEntity.status(HttpStatus.CREATED).build();
+                return new ResponseEntity<ApiResponse>(new ApiResponse("Employee data added successfully",true), HttpStatus.CREATED);
             }else{
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
@@ -56,20 +57,13 @@ public class EmployeeController {
     @GetMapping("/getEmployee" )
     public ResponseEntity<List<Employee>> getEmp(){
 
-        try {
-            
-            
             List<Employee> add = employeeService.getEmp();
 
-            if (add.size()<=0) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            }
+  
+                return new ResponseEntity<>(add, HttpStatus.OK);
+           
             
-            return ResponseEntity.status(HttpStatus.CREATED).body(add);
-        } catch (final Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        
     }
 
     // Get Employee By
@@ -104,19 +98,12 @@ public class EmployeeController {
 
     // Delete Employee By Id
     @DeleteMapping("/deleteEmployee/{id}" )
-    public ResponseEntity<Employee> deleteEmpById(@PathVariable("id") Long id){
+    public ResponseEntity<ApiResponse> deleteEmpById(@PathVariable("id") Long id){
 
-        Employee list = null;
-        try {
-            list= employeeService.deleteEmpById(id);
-            
-            if(list == null){
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            }
-            return ResponseEntity.status(HttpStatus.OK).build();
-        } catch (final Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+       
+             employeeService.deleteEmpById(id);
+        
+                return new ResponseEntity<ApiResponse>(new ApiResponse("Deleted data successfully",true), HttpStatus.OK);
+          
     }
 }

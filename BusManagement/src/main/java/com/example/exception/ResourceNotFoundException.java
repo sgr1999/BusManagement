@@ -1,4 +1,4 @@
-package com.example.handler;
+package com.example.exception;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +15,11 @@ public class ResourceNotFoundException extends RuntimeException{
         this.resourceName = resourceName;
         this.fieldName = fieldName;
         this.fieldValue = fieldValue;
+    }
+
+    public ResourceNotFoundException() {
+
+        super("not found anything in table");
     }
   
     

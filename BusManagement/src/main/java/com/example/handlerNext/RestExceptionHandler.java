@@ -1,6 +1,5 @@
 package com.example.handlerNext;
 
-import com.example.handler.EntityNotFoundException;
 import com.example.response.ApiError;
 
 import org.springframework.core.Ordered;
@@ -28,14 +27,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
        return new ResponseEntity<Object>(apiError, apiError.getStatus());
    }
 
-   //other exception handlers below
+//    //other exception handlers below
 
-   @ExceptionHandler(EntityNotFoundException.class)
-   protected ResponseEntity<Object> handleEntityNotFound(
-           EntityNotFoundException ex) {
-       ApiError apiError = new ApiError(HttpStatus.NOT_FOUND);
-       apiError.setMessage(ex.getMessage());
-       return buildResponseEntity(apiError);
-   }
+//    @ExceptionHandler(EntityNotFoundException.class)
+//    protected ResponseEntity<Object> handleEntityNotFound(
+//            EntityNotFoundException ex) {
+//        ApiError apiError = new ApiError(HttpStatus.NOT_FOUND);
+//        apiError.setMessage(ex.getMessage());
+//        return buildResponseEntity(apiError);
+//    }
 
 }

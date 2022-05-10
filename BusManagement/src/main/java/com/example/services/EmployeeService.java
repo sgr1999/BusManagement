@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.example.dao.EmployeeRepository;
 import com.example.entites.Employee;
-import com.example.handler.ResourceNotFoundException;
+import com.example.exception.ResourceNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -45,14 +45,16 @@ public class EmployeeService {
     //Get Employee All
     public List<Employee> getEmp(){
 
-        try {
+        
             List<Employee> findAll = employeeRepository.findAll();
-        System.out.println(findAll);
+
+            System.out.println("-----------"+findAll);
+
+            if (findAll.size()<=0) {
+                throw new ResourceNotFoundException();
+            }
         return findAll;
-        } catch (Exception e) {
-           e.printStackTrace();
-        }
-        return null;
+       
     }
 
     //Get Employee By Id
@@ -97,19 +99,11 @@ public class EmployeeService {
     }
 
     //delete Employee By Id
-    public Employee deleteEmpById(Long id){
+    public void deleteEmpById(Long id){
 
-        Employee find =null;
-        try{
-            find = employeeRepository.findEmpById(id);
-             employeeRepository.deleteById(id);
-            
-        return find;
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-       
-        return null;
+       Employee emp  = employeeRepository.findById(id)
+           .orElseThrow(()-> new ResourceNotFoundException("Employee", "id", id));
+
+           employeeRepository.delete(emp);
     }
 }
