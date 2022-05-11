@@ -5,6 +5,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.example.entites.Customer;
+import com.example.response.ApiResponse;
+import com.example.response.ApiResponse1;
 import com.example.services.CustomerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,75 +32,41 @@ public class CustomerController {
     @PostMapping("/addCustomer")
     public ResponseEntity<Customer> addCustomer(@Valid @RequestBody Customer customer) {
 
-        try {
+        
 
-            Customer add = customerService.addCustomer(customer);
-
-            if (add != null) {
+            customerService.addCustomer(customer);
 
                 return ResponseEntity.status(HttpStatus.CREATED).build();
-            } else {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+      
     }
 
     // Get Customer By Id
     @GetMapping("/getCustomer/{id}")
     public ResponseEntity<Customer> getCustomerById(@PathVariable("id") Long id) {
 
-        try {
-
             Customer add = customerService.getCustomerById(id);
-
-            if (add == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            }
-
+ 
             return ResponseEntity.status(HttpStatus.OK).body(add);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+       
     }
 
     // Get All Customer Details
     @GetMapping("/getCustomer")
     public ResponseEntity<List<Customer>> getCustomer() {
 
-        try {
-
             List<Customer> add = customerService.getAllCustomer();
 
-            if (add.size() <= 0) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            }
-
             return ResponseEntity.status(HttpStatus.OK).body(add);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+      
     }
 
     // Update Customer By Id
     @PutMapping("/updateCustomer/{id}")
-    public ResponseEntity<Customer> UpdateCustomer(@RequestBody Customer customer, @PathVariable("id") Long id) {
+    public ResponseEntity<ApiResponse1> UpdateCustomer(@Valid @RequestBody Customer customer, @PathVariable("id") Long id) {
 
-        try {
-
-            Customer add = customerService.UpdateCustomerById(customer, id);
-            if (add == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            }
-            return ResponseEntity.status(HttpStatus.OK).build();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+             customerService.UpdateCustomerById(customer, id);
+           
+            return new ResponseEntity<ApiResponse1>(new ApiResponse1("Customer updated successfully"),HttpStatus.OK);
     }
 
     // Delete Customer By id

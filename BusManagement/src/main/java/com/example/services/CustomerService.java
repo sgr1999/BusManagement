@@ -5,6 +5,9 @@ import java.util.List;
 
 import com.example.dao.CustomerRepository;
 import com.example.entites.Customer;
+import com.example.exception.DataAlreadyPresentExceptionHandling;
+import com.example.exception.DataNotMatchException;
+import com.example.exception.ResourceNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -25,68 +28,56 @@ public class CustomerService {
     public Customer addCustomer(Customer customer){
 
         Customer add = null;
-        try{
 
             customer.setPassword(passwordEncoder.encode(customer.getPassword()));
+
+            String c= customerRepository.findUserName(customer.getUserName());
+
+       if (c !=null) {
+           throw new DataAlreadyPresentExceptionHandling("Customer", "userName", customer.getUserName());
+       }
              add = customerRepository.save(customer);  
              return add;    
-        }
-        catch(DataIntegrityViolationException e1){
-            System.out.println("UserName Already exist in database");
-
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            System.out.println(e);
-        }
-        return null;
+      
     }
 
     // Get All Customer 
     public List<Customer> getAllCustomer(){
 
         List<Customer> list=null;
-        try{
+       
 
             list = customerRepository.findAll();    
+
+            if (list.size()<=0) {
+                throw new ResourceNotFoundException();
+            }
             return list;   
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            System.out.println(e);
-            
-        }
-        return null;
+        
     }
 
     // Get Customer By id
     public Customer getCustomerById(Long id){
 
         Customer customer=null;
-        try{
 
-             customer = customerRepository.getById(id);      
+          customer= customerRepository.findById(id)
+             .orElseThrow(()-> new ResourceNotFoundException("Customer","id",id));      
                 return customer;
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            System.out.println(e);
-            
-        }
-        return null;
+      
     }
 
     // Update Customer By Id
     public Customer UpdateCustomerById(Customer customer, Long id){
 
-        Customer add=null;
-        try{
-
-             add = customerRepository.findCustomerById(id);    
+        Customer add = customerRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Customer","id",id));    
         
+        if (customer.getUserName()!=add.getUserName()) {
+            throw new DataNotMatchException("Customer", "id", id);
+        }
         add.setFirstName(customer.getFirstName());
         add.setLastName(customer.getLastName());
-        add.setUserName(customer.getUserName());
+        add.setUserName(add.getUserName());
         add.setPassword(customer.getPassword());
         add.setGender(customer.getGender());
         add.setAge(customer.getAge());
@@ -94,14 +85,6 @@ public class CustomerService {
 
        add =  customerRepository.save(add);   
        return add;
-       }
-       catch(Exception e){
-           e.printStackTrace();
-           System.out.println(e);
-           
-           return null;
-       }
-       
     }
 
      // Delete Customer By id

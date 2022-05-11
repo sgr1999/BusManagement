@@ -71,7 +71,7 @@ public class EmployeeService {
     public Employee updateEmpById(Employee employee ,Long id){
 
         Employee emp=null;
-        try{
+  
             
             emp  = employeeRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Employee", "id", id));
             
@@ -87,12 +87,7 @@ public class EmployeeService {
             System.out.println(save);
 
             return save;
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
        
-        return null;
     }
 
     //delete Employee By Id

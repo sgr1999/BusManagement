@@ -55,11 +55,5 @@ public class State extends Auditable<String>{
     @Override
     public String toString() {
         return "State [stateCode=" + stateCode + ", stateId=" + stateId + ", stateName=" + stateName + "]";
-    }
-
-    
-    
-
-    
- 
+    }  
 }
