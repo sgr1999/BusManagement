@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.dao.EmployeeRepository;
 import com.example.entites.Employee;
+import com.example.exception.DataAlreadyPresentExceptionHandling;
 import com.example.exception.ResourceNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,22 +25,18 @@ public class EmployeeService {
     public Employee addEmp(Employee emp){
 
         Employee save = null;
-        try {
-            emp.setPassword(passwordEncoder.encode(emp.getPassword()));
+        
+
+           String name =  employeeRepository.findUserName(emp.getUserName());
+
+           if(name != null){
+               throw new DataAlreadyPresentExceptionHandling("Employee", "userName", name);
+           }
+           
             save = employeeRepository.save(emp);
-            System.out.println(save);
-
+           
             return save;
-        } 
-        catch(DataIntegrityViolationException e1){
-            System.out.println("UserName Already exist in database");
-
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e);
-        }
-        return null;
+       
     }
 
     //Get Employee All

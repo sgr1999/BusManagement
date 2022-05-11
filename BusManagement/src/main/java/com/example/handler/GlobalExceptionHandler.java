@@ -1,5 +1,6 @@
 package com.example.handler;
 
+import com.example.exception.DataAlreadyPresentExceptionHandling;
 import com.example.exception.ResourceNotFoundException;
 import com.example.response.ApiResponse;
 
@@ -20,12 +21,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.NOT_FOUND);
     }
 
-    // @ExceptionHandler(ResourceNotFoundException.class)
-    // public ResponseEntity<ApiResponse> resourceNotFoundAnythingExceptionHandler(ResourceNotFoundException ex){
+    @ExceptionHandler(DataAlreadyPresentExceptionHandling.class)
+    public ResponseEntity<ApiResponse> dataAlreadyPresent(DataAlreadyPresentExceptionHandling ex){
 
-    //     String message = ex.getMessage();
-    //     ApiResponse apiResponse = new ApiResponse(message,false);
-    //     return new ResponseEntity<ApiResponse>(apiResponse,HttpStatus.NOT_FOUND);
-    // }
+        String message = ex.getMessage();
+        ApiResponse apiResponse = new ApiResponse(message, false);
+        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 }

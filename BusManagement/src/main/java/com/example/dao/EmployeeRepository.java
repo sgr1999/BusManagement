@@ -13,7 +13,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
     public Employee findEmpById(@Param("id") Long id);
 
     
-    @Query("delete from Employee e where e.empId= :id")
-    public Employee deleteEmpById(@Param("id") Long id);
+    @Query("select e.userName from Employee e where e.userName= :email")
+    public String findUserName(@Param("email") String userName);
 
 }

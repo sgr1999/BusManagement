@@ -35,7 +35,7 @@ public class EmployeeController {
     @PostMapping("/addEmployee" )
     public ResponseEntity<ApiResponse> addEmp(@Valid @RequestBody final Employee emp){
 
-        try {
+      
             
             
             Employee add = employeeService.addEmp(emp);
@@ -47,10 +47,7 @@ public class EmployeeController {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
             
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+       
     }
 
     // Get All Employee
