@@ -10,7 +10,6 @@ import com.example.exception.DataNotMatchException;
 import com.example.exception.ResourceNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -72,12 +71,14 @@ public class CustomerService {
 
         Customer add = customerRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Customer","id",id));    
         
-        if (customer.getUserName()!=add.getUserName()) {
+       
+        if (!customer.getUserName().equals(add.getUserName())) {
             throw new DataNotMatchException("Customer", "id", id);
         }
+        
         add.setFirstName(customer.getFirstName());
         add.setLastName(customer.getLastName());
-        add.setUserName(add.getUserName());
+        add.setUserName(customer.getUserName());
         add.setPassword(customer.getPassword());
         add.setGender(customer.getGender());
         add.setAge(customer.getAge());
@@ -88,17 +89,12 @@ public class CustomerService {
     }
 
      // Delete Customer By id
-     public Customer deleteCustomerById(Long id){
+     public void deleteCustomerById(Long id){
         
-        try{
-          Customer list = customerRepository.getById(id);
-            customerRepository.deleteById(id);    
-            return list;
-       }
-       catch(Exception e){
-           e.printStackTrace();
-          return null;
-       }
+   
+          Customer list = customerRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Customer","id",id));
+            customerRepository.delete(list);   
        
+     
     }
 }

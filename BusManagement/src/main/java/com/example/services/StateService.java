@@ -7,6 +7,8 @@ import javax.persistence.EntityNotFoundException;
 
 import com.example.dao.StateRepository;
 import com.example.entites.State;
+import com.example.exception.DataAlreadyPresentExceptionHandling;
+import com.example.exception.ResourceNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -24,17 +26,24 @@ public class StateService {
     public State addState(State state)
     {
         State save = null;
-        try {
+     
+        String code = stateRepository.getStateCode(state.getStateCode());
+        String name = stateRepository.getStateName(state.getStateName());
+
+        if (code!=null && name!=null) {
+            throw new DataAlreadyPresentExceptionHandling("State", "stateCode and stateName");
+        }
+        if (code!=null) {
+            throw new DataAlreadyPresentExceptionHandling("State", "stateCode", state.getStateCode());
+        }
+
+        if (name!=null) {
+            throw new DataAlreadyPresentExceptionHandling("State", "stateName", state.getStateName());
+        }
            save = stateRepository.save(state);
-        }
-        catch(DataIntegrityViolationException e1){
-            System.out.println("State Code or State Name check properly data alredy does exist in database");
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e);
-        }
-        return save;
+        
+           return save;
+       
     }
 
     // Get All State
@@ -42,12 +51,10 @@ public class StateService {
     {
       
         List<State> list =null;
-        try {
-            
-            list = stateRepository.findAll();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e);
+        list = stateRepository.findAll();
+        
+        if (list.size()<=0) {
+            throw new ResourceNotFoundException(); 
         }
         return list;
     }
@@ -57,44 +64,24 @@ public class StateService {
     {
       
         State list =null;
-        try {
             
-            list = stateRepository.getById(id);
+            list = stateRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("state","id",id));
             return list;
-        } 
-        catch(EntityNotFoundException e1){
-            System.out.println("State id not found in database");
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e);
-        }
-        return null;
+        
     }
-
-
-   
 
      // Update State By Id
      public State updateStateById(State state,Long id)
      {
        
          State list =null;
-         try {
+         
              
-             list = stateRepository.getById(id);
+             list = stateRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("State","id",id));
              list.setStateCode(state.getStateCode());
              list.setStateName(state.getStateName());
 
              stateRepository.save(list);
-         } 
-         catch(EntityNotFoundException e){
-             System.out.println("State Id not present in database");
-         }
-         catch (Exception e) {
-             e.printStackTrace();
-             System.out.println(e);
-         }
          return list;
      }
 

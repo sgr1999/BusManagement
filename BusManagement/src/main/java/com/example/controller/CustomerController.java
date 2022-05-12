@@ -71,20 +71,9 @@ public class CustomerController {
 
     // Delete Customer By id
     @DeleteMapping("/deleteCustomer/{id}")
-    public ResponseEntity<Customer> deleteCustomer(@PathVariable("id") Long id) {
+    public ResponseEntity<ApiResponse1> deleteCustomer(@PathVariable("id") Long id) {
 
-        try {
-
-            Customer cc = customerService.deleteCustomerById(id);
-            if (cc == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            }
-
-            return ResponseEntity.status(HttpStatus.OK).build();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+       customerService.deleteCustomerById(id);
+       return new ResponseEntity<ApiResponse1>(new ApiResponse1("employee data deleted successfully"),HttpStatus.OK);
     }
-
 }

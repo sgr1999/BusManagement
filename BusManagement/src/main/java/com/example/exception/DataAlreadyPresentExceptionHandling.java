@@ -18,5 +18,11 @@ public class DataAlreadyPresentExceptionHandling extends RuntimeException{
         this.fieldValue = fieldValue;
     }
 
+    public DataAlreadyPresentExceptionHandling(String resourceName, String fieldName) {
+        super(String.format("%s is alredy added with %s", resourceName, fieldName));
+        this.resourceName = resourceName;
+        this.fieldName = fieldName;
+    }
+
     
 }

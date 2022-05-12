@@ -7,6 +7,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 import com.example.entites.State;
+import com.example.response.ApiResponse1;
 import com.example.services.StateService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,114 +25,69 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/state")
 public class StateController {
-    
+
     @Autowired
     private StateService stateService;
 
     // Add State
-    @PostMapping("/addState" )
-    public ResponseEntity<State> addState(@Valid @RequestBody State state){
+    @PostMapping("/addState")
+    public ResponseEntity<ApiResponse1> addState(@Valid @RequestBody State state) {
 
-        try {
+        stateService.addState(state);
 
-           State add = stateService.addState(state);
+        return new ResponseEntity<ApiResponse1>(new ApiResponse1("state data added successfully!!"),
+                HttpStatus.CREATED);
 
-           if(add != null){
-               return ResponseEntity.status(HttpStatus.CREATED).body(add);
-           }
-           else{
-            return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).build();
-           }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
     }
 
-     // Get State Details
-     @GetMapping("/getState" )
-     public ResponseEntity<List<State>> getState(){
- 
-         try {
+    // Get State Details
+    @GetMapping("/getState")
+    public ResponseEntity<List<State>> getState() {
 
-           List<State> list = stateService.getState();
+        List<State> list = stateService.getState();
 
-           if(list.size()<=0){
-               return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-           }
+        return ResponseEntity.status(HttpStatus.OK).body(list);
 
-             System.out.println(list);
-             return ResponseEntity.status(HttpStatus.OK).body(list);
-         } catch (Exception e) {
-             e.printStackTrace();
-             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-         }
-     }
+    }
 
-
-    //  Get State By Id
+    // Get State By Id
     @GetMapping("/getState/{id}")
-    public ResponseEntity<State> getStateById(@PathVariable("id") Long id){
+    public ResponseEntity<State> getStateById(@PathVariable("id") Long id) {
 
-        try {
+      
 
-           State add = stateService.getStateById(id);
-           System.out.println(add);
-           if(add != null){
-               return ResponseEntity.status(HttpStatus.CREATED).body(add);
-           }
-           else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-           }
-        } 
-        catch(EntityNotFoundException e1){
-            System.out.println("State id not found in database");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+            State add = stateService.getStateById(id);
+          
+                return ResponseEntity.status(HttpStatus.CREATED).body(add);
+         
     }
 
-  
+    // Update State By Id
+    @PutMapping("/updateState/{id}")
+    public ResponseEntity<State> updateStateById(@RequestBody State state, @PathVariable("id") Long id) {
 
-      // Update State By Id
-      @PutMapping("/updateState/{id}" )
-      public ResponseEntity<State> updateStateById(@RequestBody State state,@PathVariable("id") Long id){
-  
-          try {
-  
-             State add = stateService.updateStateById(state, id);
+       
 
-             add.setStateCode(state.getStateCode());
-             add.setStateName(state.getStateName());
-              return ResponseEntity.status(HttpStatus.OK).body(add);
-          }
-          catch(EntityNotFoundException e1){
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-          } 
-          catch (Exception e) {
-              e.printStackTrace();
-              System.out.println(e);
-              return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-          }
-      }
+            State add = stateService.updateStateById(state, id);
 
-        // Delete State By Id
-    @DeleteMapping("/deleteState/{id}" )
-    public ResponseEntity<State> deleteStateById(@PathVariable("id") Long id){
+            add.setStateCode(state.getStateCode());
+            add.setStateName(state.getStateName());
+            return ResponseEntity.status(HttpStatus.OK).body(add);
+      
+    }
+
+    // Delete State By Id
+    @DeleteMapping("/deleteState/{id}")
+    public ResponseEntity<State> deleteStateById(@PathVariable("id") Long id) {
 
         try {
 
-           Optional<State> list = stateService.deleteStateById(id);
-           if(!list.isEmpty()){
-               return ResponseEntity.status(HttpStatus.OK).build();
-           }
-           else{
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-           }
+            Optional<State> list = stateService.deleteStateById(id);
+            if (!list.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.OK).build();
+            } else {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
