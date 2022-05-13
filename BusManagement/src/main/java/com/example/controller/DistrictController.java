@@ -5,6 +5,7 @@ import javax.validation.Valid;
 
 import com.example.Model.DistrictModel;
 import com.example.entites.*;
+import com.example.response.ApiResponse1;
 import com.example.services.DistrictService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,110 +17,59 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/district")
 public class DistrictController {
-    
 
-    @Autowired 
+    @Autowired
     private DistrictService districtService;
 
-     // Add District
-     @PostMapping("/addDistrict" )
-     public ResponseEntity<District> addDis(@Valid @RequestBody Map<String,Object> mpDistrict){
- 
-         try {
- 
-            District add = districtService.addDistrict(mpDistrict);
+    // Add District
+    @PostMapping("/addDistrict")
+    public ResponseEntity<ApiResponse1> addDis(@Valid @RequestBody District district) {
 
-            if (add != null) {
-                return ResponseEntity.status(HttpStatus.CREATED).build();
-            }
-            else{
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-            }
-         } catch (Exception e) {
-             e.printStackTrace();
-             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-         }
-     }
+        District add = districtService.addDistrict(district);
 
-      // Get District Details
-      @GetMapping("/getDistrict" )
-      public ResponseEntity<List<DistrictModel>> getDis(){
-  
-          try {
+        return new ResponseEntity<ApiResponse1>(new ApiResponse1("District all information added successfully!!"),
+                HttpStatus.CREATED);
 
-            List<DistrictModel> list = districtService.getDistrict();
-
-            if(list.size()<=0){
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            }
-
-              System.out.println(list);
-              return ResponseEntity.status(HttpStatus.OK).body(list);
-          } catch (Exception e) {
-              e.printStackTrace();
-              return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-          }
-      }
-
-      //Get District By Id
-      @GetMapping("/getDistrict/{id}")
-    public ResponseEntity<DistrictModel> getDistrictById(@PathVariable("id") Long id){
-
-        try {
-
-            DistrictModel addDistrict = districtService.getDistrictById(id);
-
-            if(addDistrict !=null){
-                return ResponseEntity.status(HttpStatus.OK).body(addDistrict); 
-            }
-            else{
-                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
     }
 
+    // Get District Details
+    @GetMapping("/getDistrict")
+    public ResponseEntity<List<DistrictModel>> getDis() {
 
-    //Update District By Id
+        List<DistrictModel> list = districtService.getDistrict();
+
+        return ResponseEntity.status(HttpStatus.OK).body(list);
+
+    }
+
+    // //Get District By Id
+    @GetMapping("/getDistrict/{id}")
+    public ResponseEntity<DistrictModel> getDistrictById(@PathVariable("id") Long id) {
+
+        DistrictModel addDistrict = districtService.getDistrictById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(addDistrict);
+
+    }
+
+    // Update District By Id
     @PutMapping("/updateDistrict/{id}")
-    public ResponseEntity<District> updateDistrictById(@RequestBody District district,@PathVariable("id") Long id){
+    public ResponseEntity<ApiResponse1> updateDistrictById(@Valid @RequestBody District district,
+            @PathVariable("id") Long id) {
 
-        try {
+        districtService.updateDistrictById(district, id);
 
-            District addDistrict = districtService.updateDistrictById(district,id);
+        return new ResponseEntity<ApiResponse1>(new ApiResponse1("district data updated successfully!!"),
+                HttpStatus.OK);
 
-            if (addDistrict != null) {
-                return ResponseEntity.status(HttpStatus.OK).build(); 
-            }
-            else{
-                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
     }
 
     // Delete District By Id
     @DeleteMapping("/deleteDistrict/{id}")
-    public ResponseEntity<District> deleteDistrictById(@PathVariable("id") Long id){
+    public ResponseEntity<ApiResponse1> deleteDistrictById(@PathVariable("id") Long id) {
 
-        try {
-            District add = districtService.deleteDistrictById(id);
-          //  System.out.println("controller ---------"+add);
-            if (add != null) {
-                
-                return ResponseEntity.status(HttpStatus.OK).build();   
-            }else{
+        districtService.deleteDistrictById(id);
 
-                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-            }
-        } 
-        catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        return new ResponseEntity<ApiResponse1>(new ApiResponse1("district deleted successfully!!"),HttpStatus.OK);
+
     }
 }

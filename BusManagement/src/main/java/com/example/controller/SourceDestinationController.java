@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.example.Model.SourceDestinationModel;
 import com.example.entites.SourceDestination;
+import com.example.response.ApiResponse1;
 import com.example.services.SourceDestinationService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,24 +25,14 @@ public class SourceDestinationController {
 
     // Add SourceDestination
     @PostMapping("/addSourceDestination" )
-    public ResponseEntity<SourceDestination> addSource(@RequestBody SourceDestination sourceDestination){
+    public ResponseEntity<ApiResponse1> addSource(@RequestBody SourceDestination sourceDestination){
 
-        try {
 
-           SourceDestination add = sourceDestinationService.addSource(sourceDestination);
+           sourceDestinationService.addSource(sourceDestination);
 
-           if (add != null) {
+          
                
-               return ResponseEntity.status(HttpStatus.CREATED).build();
-           }
-           else{
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-           }
-           
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+           return new ResponseEntity<ApiResponse1>(new ApiResponse1("Data added successfully!"),HttpStatus.CREATED);
     }
 
      // Get SourceDestination Details
@@ -49,57 +40,39 @@ public class SourceDestinationController {
      public ResponseEntity<List<SourceDestinationModel>> getSource(){
  
         
-         try {
+        
 
            List<SourceDestinationModel>  list= sourceDestinationService.getSource();
-            if(list.size()<=0){
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            }
 
              return ResponseEntity.status(HttpStatus.OK).body(list);
-         } catch (Exception e) {
-             e.printStackTrace();
-             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-         }
+       
      }
 
      //Get SourceDestination By Id
      @GetMapping("/getSourceDestination/{id}")
-   public ResponseEntity<Map<String, Object>> getSourceById(@PathVariable("id") Long id){
-    Map<String, Object> list =null;
-       try {
+   public ResponseEntity<SourceDestinationModel> getSourceById(@PathVariable("id") Long id){
+    SourceDestinationModel list =null;
+       
 
             list= sourceDestinationService.getSourceById(id);
 
-           if(list !=null){
+    
             return ResponseEntity.status(HttpStatus.OK).body(list); 
-        }
-        else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-          
-       } catch (Exception e) {
-           e.printStackTrace();
-           return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-       }
+       
    }
 
 
    //Update SourceDestination By Id
    @PutMapping("/updateSourceDestination/{id}")
-   public ResponseEntity<SourceDestination> updateSourceById(@RequestBody SourceDestination sourceDestination,@PathVariable("id") Long id){
+   public ResponseEntity<ApiResponse1> updateSourceById(@RequestBody SourceDestination sourceDestination,@PathVariable("id") Long id){
 
-       try {
+       
 
-           SourceDestination add = sourceDestinationService.updateSourceById(sourceDestination,id);
-           if(add==null){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-           return ResponseEntity.status(HttpStatus.OK).build(); 
-       } catch (Exception e) {
-           e.printStackTrace();
-           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-       }
+          sourceDestinationService.updateSourceById(sourceDestination,id);
+        
+           return new ResponseEntity<ApiResponse1>(new ApiResponse1("SourceDestination data updated successfully!!"),
+                HttpStatus.OK);
+       
    }
 
    // Delete SourceDestination By Id

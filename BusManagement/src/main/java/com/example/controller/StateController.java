@@ -54,45 +54,28 @@ public class StateController {
     @GetMapping("/getState/{id}")
     public ResponseEntity<State> getStateById(@PathVariable("id") Long id) {
 
-      
+        State add = stateService.getStateById(id);
 
-            State add = stateService.getStateById(id);
-          
-                return ResponseEntity.status(HttpStatus.CREATED).body(add);
-         
+        return ResponseEntity.status(HttpStatus.CREATED).body(add);
+
     }
 
     // Update State By Id
     @PutMapping("/updateState/{id}")
-    public ResponseEntity<State> updateStateById(@RequestBody State state, @PathVariable("id") Long id) {
+    public ResponseEntity<ApiResponse1> updateStateById(@RequestBody State state, @PathVariable("id") Long id) {
 
-       
+        stateService.updateStateById(state, id);
 
-            State add = stateService.updateStateById(state, id);
+        return new ResponseEntity<ApiResponse1>(new ApiResponse1("state data updated successfully!!"), HttpStatus.OK);
 
-            add.setStateCode(state.getStateCode());
-            add.setStateName(state.getStateName());
-            return ResponseEntity.status(HttpStatus.OK).body(add);
-      
     }
 
     // Delete State By Id
     @DeleteMapping("/deleteState/{id}")
-    public ResponseEntity<State> deleteStateById(@PathVariable("id") Long id) {
+    public ResponseEntity<ApiResponse1> deleteStateById(@PathVariable("id") Long id) {
 
-        try {
+        stateService.deleteStateById(id);
 
-            Optional<State> list = stateService.deleteStateById(id);
-            if (!list.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.OK).build();
-            } else {
-                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        return new ResponseEntity<ApiResponse1>(new ApiResponse1("state data deleted successfully!!"), HttpStatus.OK);
     }
-
 }

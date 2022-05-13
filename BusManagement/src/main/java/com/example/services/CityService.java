@@ -8,6 +8,10 @@ import com.example.dao.CityRepository;
 import com.example.dao.DistrictRepository;
 import com.example.entites.City;
 import com.example.entites.District;
+import com.example.exception.DataAlreadyPresentExceptionHandling;
+import com.example.exception.DataIntegrityViolationExceptionHandling;
+import com.example.exception.DataNotMatchException;
+import com.example.exception.ResourceNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -24,100 +28,97 @@ public class CityService {
 
     // Add City
     public City addCity(City city) {
-        City save = null;
-        District dd = null;
-        try {
 
-            Long c = city.getDistrictId().getDistrictId();
-            dd = districtRepository.getById(c);
+        Long code = cityRepository.getCityCode(city.getCityCode());
+        String name = cityRepository.getCityName(city.getCityName());
 
-            if (dd != null) {
-                city.setDistrictId(dd);
-                save = cityRepository.save(city);
-                return save;
-            } else {
-                throw new Exception("district id does not exist in database");
-            }
+        districtRepository.findById(city.getDistrictId().getDistrictId())
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("District", "id", city.getDistrictId().getDistrictId()));
 
-
-
-        } catch (DataIntegrityViolationException e1) {
-            System.out.println("--city code or city name already does exist in database");
-            return null;
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e);
-            return null;
+        if (code != null && name != null) {
+            throw new DataAlreadyPresentExceptionHandling("City", "cityCode, cityName");
         }
+
+        if (code != null) {
+            throw new DataAlreadyPresentExceptionHandling("City", "cityCode", code);
+        }
+
+        if (name != null) {
+            throw new DataAlreadyPresentExceptionHandling("City", "cityName");
+        }
+
+        cityRepository.save(city);
+
+        return city;
 
     }
 
     // Get All City
     public List<CityModel> getCity() {
 
-        List<CityModel> list = new ArrayList<>();
-        try {
+        List<City> list = cityRepository.findAll();
+        List<CityModel> list1 = new ArrayList<>();
 
-            list = cityRepository.findData();
-            return list;
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e);
-        }
-        return null;
+        list.forEach(e -> {
+            list1.add(new CityModel(e.getCityId(), e.getCityCode(), e.getCityName()));
+        });
+
+        return list1;
+
     }
 
     // Get City By Id
     public CityModel getCityById(Long id) {
 
-        CityModel list = null;
-        try {
+        City list = null;
 
-            list = cityRepository.getDataById(id);
-            System.out.println("------------------"+list);
-            return list;
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e);
-            
-        }
-        return null;
+        list = cityRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("City", "id", id));
+
+        CityModel c = new CityModel(list.getCityId(), list.getCityCode(), list.getCityName());
+        return c;
+
     }
 
     // Update City By Id
     public City updateCityById(City city, Long id) {
 
         City list = null;
-        try {
-            list = cityRepository.getById(id);
-            list.setCityCode(city.getCityCode());
-            list.setCityName(city.getCityName());
-            list.setDistrictId(city.getDistrictId());
-            
 
+        list = cityRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("City", "id", id));
+
+        districtRepository.findById(city.getDistrictId().getDistrictId())
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("District", "id", city.getDistrictId().getDistrictId()));
+
+        list.setCityCode(city.getCityCode());
+        list.setCityName(city.getCityName());
+        list.setDistrictId(city.getDistrictId());
+
+        try {
             cityRepository.save(list);
             return list;
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e);
+            throw new DataNotMatchException(id);
         }
-        return null;
+
     }
 
     // Delete By Id
-    public City deleteCityById(Long id) {
+    public void deleteCityById(Long id) {
 
         City byId = null;
+
+        byId = cityRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("City", "id", id));
+
         try {
-            byId = cityRepository.getById(id);
-            cityRepository.deleteById(id);
 
-            return byId;
+            cityRepository.delete(byId);
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e);
+            throw new DataIntegrityViolationExceptionHandling("City", id);
         }
-
-        return null;
     }
 }

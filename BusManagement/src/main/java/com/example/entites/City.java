@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -26,6 +27,7 @@ public class City extends Auditable<String>{
     private Long cityCode;
 
     @NotBlank(message = "city name is required")
+    @Size(min=2, message = "city name should have at least 2 characters")
     @Column(name = "city_name" ,unique = true)
     private String cityName;
 

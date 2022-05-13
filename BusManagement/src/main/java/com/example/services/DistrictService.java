@@ -1,5 +1,6 @@
 package com.example.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -11,6 +12,10 @@ import com.example.dao.DistrictRepository;
 import com.example.dao.StateRepository;
 import com.example.entites.District;
 import com.example.entites.State;
+import com.example.exception.DataAlreadyPresentExceptionHandling;
+import com.example.exception.DataIntegrityViolationExceptionHandling;
+import com.example.exception.DataNotMatchException;
+import com.example.exception.ResourceNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -19,137 +24,104 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DistrictService {
-    
 
     @Autowired
     private DistrictRepository districtRepository;
-    
+
     @Autowired
     private StateRepository stateRepository;
 
+    // Add District
 
-    //Add District 
-    public District addDistrict(Map<String,Object> mpDistrict)
-    {
+    public District addDistrict(District district) {
         District save = null;
-        try {
 
-            Long districtCode = Long.parseLong((String)mpDistrict.get("districtCode"));
-            String districtName = (String) mpDistrict.get("districtName");
-            Long stateId = Long.parseLong((String)mpDistrict.get("stateId"));
-            Optional<State> stateId1 = stateRepository.findById(stateId);
-            
-            
+        Long code = districtRepository.getDistrictCode(district.getDistrictCode());
+        String name = districtRepository.getDistrictName(district.getDistrictName());
 
-            District district = new District();
+        stateRepository.findById(district.getStateId().getStateId())
+                .orElseThrow(() -> new ResourceNotFoundException("State", "id", district.getStateId().getStateId()));
 
-            district.setDistrictCode(districtCode);
-            district.setDistrictName(districtName);
-
-            if(!stateId1.isEmpty())
-            {
-                district.setStateId(stateId1.get());
-            }
-            else{
-                throw new Exception("state id does not exist in database");
-            }
-
-           save = districtRepository.save(district);
+        if (code != null && name != null) {
+            throw new DataAlreadyPresentExceptionHandling("District", "districtCode , districtName");
         }
-        catch(DataIntegrityViolationException e1){
-            System.out.println("--District code or District name already does exist in database");
+
+        if (code != null) {
+            throw new DataAlreadyPresentExceptionHandling("District", "districtCode", code);
         }
-        catch(NumberFormatException e2){
-            System.out.println("district code or district name can not be null");
+
+        if (name != null) {
+            throw new DataAlreadyPresentExceptionHandling("District", "districtName");
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e);
-        }
+
+        districtRepository.save(district);
         return save;
+
     }
 
     // Get All District
-    public List<DistrictModel> getDistrict()
-    {
-      
-        List<DistrictModel> data=null;
-        try {
+    public List<DistrictModel> getDistrict() {
 
-             data = districtRepository.getData();
-           System.out.println(data);
-            
+        List<District> data = null;
+        List<DistrictModel> list = new ArrayList<>();
+        data = districtRepository.findAll();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e);
+        if (data.size() <= 0) {
+            throw new ResourceNotFoundException();
         }
-        return data;
-    }
 
-    // Get District By Id
-    public DistrictModel getDistrictById(Long id)
-    {
-      
-        DistrictModel list =null;
-        try {
-            
-            list = districtRepository.getDataById(id);
+        data.forEach(e -> {
+            list.add(new DistrictModel(e.getDistrictId(), e.getDistrictCode(), e.getDistrictName()));
+        });
 
-            System.out.println("--------------------"+list);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e);
-        }
         return list;
     }
 
-     // Update District By Id
-     public District updateDistrictById(District district,Long id)
-     {
-       
-       District list =null;
-         try {
-             list = districtRepository.getById(id);
-             list.setDistrictCode(district.getDistrictCode());
-             list.setDistrictName(district.getDistrictName());
+    // Get District By Id
+    public DistrictModel getDistrictById(Long id) {
 
-      
-                 
-                 list=  districtRepository.save(list);
-            
-          return list;
-         } 
-         catch(EntityNotFoundException e1){
-             System.out.println("--district id not present in database please check it properly");
-         }
-         catch (Exception e) {
-             e.printStackTrace();
-             System.out.println(e);
-         }
-         return null;
-     }
+        District list = null;
 
-     //Delete By Id
-     public District deleteDistrictById(Long id){
-       District byId = null;
-       try{
-          
-               byId = districtRepository.getById(id);
-              // System.out.println("------------service-------"+byId);
-               districtRepository.deleteById(id);
-               return byId;
-          
-       }
-       catch(EmptyResultDataAccessException e1){
-           System.out.println("--#--district id not present in database check it properly--#--");
-           return null;
-       }
-       catch(Exception e){
-           e.printStackTrace();
-           System.out.println(e);
-           return null;
-       }
+        list = districtRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("District", "id", id));
 
-     }
+        DistrictModel d = new DistrictModel(list.getDistrictId(), list.getDistrictCode(), list.getDistrictName());
+
+        return d;
+    }
+
+    // Update District By Id
+    public District updateDistrictById(District district, Long id) {
+
+        District list = null;
+
+        list = districtRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("District", "id", id));
+
+        list.setDistrictCode(district.getDistrictCode());
+        list.setDistrictName(district.getDistrictName());
+
+        try {
+
+            list = districtRepository.save(list);
+            return list;
+        } catch (Exception e) {
+            throw new DataNotMatchException(id);
+        }
+
+    }
+
+    // Delete By Id
+    public void deleteDistrictById(Long id) {
+
+        districtRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("City", "id", id));
+
+        try {
+
+            districtRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new DataIntegrityViolationExceptionHandling("State", id);
+        }
+    }
 }

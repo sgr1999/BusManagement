@@ -2,6 +2,7 @@ package com.example.Model;
 
 public class SourceDestinationModel {
     
+    private Long id;
     private Long cityCode;
     private String cityName;
     private Long districtCode;
@@ -11,14 +12,24 @@ public class SourceDestinationModel {
     
 
     
-    public SourceDestinationModel(Long cityCode, String cityName, Long districtCode, String districtName, String stateCode,
-            String stateName) {
+   
+    public SourceDestinationModel() {
+    }
+    public SourceDestinationModel(Long id, Long cityCode, String cityName, Long districtCode, String districtName,
+            String stateCode, String stateName) {
+        this.id = id;
         this.cityCode = cityCode;
         this.cityName = cityName;
         this.districtCode = districtCode;
         this.districtName = districtName;
         this.stateCode = stateCode;
         this.stateName = stateName;
+    }
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
     }
     public Long getCityCode() {
         return cityCode;

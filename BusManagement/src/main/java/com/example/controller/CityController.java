@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.Model.CityModel;
 import com.example.entites.City;
+import com.example.response.ApiResponse1;
 import com.example.services.CityService;
 
 import java.util.*;
@@ -23,110 +24,58 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/city")
 public class CityController {
-    
+
     @Autowired
     private CityService cityService;
 
-
-    //Add City Details
+    // Add City Details
     @PostMapping("/addCity")
-    public ResponseEntity<City> addCity(@Valid @RequestBody City city){
+    public ResponseEntity<ApiResponse1> addCity(@Valid @RequestBody City city) {
 
-        try {
+        City addCity = cityService.addCity(city);
 
-            City addCity = cityService.addCity(city);
+        return new ResponseEntity<ApiResponse1>(new ApiResponse1("City information added successfully!!"),
+                HttpStatus.OK);
 
-            if(addCity !=null){
-                return ResponseEntity.status(HttpStatus.OK).build(); 
-            }
-            else{
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            }
-        } 
-        catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-        
     }
 
     // Get City All
     @GetMapping("/getCity")
-    public ResponseEntity<List<CityModel>> getCity(){
+    public ResponseEntity<List<CityModel>> getCity() {
 
-        try {
+        List<CityModel> addCity = cityService.getCity();
 
-            List<CityModel> addCity = cityService.getCity();
+        return ResponseEntity.status(HttpStatus.OK).body(addCity);
 
-            if (addCity.size()<=0) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); 
-            }
-            return ResponseEntity.status(HttpStatus.OK).body(addCity); 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
     }
 
+    // Get City By Id
     @GetMapping("/getCity/{id}")
-    public ResponseEntity<CityModel> getCityById(@PathVariable("id") Long id){
+    public ResponseEntity<CityModel> getCityById(@PathVariable("id") Long id) {
 
-        try {
+        CityModel addCity = cityService.getCityById(id);
 
-            CityModel addCity = cityService.getCityById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(addCity);
 
-            if (addCity !=null) {
-                
-                return ResponseEntity.status(HttpStatus.OK).body(addCity); 
-            }
-            else{
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            }
-           
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
     }
-
 
     @PutMapping("/updateCity/{id}")
-    public ResponseEntity<City> updateCityById(@RequestBody City city,@PathVariable("id") Long id){
+    public ResponseEntity<ApiResponse1> updateCityById(@Valid @RequestBody City city, @PathVariable("id") Long id) {
 
-        try {
+        cityService.updateCityById(city, id);
 
-            City addCity = cityService.updateCityById(city,id);
-            if (addCity !=null) {
-                
-                return ResponseEntity.status(HttpStatus.OK).build(); 
-            }
-            else{
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        return new ResponseEntity<ApiResponse1>(new ApiResponse1("City information updated successfully!"),
+                HttpStatus.OK);
+
     }
 
     @DeleteMapping("/deleteCity/{id}")
-    public ResponseEntity<City> deleteCityById(@PathVariable("id") Long id){
+    public ResponseEntity<ApiResponse1> deleteCityById(@PathVariable("id") Long id) {
 
-        try {
+        cityService.deleteCityById(id);
 
-            City addCity = cityService.deleteCityById(id);
+        return new ResponseEntity<ApiResponse1>(new ApiResponse1("City information deleted successfully!"), HttpStatus.OK);
 
-            if (addCity !=null) {
-                
-                return ResponseEntity.status(HttpStatus.OK).build(); 
-            }
-            else{
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
     }
-    
+
 }

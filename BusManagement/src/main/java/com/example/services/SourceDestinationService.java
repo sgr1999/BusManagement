@@ -6,8 +6,15 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.Model.SourceDestinationModel;
+import com.example.dao.CityRepository;
+import com.example.dao.DistrictRepository;
 import com.example.dao.SourceDestinationRepository;
+import com.example.dao.StateRepository;
+import com.example.entites.City;
 import com.example.entites.SourceDestination;
+import com.example.exception.DataAlreadyPresentExceptionHandling;
+import com.example.exception.DataNotMatchException;
+import com.example.exception.ResourceNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,18 +25,39 @@ public class SourceDestinationService {
     @Autowired
     private SourceDestinationRepository sourceDestinationRepository;
 
+    @Autowired
+    private CityRepository cityRepository;
+
+    @Autowired
+    private DistrictRepository districtRepository;
+
+    @Autowired
+    private StateRepository stateRepository;
+
     // Add SourceDestination
     public SourceDestination addSource(SourceDestination sourceDestination) {
-        try {
 
-            SourceDestination save = sourceDestinationRepository.save(sourceDestination);
-            System.out.println(save);
-            return save;
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e);
+        City cityId = sourceDestinationRepository.getCityId(sourceDestination.getCityId());
+
+        if (cityId != null) {
+            throw new DataAlreadyPresentExceptionHandling("City", "cityId", sourceDestination.getCityId().getCityId());
         }
-        return null;
+
+        stateRepository.findById(sourceDestination.getStateId().getStateId())
+                .orElseThrow(() -> new ResourceNotFoundException("State", "id",
+                        sourceDestination.getStateId().getStateId()));
+
+        districtRepository.findById(sourceDestination.getDistrictId().getDistrictId())
+                .orElseThrow(() -> new ResourceNotFoundException("District", "id",
+                        sourceDestination.getDistrictId().getDistrictId()));
+
+        cityRepository.findById(sourceDestination.getCityId().getCityId())
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("City", "id", sourceDestination.getCityId().getCityId()));
+
+        SourceDestination save = sourceDestinationRepository.save(sourceDestination);
+        return save;
+
     }
 
     // Get All SourceDestination
@@ -38,65 +66,79 @@ public class SourceDestinationService {
         List<SourceDestination> list = null;
         List<SourceDestinationModel> list1 = new ArrayList<>();
 
-        try {
+        list = sourceDestinationRepository.findAll();
 
-            list = sourceDestinationRepository.findAll();
-
-            list.forEach(e -> {
-                list1.add(new SourceDestinationModel(e.getCityId().getCityCode(), e.getCityId().getCityName(),
-                        e.getDistrictId().getDistrictCode(), e.getDistrictId().getDistrictName(),
-                        e.getStateId().getStateCode(), e.getStateId().getStateName()));
-            });
-
-            return list1;
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e);
+        if (list.size() <= 0) {
+            throw new ResourceNotFoundException();
         }
-        return null;
+
+        list.forEach(e -> {
+            list1.add(new SourceDestinationModel(e.getSourceDestinationId(), e.getCityId().getCityCode(),
+                    e.getCityId().getCityName(),
+                    e.getDistrictId().getDistrictCode(), e.getDistrictId().getDistrictName(),
+                    e.getStateId().getStateCode(), e.getStateId().getStateName()));
+        });
+
+        return list1;
+
     }
 
     // Get SourceDestination By Id
-    public Map<String, Object> getSourceById(Long id) {
+    public SourceDestinationModel getSourceById(Long id) {
 
         SourceDestination list = null;
-        Map<String, Object> map = new HashMap<>();
-        try {
+        SourceDestinationModel sd = new SourceDestinationModel();
 
-            list = sourceDestinationRepository.getById(id);
+        list = sourceDestinationRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("SourceDestination", "id", id));
 
-            map.put("cityCode", list.getCityId().getCityCode());
-            map.put("cityName", list.getCityId().getCityName());
-            map.put("districtCode", list.getDistrictId().getDistrictCode());
-            map.put("districtName", list.getDistrictId().getDistrictName());
-            map.put("stateCode", list.getStateId().getStateName());
-            map.put("stateName", list.getStateId().getStateName());
+        sd.setCityCode(list.getCityId().getCityCode());
+        sd.setCityName(list.getCityId().getCityName());
+        sd.setDistrictCode(list.getDistrictId().getDistrictCode());
+        sd.setDistrictName(list.getDistrictId().getDistrictName());
+        sd.setStateCode(list.getStateId().getStateCode());
+        sd.setStateName(list.getStateId().getStateName());
+        sd.setId(list.getSourceDestinationId());
 
-            return map;
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e);
-        }
-        return null;
+        return sd;
+
     }
 
     // Update SourceDestination By Id
-    public SourceDestination updateSourceById(SourceDestination source, Long id) {
+    public SourceDestination updateSourceById(SourceDestination sourceDestination, Long id) {
 
         SourceDestination list = null;
-        try {
-            list = sourceDestinationRepository.getById(id);
-            list.setCityId(source.getCityId());
-            list.setDistrictId(source.getDistrictId());
-            list.setStateId(source.getStateId());
+      
+            list = sourceDestinationRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("SourceDestination", "id", id));
+
+           // City cityId = sourceDestinationRepository.findById(sourceDestination.getCityId().getCityId());
+
+        if (list.getCityId().getCityId() != sourceDestination.getCityId().getCityId()) {
+           // throw new DataNotMatchException("Source Destination", "id", id,"cityId");
+        }
+
+        stateRepository.findById(sourceDestination.getStateId().getStateId())
+                .orElseThrow(() -> new ResourceNotFoundException("State", "id",
+                        sourceDestination.getStateId().getStateId()));
+
+        districtRepository.findById(sourceDestination.getDistrictId().getDistrictId())
+                .orElseThrow(() -> new ResourceNotFoundException("District", "id",
+                        sourceDestination.getDistrictId().getDistrictId()));
+
+        cityRepository.findById(sourceDestination.getCityId().getCityId())
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("City", "id", sourceDestination.getCityId().getCityId()));
+
+
+
+            list.setCityId(sourceDestination.getCityId());
+            list.setDistrictId(sourceDestination.getDistrictId());
+            list.setStateId(sourceDestination.getStateId());
 
             sourceDestinationRepository.save(list);
             return list;
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e);
-        }
-        return null;
+       
     }
 
     // Delete SourceDestination By Id

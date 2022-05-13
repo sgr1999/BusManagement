@@ -11,12 +11,9 @@ import org.springframework.data.repository.query.Param;
 
 public interface DistrictRepository extends JpaRepository<District,Long>{
 
-    @Query("select d from District d")
-    public List<District> getAll();
+    @Query("select s.districtCode from District s where s.districtCode = :code")
+    public Long getDistrictCode(@Param("code") Long code);
 
-    @Query("select new com.example.Model.DistrictModel(d.districtCode, d.districtName) from District d")
-    public List<DistrictModel> getData();
-
-    @Query("select new com.example.Model.DistrictModel(d.districtCode, d.districtName) from District d where d.districtId = :id")
-    public DistrictModel getDataById(@Param("id") Long id);
+    @Query("select s.districtName from District s where s.districtName = :name")
+    public String getDistrictName(@Param("name") String name);
 }

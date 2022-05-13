@@ -3,7 +3,7 @@ package com.example.Model;
 
 public class DistrictModel {
     
-
+    private Long id;
     private Long districtCode;
 
     private String districtName;
@@ -19,6 +19,28 @@ public class DistrictModel {
         this.districtCode = districtCode;
         this.districtName = districtName;
     }
+
+    
+
+    public DistrictModel(Long id, Long districtCode, String districtName) {
+        this.id = id;
+        this.districtCode = districtCode;
+        this.districtName = districtName;
+    }
+
+
+
+    public Long getId() {
+        return id;
+    }
+
+
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
 
     public Long getDistrictCode() {
         return districtCode;

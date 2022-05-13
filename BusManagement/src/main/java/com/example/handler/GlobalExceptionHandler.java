@@ -1,6 +1,9 @@
 package com.example.handler;
 
+import javax.xml.crypto.Data;
+
 import com.example.exception.DataAlreadyPresentExceptionHandling;
+import com.example.exception.DataIntegrityViolationExceptionHandling;
 import com.example.exception.DataNotMatchException;
 import com.example.exception.ResourceNotFoundException;
 import com.example.response.ApiResponse;
@@ -37,6 +40,14 @@ public class GlobalExceptionHandler {
         String message = ex.getMessage();
         ApiResponse1 apiResponse = new ApiResponse1(message);
         return new ResponseEntity<ApiResponse1>(apiResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationExceptionHandling.class)
+    public ResponseEntity<ApiResponse1> dataCanNotDelete(DataIntegrityViolationExceptionHandling ex){
+        
+        String message = ex.getMessage();
+        ApiResponse1 api = new ApiResponse1(message);
+        return new ResponseEntity<ApiResponse1>(api, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }
