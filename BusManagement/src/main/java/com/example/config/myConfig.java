@@ -51,11 +51,15 @@ public class myConfig extends WebSecurityConfigurerAdapter{
 		// http.authorizeRequests().antMatchers("/user/**").fullyAuthenticated()
 		// .antMatchers("/**").permitAll().and().csrf().disable();
 
-		// http.authorizeRequests().antMatchers("/user/**").hasRole("running")
-		// .antMatchers("/**").permitAll().and().csrf().disable();
+		http.authorizeRequests().antMatchers("/user/**").hasRole("USER")
+		.antMatchers("/**").permitAll().and()
+		.formLogin().loginPage("/signin")
+		.loginProcessingUrl("/dologin")
+		.defaultSuccessUrl("/user/index")
+		.and().csrf().disable();
 
-		http.authorizeRequests()
-		.antMatchers("/**").permitAll().and().formLogin().and().csrf().disable();
+		// http.authorizeRequests().antMatchers("/user/**").hasRole("USER")
+		// .antMatchers("/**").permitAll().and().formLogin().and().csrf().disable();
 
 		// http.csrf().disable()
 		// .authorizeRequests()
@@ -65,7 +69,8 @@ public class myConfig extends WebSecurityConfigurerAdapter{
 
 		//  http.csrf().disable()
 		// .authorizeRequests()
-		// .antMatchers("/user/**").hasRole("running")
+		// .antMatchers("/user/**").hasRole("USER")
+		// .antMatchers("/**").permitAll().anyRequest().authenticated()
 		// .and()
 		// .httpBasic();
 	}

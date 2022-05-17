@@ -115,7 +115,7 @@ public class SourceDestinationService {
            // City cityId = sourceDestinationRepository.findById(sourceDestination.getCityId().getCityId());
 
         if (list.getCityId().getCityId() != sourceDestination.getCityId().getCityId()) {
-           // throw new DataNotMatchException("Source Destination", "id", id,"cityId");
+           throw new DataNotMatchException("Source Destination", "cityId",sourceDestination.getCityId().getCityId());
         }
 
         stateRepository.findById(sourceDestination.getStateId().getStateId())
