@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import javax.websocket.OnError;
 
 @Entity
 @Table(name = "user")
@@ -15,27 +16,28 @@ public class User extends Auditable<String>{
     private Long userId;
 
     @NotEmpty
-	@Size(min=2, message = "First name should have at least 2 characters")
+	@Size(min=2, message = "First name should have at least 2 characters !!")
     @Column(name = "first_name")
     private String firstName;
 
     @NotEmpty
-	@Size(min=2, message = "Last name should have at least 2 characters")
+	@Size(min=3, message = "Last name should have at least 3 characters !!")
     @Column(name = "last_name")
     private String lastName;
 
     @NotEmpty
-	@Email(message = "Check user name properly")
+	@Email(regexp = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$", message = "Invalid Email !!")
     @Column(name = "user_name" ,unique = true)
     private String userName;
 
-    @NotEmpty
-	@Size(min=8, message = "Password should have at least 8 characters")
+	@Size(min=8, message = "Password should have at least 8 characters !!")
     @Column(name = "password")
     private String password;
 
+    private String password1;
+
     @NotEmpty
-	@Size(min=10, max = 10, message = "Enter Correct mobile number in 10 digits")
+	@Size(min=10, max = 10, message = "Enter Correct mobile number in 10 digits !!")
     @Column(name = "mobile_no")
     private String mobileNo;
 
@@ -92,6 +94,16 @@ public class User extends Auditable<String>{
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    
+
+    public String getPassword1() {
+        return password1;
+    }
+
+    public void setPassword1(String password1) {
+        this.password1 = password1;
     }
 
     public String getMobileNo() {

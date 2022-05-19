@@ -20,7 +20,16 @@
       
                       <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign In</p>
       
+
                       <form action="" th:action="@{/dologin}" method="post" th:object="${user}">
+                      
+                      <div th:if="${param.error}" class="alert alert-danger">
+                        Invalid userName and Password
+                      </div>
+
+                      <div th:if="${param.logout}" class="alert alert-success">
+                        You have been logged out
+                      </div>
                         <!-- Email input -->
                         <div class="form-outline mb-4">
                           <input 

@@ -12,6 +12,11 @@ public class DataAlreadyPresentExceptionHandling extends RuntimeException{
     String fieldValue;
     Long fieldValue1;
 
+    
+    public DataAlreadyPresentExceptionHandling() {
+        super("alredy registred with this email");
+    }
+
     public DataAlreadyPresentExceptionHandling(String resourceName, String fieldName, String fieldValue) {
         super(String.format("%s is alredy registred with %s : %s", resourceName, fieldName,fieldValue));
         this.resourceName = resourceName;

@@ -1,137 +1,195 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://thymeleaf.org" th:replace="normal/base::layout(~{::section})">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html
+  lang="en"
+  xmlns="http://thymeleaf.org"
+  th:replace="normal/base::layout(~{::section})"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    
-
+  </head>
+  <body>
     <section>
+      <div>
+        <div class="vh-100 gradient-custom">
+          <div class="container py-5 h-60">
+            <div class="row justify-content-center align-items-center h-100">
+              <div class="col-12 col-lg-3 col-xl-7">
+                <div
+                  class="card shadow-2-strong card-registration"
+                  style="border-radius: 15px"
+                >
+                  <div class="card-body p-4 p-md-5">
+                 
 
-        <div>
+                    <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Add New User Here</h3>
 
-            <div class="vh-100 gradient-custom">
-                <div class="container py-5 h-60">
-                  <div class="row justify-content-center align-items-center h-100">
-                    <div class="col-12 col-lg-3 col-xl-7">
-                      <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
-                        <div class="card-body p-4 p-md-5">
+                    <div style="background-color:#ffffff" th:if="${session.message}" th:classappend="${session.message.type}" class="p-0 m-0" role="alert">
+                      <p style="color: red" th:text="${session.message.type}"></p>
+                      
+                      <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+                    </div>
+                    <form
+                      novalidate
+                      action=""
+                      th:action="@{/user/doAddUser}"
+                      method="post"
+                      th:object="${user}"
+                    >
+                      <div class="row">
+                        <div class="col-md-6 mb-4">
+                          <div class="form-outline">
+                            <input
+                              name="firstName"
+                              th:classappend="${#fields.hasErrors('firstName')? 'is-invalid' : ' '}"
+                              th:value="${user.firstName}"
+                              type="text"
+                              id="firstName"
+                              class="form-control form-control-lg"
+                            />
+                            <label class="form-label" for="firstName"
+                              >First Name</label
+                            >
 
-                            <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert alert-primary" role="alert">
-                                <p class="text-center" th:text="${session.message.content}"></p>
-                                
-                                <th:block th:text="${#session.removeAttribute('message')}"></th:block>
-                            </div>
+                            <div
+                              class="invalid-feedback"
+                              th:each="e : ${#fields.errors('firstName')}"
+                              th:text="${e}"
+                            ></div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                          <div class="form-outline">
+                            <input
+                              name="lastName"
+                              th:classappend="${#fields.hasErrors('lastName')? 'is-invalid' : ' '}"
+                              th:value="${user.lastName}"
+                              type="text"
+                              id="lastName"
+                              class="form-control form-control-lg"
+                            />
+                            <label class="form-label" for="lastName"
+                              >Last Name</label
+                            >
 
-                          <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Add New User Here</h3>
-                         
-                          <form action="" th:action="@{/user/doAddUser}" method="post" th:object="${user}">
-              
-                            <div class="row">
-                              <div class="col-md-6 mb-4">
-              
-                                <div class="form-outline">
-                                  <input 
-                                  name="firstName"
-                                 
-                                 
-                                  type="text" id="firstName" class="form-control form-control-lg" />
-                                  <label class="form-label" for="firstName">First Name</label>
-                                </div>
-              
-                              </div>
-                              <div class="col-md-6 mb-4">
-              
-                                <div class="form-outline">
-                                  <input 
-                                  name="lastName"
-                                  type="text" id="lastName" class="form-control form-control-lg" />
-                                  <label class="form-label" for="lastName">Last Name</label>
-                                </div>
-              
-                              </div>
-                            </div>
-              
-                            <div class="row">
-                              <div class="col-md-6 mb-4 d-flex align-items-center">
-                               
-                                <div class="form-outline">
-                                    <input 
-                                    name="userName"
-                                    type="email" id="email" class="form-control form-control-lg" />
-                                    <label class="form-label" for="lastName">Enter Email</label>
-                                  </div>
-              
-                              </div>
-
-                              <div class="col-md-6 mb-4 pb-2">
-            
-                                <div class="form-outline">
-                                  <input 
-                                  name="mobileNo"
-                                  type="tel" id="phoneNumber" class="form-control form-control-lg" />
-                                  <label class="form-label" for="phoneNumber">Phone Number</label>
-                                </div>
-              
-                              </div>
-                             
-                            </div>
-              
-                            <div class="row">
-                              <div class="col-md-6 mb-4 pb-2">
-              
-                                <div class="form-outline">
-                                  <input 
-                                  name="password"
-                                  type="password" id="password" class="form-control form-control-lg" />
-                                  <label class="form-label" for="password">Password</label>
-                                </div>
-
-                                
-              
-                              </div>
-                              <div class="col-md-6 mb-4 pb-2">
-              
-                                <div class="form-outline">
-                                    <input 
-                                    name="password1"
-                                    type="password" id="password" class="form-control form-control-lg" />
-                                    <label class="form-label" for="password">Confirm Password</label>
-                                  </div>
-              
-                              </div>
-
-                              <div class="col-6">
-              
-                                <select class="select form-control-lg" name="role">
-                                  <option value="1" disabled>Select Role</option>
-                                  <option value="ROLE_USER">User</option>
-                                  <option value="ROLE_NORMAL">Normal</option>
-                                </select>
-                                <label class="form-label select-label">Choose Role</label>
-              
-                              </div>
-                            </div>
-              
-              
-                            <div class="mt-2 pt-2">
-                              <input class="btn btn-primary btn-lg" type="submit" value="Submit" />
-                            </div>
-              
-                          </form>
+                            <div
+                              class="invalid-feedback"
+                              th:each="e : ${#fields.errors('lastName')}"
+                              th:text="${e}"
+                            ></div>
+                          </div>
                         </div>
                       </div>
-                    </div>
+
+                      <div class="row">
+                        <div class="col-md-6 mb-4 d-flex align-items-center">
+                          <div class="form-outline">
+                            <input
+                              name="userName"
+                              th:classappend="${#fields.hasErrors('userName')? 'is-invalid' : ' '}"
+                              th:value="${user.userName}"
+                              type="email"
+                              id="email"
+                              class="form-control form-control-lg"
+                            />
+                            <label class="form-label" for="email"
+                              >Enter Email</label
+                            >
+
+                          <div class="invalid-feedback" th:each="e : ${#fields.errors('userName')}" th:text="${e}"></div>
+
+                          <div style="background-color:#ffffff" th:if="${session.message}" th:classappend="${session.message.type}" class="p-0 m-0" role="alert">
+                            <p style="color: red" th:text="${session.message.type}"></p>
+                            
+                            <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+                          </div>
+
+                          </div>
+                        </div>
+
+                        <div class="col-md-6 mb-4 pb-2">
+                          <div class="form-outline">
+                            <input
+                              name="mobileNo"
+                              th:classappend="${#fields.hasErrors('mobileNo')? 'is-invalid' : ' '}"
+                              th:value="${user.mobileNo}"
+                              type="number"
+                              id="phoneNumber"
+                              class="form-control form-control-lg"
+                            />
+                            <label class="form-label" for="phoneNumber"
+                              >Phone Number</label
+                            >
+
+                            <div class="invalid-feedback" th:each="e : ${#fields.errors('mobileNo')}" th:text="${e}"></div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-6 mb-4 pb-2">
+                          <div class="form-outline">
+                            <input
+                              name="password"
+                              type="password"
+                              th:classappend="${#fields.hasErrors('password')? 'is-invalid' : ''}"
+                              id="password"
+                              class="form-control form-control-lg"
+                            />
+                            <label class="form-label" for="password"
+                              >Password</label
+                            >
+                            <div class="invalid-feedback" th:each="e : ${#fields.errors('password')}" th:text="${e}"></div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 mb-4 pb-2">
+                          <div class="form-outline">
+                            <input
+                              name="password1"
+                              type="password"
+                              id="password"
+                              class="form-control form-control-lg"
+                            />
+                            <label class="form-label" for="password"
+                              >Confirm Password</label
+                            >
+                            <div style="background-color:#ffffff" th:if="${session.message}" th:classappend="${session.message.type}" class="p-0 m-0" role="alert">
+                              <p style="color: red" th:text="${session.message.type}"></p>
+                              
+                              <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-6">
+                          <select class="select form-control-lg" name="role">
+                            <option value="1" disabled>Select Role</option>
+                            <option value="ROLE_USER">User</option>
+                            <option value="ROLE_NORMAL">Normal</option>
+                          </select>
+                          <label class="form-label select-label"
+                            >Choose Role</label
+                          >
+                        </div>
+                      </div>
+
+                      <div class="mt-2 pt-2">
+                        <input
+                          class="btn btn-primary btn-lg"
+                          type="submit"
+                          value="Submit"
+                        />
+                      </div>
+                    </form>
                   </div>
                 </div>
+              </div>
             </div>
-             
-
-            
+          </div>
         </div>
+      </div>
     </section>
-</body>
+  </body>
 </html>
