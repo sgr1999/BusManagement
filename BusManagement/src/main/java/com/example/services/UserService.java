@@ -2,6 +2,7 @@ package com.example.services;
 
 import java.util.List;
 
+import com.example.Model.UserModel;
 import com.example.dao.UserRepository;
 import com.example.entites.User;
 
@@ -119,4 +120,34 @@ public class UserService {
        return null;
     }
     
+
+    public UserModel userToModel(User user){
+
+        UserModel model = new UserModel();
+
+        model.setFirstName(user.getFirstName());
+        model.setLastName(user.getLastName());
+        model.setMobileNo(user.getMobileNo());
+        model.setPassword(user.getPassword());
+        model.setRole(user.getRole());
+        model.setStatus(user.getStatus());
+        model.setUserName(user.getUserName());
+
+        return model;
+     }
+
+     public User ModelToUser(UserModel user){
+
+        User model = new User();
+
+        model.setFirstName(user.getFirstName());
+        model.setLastName(user.getLastName());
+        model.setMobileNo(user.getMobileNo());
+        model.setPassword(user.getPassword());
+        model.setRole(user.getRole());
+        model.setStatus(user.getStatus());
+        model.setUserName(user.getUserName());
+
+        return model;
+     }
 }
