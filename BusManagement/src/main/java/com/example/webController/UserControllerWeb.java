@@ -37,11 +37,4 @@ public class UserControllerWeb {
         model.addAttribute("user", user);
     }
 
-    @RequestMapping("/index")
-    public String dashboard(Model model, Principal principal) {
-        return "normal/user_dashboard";
-    }
-
-    
-
 }

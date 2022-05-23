@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns="http://thymeleaf.org"
+  th:replace="normal/base::layout(~{::section})"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+
+    <script th:src="@{/js/customer.js}"></script>
+    <link rel="stylesheet" href="" th:href="@{/css/customer.css}" />
+  </head>
+  <body>
+    <section>
+
+        <div id="customForm">
+            <fieldset class="name">
+                <legend>Name</legend>
+                <editor-field name="first_name"></editor-field>
+                <editor-field name="last_name"></editor-field>
+            </fieldset>
+            <fieldset class="office">
+                <legend>Office</legend>
+                <editor-field name="office"></editor-field>
+                <editor-field name="extn"></editor-field>
+            </fieldset>
+            <fieldset class="hr">
+                <legend>HR info</legend>
+                <editor-field name="position"></editor-field>
+                <editor-field name="salary"></editor-field>
+                <editor-field name="start_date"></editor-field>
+            </fieldset>
+        </div>
+        <table id="example" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Office</th>
+                    <th>Extn.</th>
+                    <th>Start date</th>
+                    <th>Salary</th>
+                    <th>Start date</th>
+                    <th>Salary</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Office</th>
+                    <th>Extn.</th>
+                    <th>Start date</th>
+                    <th>Salary</th>
+                    <th>Start date</th>
+                    <th>Salary</th>
+                </tr>
+            </tfoot>
+        </table>
+      
+    </section>
+  </body>
+  <script>
+
+var table = $('#example').DataTable({
+    "sAjaxSource": "/admin/getAllCustomer",
+    "sAjaxDataProp": "",
+    "order": [[ 0, "asc" ]],
+    "aoColumns": [
+        { "mData": "customerId"},
+        { "mData": "firstName" },
+        { "mData": "lastName" },
+        { "mData": "userName" },
+        { "mData": "password"},
+        { "mData": "mobileNumber" },
+        { "mData": "gender" },
+        { "mData": "age" }
+
+    ]
+})
+  </script>
+</html>

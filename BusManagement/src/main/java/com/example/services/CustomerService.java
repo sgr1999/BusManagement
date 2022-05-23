@@ -3,6 +3,7 @@ package com.example.services;
 
 import java.util.List;
 
+import com.example.Model.CustomerModel;
 import com.example.dao.CustomerRepository;
 import com.example.entites.Customer;
 import com.example.exception.DataAlreadyPresentExceptionHandling;
@@ -97,4 +98,34 @@ public class CustomerService {
        
      
     }
+
+    public CustomerModel cutomerToModel(Customer customer){
+
+        CustomerModel model = new CustomerModel();
+
+        model.setFirstName(customer.getFirstName());
+        model.setLastName(customer.getLastName());
+        model.setMobileNumber(customer.getMobileNumber());
+        model.setPassword(customer.getPassword());
+        model.setAge(customer.getAge());
+        model.setGender(customer.getGender());
+        model.setUserName(customer.getUserName());
+
+        return model;
+     }
+
+     public Customer modelToCustomer(CustomerModel customer){
+
+        Customer model = new Customer();
+
+        model.setFirstName(customer.getFirstName());
+        model.setLastName(customer.getLastName());
+        model.setMobileNumber(customer.getMobileNumber());
+        model.setPassword(customer.getPassword());
+        model.setAge(customer.getAge());
+        model.setGender(customer.getGender());
+        model.setUserName(customer.getUserName());
+
+        return model;
+     }
 }
