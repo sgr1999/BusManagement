@@ -8,7 +8,6 @@ import com.example.exception.DataAlreadyPresentExceptionHandling;
 import com.example.exception.ResourceNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +27,8 @@ public class EmployeeService {
         
 
            String name =  employeeRepository.findUserName(emp.getUserName());
+
+           emp.setEmployeeType("Driver");
 
            if(name != null){
                throw new DataAlreadyPresentExceptionHandling("Employee", "userName", name);

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@CrossOrigin("*")
 @Controller
 @RequestMapping("employee")
 public class EmployeeController {
@@ -31,13 +33,14 @@ public class EmployeeController {
 
     // Add Employee
     @PostMapping("/addEmployee")
-    public ResponseEntity<ApiResponse> addEmp(@Valid @RequestBody final Employee emp) {
+    public ResponseEntity<ApiResponse> addEmp(@Valid @RequestBody Employee emp) {
 
+        emp.setEmployeeType("Driver");
         Employee add = employeeService.addEmp(emp);
 
         if (add != null) {
 
-            return new ResponseEntity<ApiResponse>(new ApiResponse("Employee data added successfully"),
+            return new ResponseEntity<ApiResponse>(new ApiResponse("Employee data added successfully",true),
                     HttpStatus.CREATED);
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

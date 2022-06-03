@@ -106,7 +106,7 @@ public class AdminController {
     @RequestMapping("/getAllCustomer")
     public List<Customer> getAllCustomer(Model model) {
 
-        List<Customer> list = customerRepository.findAll();
+        List<Customer> list = customerService.getAllCustomer();
         return list;
     }
 
