@@ -61,7 +61,7 @@ public class BusRouteBusDetailService {
                 SourceDestination source = sourceDestinationRepository.getById(e.getBusDepoRouteId().getSource());
                 SourceDestination destination = sourceDestinationRepository.getById(e.getBusDepoRouteId().getDestination());
                 
-                list1.add(new BusRouteBusDetailModel(source.getCityId().getCityName(), destination.getCityId().getCityName(), e.getBusDepoRouteId().getTotalKm(), e.getBusDepoRouteId().getBusDepartureTime(), e.getBusDepoRouteId().getBusArrivalTime(), e.getBusDetailId().getBusNumber(), e.getBusDetailId().getNoOfSeat()));
+                list1.add(new BusRouteBusDetailModel(source.getCityId().getCityName(), destination.getCityId().getCityName(), e.getBusDepoRouteId().getTotalKm(), e.getBusDepoRouteId().getBusDepartureTime(), e.getBusDepoRouteId().getBusArrivalTime(), e.getBusDetailId().getBusNumber(), e.getBusDetailId().getNoOfSeat(),e.getBusDetailId().getBusTypeId().getBusType()));
             });
             return list1;
         } catch (Exception e) {
@@ -136,4 +136,11 @@ public class BusRouteBusDetailService {
 
        return null;
      }
+
+     //////////////////////////////////////////////////////////////////////////
+
+    //  public BusRouteBusDetail getSourceDetail(BusRouteBusDetail busRouteBusDetail){
+
+
+    //  }
 }

@@ -10,8 +10,11 @@ public class BusRouteBusDetailModel {
 
     private String busNumber;
     private Long noOfSeat;
+    private String busType;
+    
+  
     public BusRouteBusDetailModel(String source, String destination, String totalKm, String busDepartureTime,
-            String busArrivalTime, String busNumber, Long noOfSeat) {
+            String busArrivalTime, String busNumber, Long noOfSeat, String busType) {
         this.source = source;
         this.destination = destination;
         this.totalKm = totalKm;
@@ -19,7 +22,20 @@ public class BusRouteBusDetailModel {
         this.busArrivalTime = busArrivalTime;
         this.busNumber = busNumber;
         this.noOfSeat = noOfSeat;
+        this.busType = busType;
     }
+
+    
+    public String getBusType() {
+        return busType;
+    }
+
+
+    public void setBusType(String busType) {
+        this.busType = busType;
+    }
+
+
     public String getSource() {
         return source;
     }
